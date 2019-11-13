@@ -1,31 +1,12 @@
 import numpy as np
 
-from tests._constants import MARKERS_DATA, ANALOGS_DATA
+from tests._constants import MARKERS_DATA, ANALOGS_DATA, EXPECTED_VALUES
 from tests.utils import is_expected_array
 
 
 def test_proc_abs():
-    a = ANALOGS_DATA.proc.abs()
-    is_expected_array(
-        a,
-        shape_val=(4, 11600),
-        first_last_val=(2.6089122911798768e-05, 0.0),
-        mean_val=4.88684185e-05,
-        median_val=2.52773225e-05,
-        sum_val=2.26749462,
-        nans_val=0,
-    )
-
-    m = MARKERS_DATA.proc.abs()
-    is_expected_array(
-        m,
-        shape_val=(4, 4, 580),
-        first_last_val=(744.5535888671875, 1.0),
-        mean_val=385.66622389,
-        median_val=278.73994446,
-        sum_val=3537330.60548401,
-        nans_val=108,
-    )
+    is_expected_array(ANALOGS_DATA.proc.abs(), **EXPECTED_VALUES.loc[1].to_dict())
+    is_expected_array(MARKERS_DATA.proc.abs(), **EXPECTED_VALUES.loc[2].to_dict())
 
 
 def test_proc_matmul():
@@ -45,26 +26,31 @@ def test_proc_matmul():
 
 
 def test_proc_square_sqrt():
-    m = MARKERS_DATA.proc.square().proc.sqrt()
     is_expected_array(
-        m,
-        shape_val=(4, 4, 580),
-        first_last_val=(744.5535888671875, 1.0),
-        mean_val=385.66622389,
-        median_val=278.73994446,
-        sum_val=3537330.60548401,
-        nans_val=108,
+        MARKERS_DATA.proc.square().proc.sqrt(), **EXPECTED_VALUES.loc[3].to_dict()
     )
 
-    a = ANALOGS_DATA.proc.square().proc.sqrt()
     is_expected_array(
-        a,
-        shape_val=(4, 11600),
-        first_last_val=(2.6089122911798768e-05, 0.0),
-        mean_val=4.88684185e-05,
-        median_val=2.52773225e-05,
-        sum_val=2.26749462,
-        nans_val=0,
+        ANALOGS_DATA.proc.square().proc.sqrt(), **EXPECTED_VALUES.loc[4].to_dict()
+    )
+
+
+def test_proc_norm():
+    is_expected_array(
+        MARKERS_DATA.proc.norm(dim="axis"), **EXPECTED_VALUES.loc[44].to_dict()
+    )
+    is_expected_array(
+        MARKERS_DATA.proc.norm(dim="channel"), **EXPECTED_VALUES.loc[45].to_dict()
+    )
+    is_expected_array(
+        MARKERS_DATA.proc.norm(dim="time_frame"), **EXPECTED_VALUES.loc[46].to_dict()
+    )
+
+    is_expected_array(
+        ANALOGS_DATA.proc.norm(dim="channel"), **EXPECTED_VALUES.loc[47].to_dict()
+    )
+    is_expected_array(
+        ANALOGS_DATA.proc.norm(dim="time_frame"), **EXPECTED_VALUES.loc[48].to_dict()
     )
 
 
@@ -74,3 +60,44 @@ def test_proc_rms():
 
     np.testing.assert_array_almost_equal(m, 496.31764559, decimal=6)
     np.testing.assert_array_almost_equal(a, 0.00011321, decimal=6)
+
+
+def test_proc_center():
+    is_expected_array(MARKERS_DATA.proc.center(), **EXPECTED_VALUES.loc[5].to_dict())
+    is_expected_array(
+        MARKERS_DATA.proc.center(MARKERS_DATA.isel(time_frame=0)),
+        **EXPECTED_VALUES.loc[6].to_dict()
+    )
+
+    is_expected_array(ANALOGS_DATA.proc.center(), **EXPECTED_VALUES.loc[7].to_dict())
+    is_expected_array(
+        ANALOGS_DATA.proc.center(mu=2), **EXPECTED_VALUES.loc[8].to_dict()
+    )
+    is_expected_array(
+        ANALOGS_DATA.proc.center(ANALOGS_DATA.isel(time_frame=0)),
+        **EXPECTED_VALUES.loc[9].to_dict()
+    )
+
+
+def test_proc_normalize():
+    is_expected_array(
+        MARKERS_DATA.proc.normalize(), **EXPECTED_VALUES.loc[20].to_dict()
+    )
+    is_expected_array(
+        MARKERS_DATA.proc.normalize(scale=1), **EXPECTED_VALUES.loc[21].to_dict()
+    )
+    is_expected_array(
+        MARKERS_DATA.proc.normalize(ref=MARKERS_DATA.sel(time_frame=5.76)),
+        **EXPECTED_VALUES.loc[22].to_dict()
+    )
+
+    is_expected_array(
+        ANALOGS_DATA.proc.normalize(), **EXPECTED_VALUES.loc[23].to_dict()
+    )
+    is_expected_array(
+        ANALOGS_DATA.proc.normalize(scale=1), **EXPECTED_VALUES.loc[24].to_dict()
+    )
+    is_expected_array(
+        ANALOGS_DATA.proc.normalize(ref=ANALOGS_DATA.sel(time_frame=5.76)),
+        **EXPECTED_VALUES.loc[25].to_dict()
+    )

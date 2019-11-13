@@ -44,14 +44,14 @@ def print_expected_values(array: xr.DataArray):
     first_last_val = ravel[0], ravel[-1]
     print(f"{first_last_val=}")
 
-    mean_val = array.mean()
+    mean_val = array.mean().item()
     print(f"{mean_val=}")
 
-    median_val = array.median()
+    median_val = array.median().item()
     print(f"{median_val=}")
 
-    sum_val = array.sum()
+    sum_val = array.sum().item()
     print(f"{sum_val=}")
 
-    nans_val = array.isnull().sum().data
+    nans_val = array.isnull().sum().item()
     print(f"{nans_val=}")

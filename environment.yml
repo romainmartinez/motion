@@ -3,9 +3,11 @@ channels:
   - conda-forge
 dependencies:
   - python
+  - scipy
   - xarray
   - ezc3d
   - matplotlib
+  - bottleneck
   # dev
   - black
   - pytest
