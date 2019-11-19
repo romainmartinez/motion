@@ -1,0 +1,36 @@
+# Project information
+site_name: 'Motion'
+site_description: 'A Material Design theme for MkDocs'
+site_author: 'Romain Martinez'
+site_url: 'https://ggggggg/'
+
+# Configuration
+theme:
+  name: 'material'
+  palette:
+    primary: 'blue grey'
+    accent: 'teal'
+  logo: 'images/logo.svg'
+  favicon: 'images/favicon.ico'
+nav:
+  - Home: index.md
+  - About: about.md
+
+markdown_extensions:
+  - admonition
+  - footnotes
+  - codehilite:
+      linenums: true
+
+# Repository
+repo_name: 'pyomeca/pyomeca'
+repo_url: 'https://github.com/pyomeca/pyomeca'
+
+# Copyright
+copyright: 'Copyright &copy; 2019 Romain Martinez'
+
+# Customization
+extra:
+  social:
+    - type: 'github'
+      link: 'https://github.com/romainmartinez'

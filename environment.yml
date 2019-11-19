@@ -12,3 +12,7 @@ dependencies:
   - black
   - pytest
   - pytest-cov
+  - pip
+  - pip:
+    - mkdocs
+    - mkdocs-material

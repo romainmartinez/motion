@@ -23,7 +23,3 @@ def test_proc_fft():
         MARKERS_DATA.proc.fft(freq=ANALOGS_DATA.rate, only_positive=False),
         **EXPECTED_VALUES.loc[43].to_dict()
     )
-
-
-def test_detect_outliers():
-    ANALOGS_DATA.proc.detect_outliers(threshold=3)
