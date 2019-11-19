@@ -6,15 +6,15 @@ import xarray as xr
 
 fake_markers = np.random.randn(4, 23, 1000)
 # fake_analogs = np.random.randn(1, 23, 1000)
-time_frames = np.arange(1000)
-channels = [f"channel_{i}" for i in range(fake_markers.shape[1])]
+time_frame = np.arange(1000)
+channel = [f"channel_{i}" for i in range(fake_markers.shape[1])]
 
-dims = ("data", "channels", "time_frames")
+dims = ("data", "channel", "time_frame")
 
 coords = {
     "data": ["x", "y", "z", "e"],
-    "channels": channels,
-    "time_frames": time_frames,
+    "channel": channel,
+    "time_frame": time_frame,
 }
 x = xr.DataArray(data=fake_markers, dims=dims, coords=coords)
 
@@ -31,12 +31,12 @@ x.loc["x", "channel_1":"channel_5", 100:200]  # x channel 1 to 5 frames 100 to 2
 ## 3. Dimension: name | index lookup: integer | example: d.isel(space=0) or d[dict(space=0)]
 x.isel(data=0)  # x all frames
 x.isel(
-    data=[0], channels=[0, 1, 2], time_frames=slice(100, 200)
+    data=[0], channel=[0, 1, 2], time_frame=slice(100, 200)
 )  # x channel 1 to 2 frames 100 to 200
 
 ## 4. Dimension: name | index lookup: label | example: d.sel(space="IA") or d.loc[dict(space="IA")]
 x.sel(data="x")  # x all frames
-x.sel(data=["x", "y"], channels=["channel_1", "channel_10"])  # x y channels 1 and 2
+x.sel(data=["x", "y"], channel=["channel_1", "channel_10"])  # x y channel 1 and 2
 
 # Attributes
 x.attrs["rate"] = 1000
@@ -54,8 +54,8 @@ x.sum()
 x.mean()  # mean all data (shape: 1)
 x.mean(dim="data")  # mean over data (shape: (23, 1000)). Equivalent to x.mean(axis=0)
 x.mean(
-    dim=["data", "time_frames"]
-)  # mean over data and time_frames (shape: (23,)) . Equivalent to x.mean(axis=[0, 2])
+    dim=["data", "time_frame"]
+)  # mean over data and time_frame (shape: (23,)) . Equivalent to x.mean(axis=[0, 2])
 
 # Arithmetic operations broadcast based on dimension name. So you don’t need to insert dummy dimensions for alignment:
 a = x.loc["x":"z"]  # shape (3, 23, 1000)
@@ -69,8 +69,8 @@ a - a.T  # shape (3, 23, 1000)
 x[:-1] - x[:1]
 
 ## groupby
-x.groupby("channels").mean()  # mean of each channels
-x.groupby("data").sum("channels").shape  # sum of channels for each data coord
+x.groupby("channel").mean()  # mean of each channel
+x.groupby("data").sum("channel").shape  # sum of channel for each data coord
 x.groupby("data").apply(
     lambda x: x - x.min()
 )  # substract min value for each data coord
@@ -78,11 +78,11 @@ x.groupby("data").apply(
 ## plotting
 x.plot()  # plot histogram all data
 x.loc["x", "channel_1"].plot()  # plot time serie of channel 1 at x
-x.sel(channels="channel_1").plot.line(
-    x="time_frames"
+x.sel(channel="channel_1").plot.line(
+    x="time_frame"
 )  # plot time serie of channel 1 at x, y, z
-x.sel(channels="channel_1").plot(
-    x="time_frames", col="data"
+x.sel(channel="channel_1").plot(
+    x="time_frame", col="data"
 )  # subplot x, y, z, e for channel_1
 
 # pandas

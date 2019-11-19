@@ -15,7 +15,7 @@ from motion.processing.algebra import (
 )
 from motion.processing.filter import low_pass, high_pass, band_pass, band_stop
 from motion.processing.interp import time_normalization
-from motion.processing.misc import fft
+from motion.processing.misc import fft, detect_onset, detect_outliers
 
 
 @xr.register_dataarray_accessor("proc")
@@ -258,15 +258,52 @@ class _ProcAccessor(object):
        """
         return fft(self._obj, freq, only_positive)
 
-    # def detect_outliers(self, threshold: int = 3) -> xr.DataArray:
-    #     """
-    #     Detects data that is `threshold` times the standard deviation from the mean.
-    #     Parameters
-    #     ----------
-    #     threshold : int
-    #         Multiple of standard deviation from which data is considered outlier
-    #     Returns
-    #     -------
-    #     A boolean DataArray containing the outliers.
-    #     """
-    #     return detect_outliers(self._obj, threshold)
+    def detect_onset(
+        self,
+        threshold: Union[float, int],
+        n_above: int = 1,
+        n_below: int = 0,
+        threshold2: int = None,
+        n_above2: int = 1,
+    ) -> np.array:
+        """
+        Detects onset in data based on amplitude threshold.
+        Parameters
+        ----------
+        threshold : number
+            minimum amplitude of `x` to detect.
+        n_above : number, optional (default = 1)
+            minimum number of continuous samples >= `threshold`
+            to detect (but see the parameter `n_below`).
+        n_below : number, optional (default = 0)
+            minimum number of continuous samples below `threshold` that
+            will be ignored in the detection of `x` >= `threshold`.
+        threshold2 : number or None, optional (default = None)
+            minimum amplitude of `n_above2` values in `x` to detect.
+        n_above2 : number, optional (default = 1)
+            minimum number of samples >= `threshold2` to detect.
+        Returns
+        -------
+        inds : 1D array_like [indi, indf]
+            initial and final indexes of the onset events.
+        Notes
+        -----
+        You might have to tune the parameters according to the signal-to-noise
+        characteristic of the data.
+        """
+        return detect_onset(
+            self._obj, threshold, n_above, n_below, threshold2, n_above2
+        )
+
+    def detect_outliers(self, threshold: int = 3) -> xr.DataArray:
+        """
+        Detects data that is `threshold` times the standard deviation from the mean.
+        Parameters
+        ----------
+        threshold : int
+            Multiple of standard deviation from which data is considered outlier
+        Returns
+        -------
+        A boolean DataArray containing the outliers.
+        """
+        return detect_outliers(self._obj, threshold)

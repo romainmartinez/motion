@@ -1,5 +1,5 @@
 test:
-	python -m pytest --color=yes --cov=motion tests
+	python -m pytest --cov-report term-missing --color=yes --cov=motion tests
 
 lint:
 	black .

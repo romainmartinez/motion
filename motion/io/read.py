@@ -58,7 +58,7 @@ def read_c3d(
         reader.parameters().group(group).parameter("UNITS").valuesAsString()[0]
     )
 
-    time_frames = np.arange(
+    time_frame = np.arange(
         start=0, stop=data.shape[-1] / attrs["rate"], step=1 / attrs["rate"]
     )
 
@@ -66,11 +66,11 @@ def read_c3d(
         coords = {
             "axis": ["x", "y", "z", "translation"],
             "channel": channels_used,
-            "time_frame": time_frames,
+            "time_frame": time_frame,
         }
         array = motion.Markers(data=data, dims=coords.keys(), coords=coords)
     else:
-        coords = {"channel": channels_used, "time_frame": time_frames}
+        coords = {"channel": channels_used, "time_frame": time_frame}
         array = motion.Analogs(data=data[0, ...], dims=coords.keys(), coords=coords)
 
     array.attrs = attrs
@@ -100,7 +100,7 @@ def read_markers_c3d(
 #     group: str,
 #     filename: Union[str, Path],
 #     prefix: str,
-#     time_frames: Union[list, np.array],
+#     time_frame: Union[list, np.array],
 #     rate: int,
 #     attrs: dict,
 #     **kwargs,
@@ -127,15 +127,15 @@ def read_markers_c3d(
 #     #     idx = [cols.index(target) for target in kwargs['usecols'] if target in c]
 #     ####
 #
-#     if time_frames:
-#         time_frames = x[time_frames]
-#         x = x.drop(time_frames, axis=1)
+#     if time_frame:
+#         time_frame = x[time_frame]
+#         x = x.drop(time_frame, axis=1)
 #     else:
-#         time_frames = np.arange(start=0, stop=x.shape[0] / rate, step=1 / rate)
+#         time_frame = np.arange(start=0, stop=x.shape[0] / rate, step=1 / rate)
 #
 #     coords = {
 #         "channels": x.columns,
-#         "time_frames": time_frames,
+#         "time_frame": time_frame,
 #     }
 #
 #     array = Array(data=x.T, dims=coords.keys(), coords=coords)
@@ -149,20 +149,20 @@ def read_markers_c3d(
 # def read_analogs_csv(
 #     filename: str,
 #     prefix: str = None,
-#     time_frames: Union[list, np.array] = None,
+#     time_frame: Union[list, np.array] = None,
 #     rate: int = 1,
 #     attrs: dict = None,
 #     **kwargs,
 # ) -> Array:
-#     return _read_csv("ANALOG", filename, prefix, time_frames, rate, attrs, **kwargs)
+#     return _read_csv("ANALOG", filename, prefix, time_frame, rate, attrs, **kwargs)
 #
 #
 # def read_markers_csv(
 #     filename: str,
 #     prefix: str = None,
-#     time_frames: Union[list, np.array] = None,
+#     time_frame: Union[list, np.array] = None,
 #     rate: int = 1,
 #     attrs: dict = None,
 #     **kwargs,
 # ) -> Array:
-#     return _read_csv("POINT", filename, prefix, time_frames, rate, attrs, **kwargs)
+#     return _read_csv("POINT", filename, prefix, time_frame, rate, attrs, **kwargs)
