@@ -15,7 +15,7 @@ from motion.processing.algebra import (
 )
 from motion.processing.filter import low_pass, high_pass, band_pass, band_stop
 from motion.processing.interp import time_normalization
-from motion.processing.misc import fft, detect_outliers
+from motion.processing.misc import fft
 
 
 @xr.register_dataarray_accessor("proc")
@@ -258,15 +258,15 @@ class _ProcAccessor(object):
        """
         return fft(self._obj, freq, only_positive)
 
-    def detect_outliers(self, threshold: int = 3) -> xr.DataArray:
-        """
-        Detects data that is `threshold` times the standard deviation from the mean.
-        Parameters
-        ----------
-        threshold : int
-            Multiple of standard deviation from which data is considered outlier
-        Returns
-        -------
-        A boolean DataArray containing the outliers.
-        """
-        return detect_outliers(self._obj, threshold)
+    # def detect_outliers(self, threshold: int = 3) -> xr.DataArray:
+    #     """
+    #     Detects data that is `threshold` times the standard deviation from the mean.
+    #     Parameters
+    #     ----------
+    #     threshold : int
+    #         Multiple of standard deviation from which data is considered outlier
+    #     Returns
+    #     -------
+    #     A boolean DataArray containing the outliers.
+    #     """
+    #     return detect_outliers(self._obj, threshold)

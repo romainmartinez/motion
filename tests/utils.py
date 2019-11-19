@@ -3,14 +3,14 @@ import xarray as xr
 
 
 def is_expected_array(
-        array,
-        shape_val: tuple,
-        first_last_val: tuple,
-        mean_val: float,
-        median_val: float,
-        sum_val: float,
-        nans_val: int,
-        decimal: int = 6,
+    array,
+    shape_val: tuple,
+    first_last_val: tuple,
+    mean_val: float,
+    median_val: float,
+    sum_val: float,
+    nans_val: int,
+    decimal: int = 6,
 ):
     np.testing.assert_array_equal(
         x=array.shape, y=shape_val, err_msg="Shape does not match"

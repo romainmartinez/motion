@@ -26,19 +26,3 @@ def fft(
     coords["freqs"] = freqs
 
     return xr.DataArray(data=amp, dims=coords.keys(), coords=coords)
-
-
-def detect_outliers(array: xr.DataArray, threshold: int = 3):
-    m = array.mean(dim='time_frame')
-    s = array.std(dim='time_frame')
-    array.where(array.proc.abs() > m + (threshold * s))
-    if np.any(onset_idx):
-        mask = np.zeros(self.shape, dtype="bool")
-        for (inf, sup) in onset_idx:
-            mask[inf:sup] = 1
-        sigma = np.nanstd(self[mask])
-        mu = np.nanmean(self[mask])
-    else:
-        sigma = np.nanstd(self)
-        mu = np.nanmean(self)
-    return np.ma.masked_where(np.abs(self) > mu + (threshold * sigma), self)
