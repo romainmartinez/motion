@@ -77,4 +77,4 @@ def detect_onset(
 def detect_outliers(array: xr.DataArray, threshold: int = 3) -> xr.DataArray:
     mu = array.mean(dim="time_frame")
     sigma = array.std(dim="time_frame")
-    return array.proc.abs() > mu + (sigma * threshold)
+    return array.meca.abs() > mu + (sigma * threshold)

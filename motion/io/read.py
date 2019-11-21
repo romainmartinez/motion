@@ -5,8 +5,6 @@ import ezc3d
 import numpy as np
 import xarray as xr
 
-import motion
-
 
 def read_c3d(
     group: str,
@@ -68,10 +66,10 @@ def read_c3d(
             "channel": channels_used,
             "time_frame": time_frame,
         }
-        array = motion.Markers(data=data, dims=coords.keys(), coords=coords)
+        array = xr.DataArray(data=data, dims=coords.keys(), coords=coords)
     else:
         coords = {"channel": channels_used, "time_frame": time_frame}
-        array = motion.Analogs(data=data[0, ...], dims=coords.keys(), coords=coords)
+        array = xr.DataArray(data=data[0, ...], dims=coords.keys(), coords=coords)
 
     array.attrs = attrs
     return array

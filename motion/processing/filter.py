@@ -14,8 +14,8 @@ def _base_filter(
 ) -> xr.DataArray:
     nyquist = freq / 2
     corrected_freq = np.array(cutoff) / nyquist
-    p = butter(N=order, Wn=corrected_freq, btype=btype)
-    return xr.apply_ufunc(filtfilt, p[0], [1], array)
+    b, a = butter(N=order, Wn=corrected_freq, btype=btype)
+    return xr.apply_ufunc(filtfilt, b, a, array)
 
 
 def low_pass(

@@ -1,5 +1,6 @@
 from pathlib import Path
-from motion import Analogs, Markers, read_analogs_c3d, read_markers_c3d
+
+from motion import read_analogs_c3d, read_markers_c3d
 
 # Path to data
 DATA_FOLDER = Path("..") / "tests" / "data"

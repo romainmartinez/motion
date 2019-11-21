@@ -4,7 +4,7 @@ import numpy as np
 import xarray as xr
 
 
-def _abs(array: xr.DataArray) -> xr.DataArray:
+def abs_(array: xr.DataArray) -> xr.DataArray:
     return np.abs(array)
 
 
@@ -29,7 +29,7 @@ def sqrt(array: xr.DataArray, *args, **kwargs) -> xr.DataArray:
 
 
 def rms(array: xr.DataArray) -> xr.DataArray:
-    return array.proc.square().mean().proc.sqrt()
+    return array.meca.square().mean().meca.sqrt()
 
 
 def center(

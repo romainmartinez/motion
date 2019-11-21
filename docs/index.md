@@ -22,7 +22,7 @@ emg = (
     .rectify()
     .low_pass(freq=2000, order=4, cutoff=5)
     .normalization()
-    .time_normalization()
+    .time_normalize()
 )
 ```
 
@@ -30,12 +30,12 @@ emg = (
 
 - Object-oriented architecture where each class is associated with common and specialized functionalities:
   - **Markers3d**: 3d markers positions
-  - **Analogs3d**: analogs (emg, force or any analog signal)
+  - **Analogs3d**: analogs (emg, force or any analog meca)
   - **GeneralizedCoordinate**: generalized coordinate (joint angle)
   - **RotoTrans**: roto-translation matrix
 
 
-- Specialized functionalities include signal processing routine commonly used in biomechanics: filters, normalization, onset detection, outliers detection, derivative, etc.
+- Specialized functionalities include meca processing routine commonly used in biomechanics: filters, normalization, onset detection, outliers detection, derivative, etc.
 
 
 - Each functionality can be chained. In addition to making it easier to write and read code, it allows you to add and remove analysis steps easily (such as Lego blocks).

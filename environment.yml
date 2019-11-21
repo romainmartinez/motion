@@ -16,3 +16,4 @@ dependencies:
   - pip:
     - mkdocs
     - mkdocs-material
+    - -e .

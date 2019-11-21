@@ -3,23 +3,14 @@ from typing import Union
 import numpy as np
 import xarray as xr
 
-from motion.processing.algebra import (
-    _abs,
-    matmul,
-    square,
-    sqrt,
-    rms,
-    center,
-    normalize,
-    norm,
-)
-from motion.processing.filter import low_pass, high_pass, band_pass, band_stop
-from motion.processing.interp import time_normalization
-from motion.processing.misc import fft, detect_onset, detect_outliers
+from motion.processing import algebra
+from motion.processing import filter
+from motion.processing import interp
+from motion.processing import misc
 
 
-@xr.register_dataarray_accessor("proc")
-class _ProcAccessor(object):
+@xr.register_dataarray_accessor("meca")
+class MecaAccessor(object):
     def __init__(self, xarray_obj: xr.DataArray):
         self._obj = xarray_obj
 
@@ -35,7 +26,7 @@ class _ProcAccessor(object):
         -------
         A DataArray containing the absolute value of each element in array.
         """
-        return _abs(self._obj)
+        return algebra.abs_(self._obj)
 
     def matmul(self, other: xr.DataArray) -> xr.DataArray:
         """
@@ -50,7 +41,7 @@ class _ProcAccessor(object):
         -------
         A DataArray containing the matrix product of the two arrays.
         """
-        return matmul(self._obj, other)
+        return algebra.matmul(self._obj, other)
 
     def square(self, *args, **kwargs) -> xr.DataArray:
         """
@@ -67,7 +58,7 @@ class _ProcAccessor(object):
         -------
         A DataArray containing the matrix squared.
         """
-        return square(self._obj, *args, **kwargs)
+        return algebra.square(self._obj, *args, **kwargs)
 
     def sqrt(self, *args, **kwargs) -> xr.DataArray:
         """
@@ -84,7 +75,7 @@ class _ProcAccessor(object):
         -------
         A DataArray containing the square root of the matrix.
         """
-        return sqrt(self._obj, *args, **kwargs)
+        return algebra.sqrt(self._obj, *args, **kwargs)
 
     def norm(self, dim: Union[str, list], ord: int = None) -> xr.DataArray:
         """
@@ -99,7 +90,7 @@ class _ProcAccessor(object):
         -------
         A DataArray containing the norm of the matrix.
         """
-        return norm(self._obj, dim, ord)
+        return algebra.norm(self._obj, dim, ord)
 
     def rms(self) -> xr.DataArray:
         """
@@ -108,7 +99,7 @@ class _ProcAccessor(object):
         -------
         A DataArray containing the root-mean-square of the matrix.
         """
-        return rms(self._obj)
+        return algebra.rms(self._obj)
 
     def center(
         self, mu: Union[xr.DataArray, np.array, float, int] = None
@@ -124,7 +115,7 @@ class _ProcAccessor(object):
         -------
         A DataArray containing the root-mean-square of the matrix.
         """
-        return center(self._obj, mu)
+        return algebra.center(self._obj, mu)
 
     def normalize(
         self,
@@ -145,11 +136,14 @@ class _ProcAccessor(object):
         -------
         A normalized DataArray.
         """
-        return normalize(self._obj, ref, scale)
+        return algebra.normalize(self._obj, ref, scale)
 
     # interp ------------------------------------
-    def time_normalization(
-        self, time_vector: Union[xr.DataArray, np.array] = None, n_frames: int = 100
+    def time_normalize(
+        self,
+        time_vector: Union[xr.DataArray, np.array] = None,
+        n_frames: int = 100,
+        norm_time_frame: bool = False,
     ) -> xr.DataArray:
         """
         Time normalization used for temporal alignment of data.
@@ -159,11 +153,15 @@ class _ProcAccessor(object):
             desired time vector (first to last time_frame with n_frames points by default). Optional
         n_frames :
             if time_vector is not specified, the length of the desired time vector. Optional
+        norm_time_frame :
+            Normalize the time_frame dimension from 0 to 100 if True
         Returns
         -------
         A time-normalized DataArray.
         """
-        return time_normalization(self._obj, time_vector, n_frames)
+        return interp.time_normalize(
+            self._obj, time_vector, n_frames, norm_time_frame=norm_time_frame
+        )
 
     # filter ------------------------------------
     def low_pass(
@@ -183,7 +181,7 @@ class _ProcAccessor(object):
         -------
         A low-passed DataArray.
         """
-        return low_pass(self._obj, freq, order, cutoff)
+        return filter.low_pass(self._obj, freq, order, cutoff)
 
     def high_pass(
         self, freq: Union[int, float], order: int, cutoff: Union[int, float, np.array]
@@ -202,7 +200,7 @@ class _ProcAccessor(object):
         -------
         A high-passed DataArray.
         """
-        return high_pass(self._obj, freq, order, cutoff)
+        return filter.high_pass(self._obj, freq, order, cutoff)
 
     def band_stop(
         self, freq: Union[int, float], order: int, cutoff: Union[list, tuple, np.array]
@@ -221,7 +219,7 @@ class _ProcAccessor(object):
         -------
         A band-stopped DataArray.
         """
-        return band_stop(self._obj, freq, order, cutoff)
+        return filter.band_stop(self._obj, freq, order, cutoff)
 
     def band_pass(
         self, freq: Union[int, float], order: int, cutoff: Union[list, tuple, np.array]
@@ -240,7 +238,7 @@ class _ProcAccessor(object):
         -------
         A band-passed DataArray.
         """
-        return band_pass(self._obj, freq, order, cutoff)
+        return filter.band_pass(self._obj, freq, order, cutoff)
 
     # misc --------------------------------------
     def fft(self, freq: Union[int, float], only_positive: bool = True) -> xr.DataArray:
@@ -256,7 +254,7 @@ class _ProcAccessor(object):
        -------
        A DataArray with the corresponding amplitudes and frequencies.
        """
-        return fft(self._obj, freq, only_positive)
+        return misc.fft(self._obj, freq, only_positive)
 
     def detect_onset(
         self,
@@ -291,7 +289,7 @@ class _ProcAccessor(object):
         You might have to tune the parameters according to the signal-to-noise
         characteristic of the data.
         """
-        return detect_onset(
+        return misc.detect_onset(
             self._obj, threshold, n_above, n_below, threshold2, n_above2
         )
 
@@ -306,4 +304,4 @@ class _ProcAccessor(object):
         -------
         A boolean DataArray containing the outliers.
         """
-        return detect_outliers(self._obj, threshold)
+        return misc.detect_outliers(self._obj, threshold)
