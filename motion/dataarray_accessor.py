@@ -3,6 +3,7 @@ from typing import Union
 import numpy as np
 import xarray as xr
 
+from motion import rototrans
 from motion.processing import algebra
 from motion.processing import filter
 from motion.processing import interp
@@ -10,7 +11,7 @@ from motion.processing import misc
 
 
 @xr.register_dataarray_accessor("meca")
-class MecaAccessor(object):
+class MecaDataArrayAccessor(object):
     def __init__(self, xarray_obj: xr.DataArray):
         self._obj = xarray_obj
 
@@ -240,7 +241,7 @@ class MecaAccessor(object):
         """
         return filter.band_pass(self._obj, freq, order, cutoff)
 
-    # misc --------------------------------------
+    # signal processing misc --------------------
     def fft(self, freq: Union[int, float], only_positive: bool = True) -> xr.DataArray:
         """
        Performs a discrete Fourier Transform and return a DataArray with the corresponding amplitudes and frequencies.
@@ -305,3 +306,16 @@ class MecaAccessor(object):
         A boolean DataArray containing the outliers.
         """
         return misc.detect_outliers(self._obj, threshold)
+
+    def get_euler_angles(self, angle_sequence: str) -> xr.DataArray:
+        """
+        Get euler angles with specified angle sequence
+        Parameters
+        ----------
+        angle_sequence
+            Euler sequence of angles. Valid values are all permutations of "xyz"
+        Returns
+        -------
+        DataArray with the euler angles associated
+        """
+        return rototrans.get_euler_angles(self._obj, angle_sequence)

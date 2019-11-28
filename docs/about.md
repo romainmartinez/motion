@@ -1,4 +1,42 @@
-# Rupit et raptae morique
+# TODO
+
+## FrameDependent
+- get_num_frames
+- get_frames
+- from_excel
+- from_csv
+- to_dataframe
+- to_csv
+- to_mat
+- to_numpy
+
+## Rototrans:
+- define axis
+- get_rotation
+- get_translation?
+- set_rotation
+- set_translation
+- transpose
+- inverse
+- mean
+- RotoTransCollection
+
+## Markers
+- get_num_markers
+- get_2d_labels
+- from_2d
+- from_trc
+- to_2d
+- rotate
+- norm
+
+## Analogs
+- get_num_analogs
+- get_2d_labels
+- from_2d
+- from_mot
+- from_sto
+- to_2d
 
 ## Spatio ima labitur falsa falle
 

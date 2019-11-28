@@ -16,11 +16,17 @@ def is_expected_array(
         x=array.shape, y=shape_val, err_msg="Shape does not match"
     )
     raveled = array.values.ravel()
-    np.testing.assert_array_equal(
-        x=raveled[0], y=first_last_val[0], err_msg="First value does not match"
+    np.testing.assert_array_almost_equal(
+        x=raveled[0],
+        y=first_last_val[0],
+        err_msg="First value does not match",
+        decimal=decimal,
     )
-    np.testing.assert_array_equal(
-        x=raveled[-1], y=first_last_val[-1], err_msg="Last value does not match"
+    np.testing.assert_array_almost_equal(
+        x=raveled[-1],
+        y=first_last_val[-1],
+        err_msg="Last value does not match",
+        decimal=decimal,
     )
     np.testing.assert_array_almost_equal(
         x=array.mean(), y=mean_val, decimal=decimal, err_msg="Mean does not match"

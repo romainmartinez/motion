@@ -1,22 +1,26 @@
+import csv
 from pathlib import Path
-from typing import Union
+from typing import Union, Optional, List
 
 import ezc3d
 import numpy as np
+import pandas as pd
 import xarray as xr
+
+from motion.io.utils import __split_col_prefix
 
 
 def read_c3d(
     group: str,
     filename: Union[str, Path],
-    usecols: Union[int, str, list],
+    usecols: List[Union[str, int]],
     prefix: str,
     attrs: dict,
 ) -> xr.DataArray:
     reader = ezc3d.c3d(f"{filename}").c3d_swig
-
+    split_col = __split_col_prefix(prefix)
     channels = [
-        label.split(prefix)[-1]
+        split_col(label)
         for label in reader.parameters()
         .group(group)
         .parameter("LABELS")
@@ -29,11 +33,7 @@ def read_c3d(
         data = get_data_function()
         channels_used = channels
     else:
-        if isinstance(usecols, int):
-            idx = [usecols]
-        elif isinstance(usecols, str):
-            idx = [channels.index(usecols)]
-        elif isinstance(usecols, list):
+        if isinstance(usecols, list):
             if isinstance(usecols[0], str):
                 idx = [channels.index(channel) for channel in usecols]
             elif isinstance(usecols[0], int):
@@ -41,7 +41,7 @@ def read_c3d(
             else:
                 raise ValueError("values inside usecols must be int or str")
         else:
-            raise ValueError("usecols must be int, str or a list")
+            raise ValueError("usecols must be a list of string or int")
 
         data = get_data_function()[:, idx, :]
         channels_used = [channels[i] for i in idx]
@@ -94,73 +94,97 @@ def read_markers_c3d(
 
 
 # csv -----------------------
-# def _read_csv(
-#     group: str,
-#     filename: Union[str, Path],
-#     prefix: str,
-#     time_frame: Union[list, np.array],
-#     rate: int,
-#     attrs: dict,
-#     **kwargs,
-# ) -> Array:
-#     x = pd.read_csv(filename, **kwargs)
-#
-#     ###
-#     # header = 2
-#     # if header:
-#     #     with open(f"{filename}") as fd:
-#     #         reader = csv.reader(fd)
-#     #         for idx, row in enumerate(reader):
-#     #             if idx == header:
-#     #                 header_row = [col.split(prefix)[-1] for col in row]
-#     #                 break
-#     #
-#     # idx = [header_row.index(target) for target in kwargs['usecols']]
-#     # if group == 'POINT':
-#     #     a = [[i, i+1, i+2] for i in idx]
-#     #     [i for h in a for i in h]
-#
-#     # if 'usecols' in kwargs:
-#     #     cols = x.columns.str.split(prefix).str[-1].to_list()
-#     #     idx = [cols.index(target) for target in kwargs['usecols'] if target in c]
-#     ####
-#
-#     if time_frame:
-#         time_frame = x[time_frame]
-#         x = x.drop(time_frame, axis=1)
-#     else:
-#         time_frame = np.arange(start=0, stop=x.shape[0] / rate, step=1 / rate)
-#
-#     coords = {
-#         "channels": x.columns,
-#         "time_frame": time_frame,
-#     }
-#
-#     array = Array(data=x.T, dims=coords.keys(), coords=coords)
-#
-#     attrs = attrs if attrs is not None else {}
-#     attrs["rate"] = rate
-#
-#     return array
+def _read_csv(
+    group: str,
+    filename: str,
+    prefix: str = None,
+    time_column: Optional[Union[int, str]] = None,
+    rate: int = 1,
+    attrs: dict = None,
+    **kwargs,
+) -> xr.DataArray:
+    # # ###
+    if group == "POINT":
+        split_col = __split_col_prefix(prefix)
+        if "skiprows" in kwargs:
+            header = np.argwhere(np.diff(kwargs["skiprows"]) > 1) + 1
+        elif "header" in kwargs:
+            header = kwargs["header"]
+        else:
+            header = 1
+        with open(f"{filename}") as fd:
+            for idx, row in enumerate(csv.reader(fd)):
+                if idx == header:
+                    header_row = [split_col(col) for col in row]
+                    break
+
+    #
+        if 'usecols' in kwargs:
+            a = []
+            for col in kwargs['usecols']:
+                i = header_row.index(col)
+                a.extend([i, i+1, i+2])
+
+    #
+    # # TODO: handle skiprows
+    #
+    # if 'usecols' in kwargs:
+    #     if callable(kwargs['usecols']):
+    #         pass
+    #     elif isinstance(kwargs['usecols'][0], str):
+    #         pass
+    #     elif isinstance(kwargs['uscols'][0], int):
+    #         pass
+    #     else:
+    #         ValueError("usecols must be a callable or a list of string or int")
+    #
+    # idx = [header_row.index(target) for target in kwargs['usecols']]
+    # if group == 'POINT':
+    #     a = [[i, i+1, i+2] for i in idx]
+    #     [i for h in a for i in h]
+
+    # if 'usecols' in kwargs:
+    #     cols = x.columns.str.split(prefix).str[-1].to_list()
+    #     idx = [cols.index(target) for target in kwargs['usecols'] if target in c]
+    ####
+    x = pd.read_csv(filename, **kwargs)
+
+    if time_column:
+        time_column = x[time_column]
+        x = x.drop(time_column, axis=1)
+    else:
+        time_column = np.arange(start=0, stop=x.shape[0] / rate, step=1 / rate)
+
+    coords = {
+        "channels": x.columns,
+        "time_frame": time_column,
+    }
+
+    array = xr.DataArray(data=x.T, dims=coords.keys(), coords=coords)
+
+    attrs = attrs if attrs is not None else {}
+    attrs["rate"] = rate
+
+    return array
 
 
-# def read_analogs_csv(
-#     filename: str,
-#     prefix: str = None,
-#     time_frame: Union[list, np.array] = None,
-#     rate: int = 1,
-#     attrs: dict = None,
-#     **kwargs,
-# ) -> Array:
-#     return _read_csv("ANALOG", filename, prefix, time_frame, rate, attrs, **kwargs)
-#
-#
-# def read_markers_csv(
-#     filename: str,
-#     prefix: str = None,
-#     time_frame: Union[list, np.array] = None,
-#     rate: int = 1,
-#     attrs: dict = None,
-#     **kwargs,
-# ) -> Array:
-#     return _read_csv("POINT", filename, prefix, time_frame, rate, attrs, **kwargs)
+def read_analogs_csv(
+    filename: str,
+    prefix: str = None,
+    time_column: Optional[Union[int, str]] = None,
+    rate: int = 1,
+    attrs: dict = None,
+    **kwargs,
+) -> xr.DataArray:
+    return _read_csv("ANALOG", filename, prefix, time_column, rate, attrs, **kwargs)
+
+
+def read_markers_csv(
+    filename: str,
+    prefix: str = None,
+    time_column: Optional[Union[int, str]] = None,
+    rate: int = 1,
+    attrs: dict = None,
+    **kwargs,
+) -> xr.DataArray:
+    return _read_csv("POINT", filename, prefix, time_column, rate, attrs, **kwargs)

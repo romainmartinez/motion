@@ -1,10 +1,15 @@
 import pytest
 
 import motion
-from tests._constants import MARKERS_ANALOGS_C3D, EXPECTED_VALUES
+from tests._constants import (
+    MARKERS_ANALOGS_C3D,
+    ANALOGS_CSV,
+    MARKERS_CSV,
+    EXPECTED_VALUES,
+)
 from tests.utils import is_expected_array
 
-_extensions = ["c3d"]
+_extensions = ["csv"]
 # analogs -------------------
 _analogs_cases = [
     {"usecols": None, **EXPECTED_VALUES.loc[10].to_dict()},
@@ -13,8 +18,8 @@ _analogs_cases = [
         **EXPECTED_VALUES.loc[11].to_dict(),
     },
     {"usecols": [1, 3, 5, 7], **EXPECTED_VALUES.loc[12].to_dict()},
-    {"usecols": "EMG1", **EXPECTED_VALUES.loc[13].to_dict()},
-    {"usecols": 2, **EXPECTED_VALUES.loc[14].to_dict()},
+    {"usecols": ["EMG1"], **EXPECTED_VALUES.loc[13].to_dict()},
+    {"usecols": [2], **EXPECTED_VALUES.loc[14].to_dict()},
 ]
 
 
@@ -33,11 +38,30 @@ def test_read_analogs(
     nans_val,
     extension,
 ):
-    reader = getattr(motion, f"read_analogs_{extension}")
-    data = reader(MARKERS_ANALOGS_C3D, prefix=".", usecols=usecols)
+    decimal = 4
+    if extension == "csv":
+        if usecols is None:
+            usecols = lambda a: a not in ["Frame", "Sub Frame"]
+        elif isinstance(usecols[0], int):
+            usecols = [i + 2 for i in usecols]  # skip two first columns
+            decimal = 0  # csv files are rounded
+        data = motion.read_analogs_csv(
+            ANALOGS_CSV, usecols=usecols, skiprows=[0, 1, 2, 4], rate=2000
+        )
+    elif extension == "c3d":
+        data = motion.read_analogs_c3d(MARKERS_ANALOGS_C3D, prefix=".", usecols=usecols)
+    else:
+        raise ValueError("wrong extension provided")
 
     is_expected_array(
-        data, shape_val, first_last_val, mean_val, median_val, sum_val, nans_val
+        data,
+        shape_val,
+        first_last_val,
+        mean_val,
+        median_val,
+        sum_val,
+        nans_val,
+        decimal=decimal,
     )
 
 
@@ -59,8 +83,8 @@ _markers_cases = [
         **EXPECTED_VALUES.loc[16].to_dict(),
     },
     {"usecols": [1, 3, 5, 7], **EXPECTED_VALUES.loc[17].to_dict()},
-    {"usecols": "CLAV_post", **EXPECTED_VALUES.loc[18].to_dict()},
-    {"usecols": 2, **EXPECTED_VALUES.loc[19].to_dict()},
+    {"usecols": ["CLAV_post"], **EXPECTED_VALUES.loc[18].to_dict()},
+    {"usecols": [2], **EXPECTED_VALUES.loc[19].to_dict()},
 ]
 
 
@@ -79,9 +103,28 @@ def test_read_markers(
     nans_val,
     extension,
 ):
-    reader = getattr(motion, f"read_markers_{extension}")
-    data = reader(MARKERS_ANALOGS_C3D, prefix=":", usecols=usecols)
+    decimal = 4
+    if extension == "csv":
+        data = motion.read_markers_csv2(
+            MARKERS_CSV,
+            usecols=usecols,
+            first_row=5,
+            first_column=2,
+            header=2,
+            prefix=":",
+        )
+    elif extension == "c3d":
+        data = motion.read_markers_c3d(MARKERS_ANALOGS_C3D, prefix=":", usecols=usecols)
+    else:
+        raise ValueError("wrong extension provided")
 
     is_expected_array(
-        data, shape_val, first_last_val, mean_val, median_val, sum_val, nans_val
+        data,
+        shape_val,
+        first_last_val,
+        mean_val,
+        median_val,
+        sum_val,
+        nans_val,
+        decimal=decimal,
     )

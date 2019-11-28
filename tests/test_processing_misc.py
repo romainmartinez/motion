@@ -42,6 +42,8 @@ def test_proc_detect_onset():
 
     with pytest.raises(ValueError):
         assert MARKERS_DATA[0, :, :].meca.detect_onset(threshold=0)
+
+    with pytest.raises(ValueError):
         assert MARKERS_DATA[:, :, :].meca.detect_onset(threshold=0)
 
 
