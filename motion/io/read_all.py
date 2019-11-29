@@ -6,9 +6,10 @@ import pandas as pd
 import xarray as xr
 
 
-def __from_csv_or_excel(
-    caller: str,
-    group: str,
+
+def read_csv_or_excel(
+    caller,
+    extension: str,
     filename: Union[str, Path],
     usecols: Optional[List[Union[str, int]]] = None,
     sheet_name: Union[int, str] = 0,
@@ -17,8 +18,8 @@ def __from_csv_or_excel(
     first_column: Optional[Union[str, int]] = None,
     time_column: Optional[Union[str, int]] = None,
     last_column_to_remove: Optional[Union[str, int]] = None,
-    prefix: Optional[str] = None,
-    suffix: Optional[str] = None,
+    prefix_delimiter: Optional[str] = None,
+    suffix_delimiter: Optional[str] = None,
     skiprows: Optional[List[int]] = None,
     pandas_kwargs: Optional[dict] = None,
 ):
@@ -30,7 +31,7 @@ def __from_csv_or_excel(
     if pandas_kwargs is None:
         pandas_kwargs = {}
 
-    if caller == "csv":
+    if extension == "csv":
         data = pd.read_csv(filename, header=header, skiprows=skiprows, **pandas_kwargs)
     else:
         data = pd.read_excel(
@@ -46,14 +47,14 @@ def __from_csv_or_excel(
             time_frames = data.iloc[:, time_column]
             data = data.drop(data.columns[time_column], axis=1)
         elif isinstance(time_column, str):
-            time_frames = data.loc[:, time_column]
+            time_frames = data[time_column]
             data = data.drop(time_column, axis=1)
         else:
             raise ValueError(
                 f"time_column should be str or int. It is {type(time_column)}"
             )
     else:
-        time_frame = np.arange(0, data.shape[0])
+        time_frames = None
 
     if first_column:
         data = data.drop(data.columns[:first_column], axis=1)
@@ -61,68 +62,41 @@ def __from_csv_or_excel(
     if last_column_to_remove:
         data = data.drop(data.columns[-last_column_to_remove], axis=1)
 
-    column_names = [
-        col.split(prefix)[-1].split(suffix)[0]
-        for col in data.columns
-        if "Unnamed" not in col
-    ]
+    caller.from_2d(data.values)
+    idx = []
+    channels = []
+    if usecols:
+        if isinstance(usecols[0], int):
+            for i in usecols:
+                idx.extend([i, i + 1, i + 2])
+                channels.append(
+                    _col_spliter(data.columns[i], prefix_delimiter, suffix_delimiter)
+                )
+        if isinstance(usecols[0], str):
+            for i, col in enumerate(data.columns):
+                s = _col_spliter(col, prefix_delimiter, suffix_delimiter)
+                if s in usecols:
+                    idx.extend([i, i + 1, i + 2])
+                    channels.append(s)
+        else:
+            raise ValueError(
+                "usecols should be None, list of string or list of int."
+                f"You provided {type(usecols)}"
+            )
+    else:
+        channels = [
+            _col_spliter(col, prefix_delimiter, suffix_delimiter)
+            for col in data.columns
+            if "Unnamed" not in col
+        ]
+
+    coords = {
+        "channel": channels,
+    }
+    if time_frames:
+        coords["time_frame"] = time_frames
+    return xr.DataArray(data=data.T, dims=("channel", "time_frame"), coords=coords)
 
 
-def read_analogs_csv2(
-    filename: Union[str, Path],
-    usecols: Optional[List[Union[str, int]]] = None,
-    header: Optional[int] = None,
-    first_row: int = 0,
-    first_column: Optional[Union[str, int]] = None,
-    time_column: Optional[Union[str, int]] = None,
-    last_column_to_remove: Optional[Union[str, int]] = None,
-    prefix: Optional[str] = None,
-    suffix: Optional[str] = None,
-    skiprows: Optional[List[int]] = None,
-    pandas_kwargs: Optional[dict] = None,
-) -> xr.DataArray:
-    return __from_csv_or_excel(
-        "csv",
-        "ANALOG",
-        filename=filename,
-        usecols=usecols,
-        header=header,
-        first_row=first_row,
-        first_column=first_column,
-        time_column=time_column,
-        last_column_to_remove=last_column_to_remove,
-        prefix=prefix,
-        suffix=suffix,
-        skiprows=skiprows,
-        pandas_kwargs=pandas_kwargs,
-    )
-
-
-def read_markers_csv2(
-    filename: Union[str, Path],
-    usecols: Optional[List[Union[str, int]]] = None,
-    header: Optional[int] = None,
-    first_row: int = 0,
-    first_column: Optional[Union[str, int]] = None,
-    time_column: Optional[Union[str, int]] = None,
-    last_column_to_remove: Optional[Union[str, int]] = None,
-    prefix: Optional[str] = None,
-    suffix: Optional[str] = None,
-    skiprows: Optional[List[int]] = None,
-    pandas_kwargs: Optional[dict] = None,
-) -> xr.DataArray:
-    return __from_csv_or_excel(
-        "csv",
-        "POINT",
-        filename=filename,
-        usecols=usecols,
-        header=header,
-        first_row=first_row,
-        first_column=first_column,
-        time_column=time_column,
-        last_column_to_remove=last_column_to_remove,
-        prefix=prefix,
-        suffix=suffix,
-        skiprows=skiprows,
-        pandas_kwargs=pandas_kwargs,
-    )
+def _col_spliter(x, p, s):
+    return x.split(p)[-1].split(s)[0]

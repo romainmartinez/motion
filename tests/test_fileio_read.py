@@ -1,6 +1,7 @@
 import pytest
 
 import motion
+from motion import Analogs, Markers
 from tests._constants import (
     MARKERS_ANALOGS_C3D,
     ANALOGS_CSV,
@@ -40,14 +41,17 @@ def test_read_analogs(
 ):
     decimal = 4
     if extension == "csv":
-        if usecols is None:
-            usecols = lambda a: a not in ["Frame", "Sub Frame"]
-        elif isinstance(usecols[0], int):
-            usecols = [i + 2 for i in usecols]  # skip two first columns
-            decimal = 0  # csv files are rounded
-        data = motion.read_analogs_csv(
-            ANALOGS_CSV, usecols=usecols, skiprows=[0, 1, 2, 4], rate=2000
+        Analogs.from_csv(
+            ANALOGS_CSV, usecols=usecols, header=3, first_row=5, first_column=2
         )
+        # if usecols is None:
+        #     usecols = lambda a: a not in ["Frame", "Sub Frame"]
+        # elif isinstance(usecols[0], int):
+        #     usecols = [i + 2 for i in usecols]  # skip two first columns
+        #     decimal = 0  # csv files are rounded
+        # data = motion.read_analogs_csv(
+        #     ANALOGS_CSV, usecols=usecols, skiprows=[0, 1, 2, 4], rate=2000
+        # )
     elif extension == "c3d":
         data = motion.read_analogs_c3d(MARKERS_ANALOGS_C3D, prefix=".", usecols=usecols)
     else:
@@ -105,13 +109,13 @@ def test_read_markers(
 ):
     decimal = 4
     if extension == "csv":
-        data = motion.read_markers_csv2(
+        data = Markers.from_csv(
             MARKERS_CSV,
             usecols=usecols,
+            header=2,
             first_row=5,
             first_column=2,
-            header=2,
-            prefix=":",
+            prefix_delimiter=":",
         )
     elif extension == "c3d":
         data = motion.read_markers_c3d(MARKERS_ANALOGS_C3D, prefix=":", usecols=usecols)
