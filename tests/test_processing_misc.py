@@ -8,35 +8,33 @@ from tests.utils import is_expected_array
 
 def test_proc_fft():
     is_expected_array(
-        ANALOGS_DATA.meca.fft(freq=ANALOGS_DATA.rate),
-        **EXPECTED_VALUES.loc[40].to_dict()
+        ANALOGS_DATA.meca.fft(freq=ANALOGS_DATA.rate), **EXPECTED_VALUES[40]
     )
     is_expected_array(
         ANALOGS_DATA.meca.fft(freq=ANALOGS_DATA.rate, only_positive=False),
-        **EXPECTED_VALUES.loc[41].to_dict()
+        **EXPECTED_VALUES[41]
     )
 
     is_expected_array(
-        MARKERS_DATA.meca.fft(freq=ANALOGS_DATA.rate),
-        **EXPECTED_VALUES.loc[42].to_dict()
+        MARKERS_DATA.meca.fft(freq=ANALOGS_DATA.rate), **EXPECTED_VALUES[42]
     )
     is_expected_array(
         MARKERS_DATA.meca.fft(freq=ANALOGS_DATA.rate, only_positive=False),
-        **EXPECTED_VALUES.loc[43].to_dict()
+        **EXPECTED_VALUES[43]
     )
 
 
 def test_proc_detect_onset():
     m = MARKERS_DATA[0, 0, :]
     r = xr.DataArray(m.meca.detect_onset(threshold=m.mean() + m.std()))
-    is_expected_array(r, **EXPECTED_VALUES.loc[49].to_dict())
+    is_expected_array(r, **EXPECTED_VALUES[49])
 
     r = xr.DataArray(
         m.meca.detect_onset(
             threshold=m.mean(), n_below=10, threshold2=m.mean() + m.std()
         )
     )
-    is_expected_array(r, **EXPECTED_VALUES.loc[50].to_dict())
+    is_expected_array(r, **EXPECTED_VALUES[50])
 
     np.testing.assert_array_equal(x=m.meca.detect_onset(threshold=m.mean() * 10), y=0)
 
@@ -49,19 +47,15 @@ def test_proc_detect_onset():
 
 def test_proc_detect_outliers():
     is_expected_array(
-        MARKERS_DATA.meca.detect_outliers(threshold=3),
-        **EXPECTED_VALUES.loc[51].to_dict()
+        MARKERS_DATA.meca.detect_outliers(threshold=3), **EXPECTED_VALUES[51]
     )
     is_expected_array(
-        MARKERS_DATA.meca.detect_outliers(threshold=1),
-        **EXPECTED_VALUES.loc[52].to_dict()
+        MARKERS_DATA.meca.detect_outliers(threshold=1), **EXPECTED_VALUES[52]
     )
 
     is_expected_array(
-        ANALOGS_DATA.meca.detect_outliers(threshold=3),
-        **EXPECTED_VALUES.loc[53].to_dict()
+        ANALOGS_DATA.meca.detect_outliers(threshold=3), **EXPECTED_VALUES[53]
     )
     is_expected_array(
-        ANALOGS_DATA.meca.detect_outliers(threshold=1),
-        **EXPECTED_VALUES.loc[54].to_dict()
+        ANALOGS_DATA.meca.detect_outliers(threshold=1), **EXPECTED_VALUES[54]
     )

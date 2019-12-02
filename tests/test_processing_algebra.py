@@ -5,8 +5,8 @@ from tests.utils import is_expected_array
 
 
 def test_proc_abs():
-    is_expected_array(ANALOGS_DATA.meca.abs(), **EXPECTED_VALUES.loc[1].to_dict())
-    is_expected_array(MARKERS_DATA.meca.abs(), **EXPECTED_VALUES.loc[2].to_dict())
+    is_expected_array(ANALOGS_DATA.meca.abs(), **EXPECTED_VALUES[1])
+    is_expected_array(MARKERS_DATA.meca.abs(), **EXPECTED_VALUES[2])
 
 
 def test_proc_matmul():
@@ -26,32 +26,18 @@ def test_proc_matmul():
 
 
 def test_proc_square_sqrt():
-    is_expected_array(
-        MARKERS_DATA.meca.square().meca.sqrt(), **EXPECTED_VALUES.loc[3].to_dict()
-    )
+    is_expected_array(MARKERS_DATA.meca.square().meca.sqrt(), **EXPECTED_VALUES[3])
 
-    is_expected_array(
-        ANALOGS_DATA.meca.square().meca.sqrt(), **EXPECTED_VALUES.loc[4].to_dict()
-    )
+    is_expected_array(ANALOGS_DATA.meca.square().meca.sqrt(), **EXPECTED_VALUES[4])
 
 
 def test_proc_norm():
-    is_expected_array(
-        MARKERS_DATA.meca.norm(dim="axis"), **EXPECTED_VALUES.loc[44].to_dict()
-    )
-    is_expected_array(
-        MARKERS_DATA.meca.norm(dim="channel"), **EXPECTED_VALUES.loc[45].to_dict()
-    )
-    is_expected_array(
-        MARKERS_DATA.meca.norm(dim="time_frame"), **EXPECTED_VALUES.loc[46].to_dict()
-    )
+    is_expected_array(MARKERS_DATA.meca.norm(dim="axis"), **EXPECTED_VALUES[44])
+    is_expected_array(MARKERS_DATA.meca.norm(dim="channel"), **EXPECTED_VALUES[45])
+    is_expected_array(MARKERS_DATA.meca.norm(dim="time_frame"), **EXPECTED_VALUES[46])
 
-    is_expected_array(
-        ANALOGS_DATA.meca.norm(dim="channel"), **EXPECTED_VALUES.loc[47].to_dict()
-    )
-    is_expected_array(
-        ANALOGS_DATA.meca.norm(dim="time_frame"), **EXPECTED_VALUES.loc[48].to_dict()
-    )
+    is_expected_array(ANALOGS_DATA.meca.norm(dim="channel"), **EXPECTED_VALUES[47])
+    is_expected_array(ANALOGS_DATA.meca.norm(dim="time_frame"), **EXPECTED_VALUES[48])
 
 
 def test_proc_rms():
@@ -63,41 +49,29 @@ def test_proc_rms():
 
 
 def test_proc_center():
-    is_expected_array(MARKERS_DATA.meca.center(), **EXPECTED_VALUES.loc[5].to_dict())
+    is_expected_array(MARKERS_DATA.meca.center(), **EXPECTED_VALUES[5])
     is_expected_array(
-        MARKERS_DATA.meca.center(MARKERS_DATA.isel(time_frame=0)),
-        **EXPECTED_VALUES.loc[6].to_dict()
+        MARKERS_DATA.meca.center(MARKERS_DATA.isel(time_frame=0)), **EXPECTED_VALUES[6]
     )
 
-    is_expected_array(ANALOGS_DATA.meca.center(), **EXPECTED_VALUES.loc[7].to_dict())
+    is_expected_array(ANALOGS_DATA.meca.center(), **EXPECTED_VALUES[7])
+    is_expected_array(ANALOGS_DATA.meca.center(mu=2), **EXPECTED_VALUES[8])
     is_expected_array(
-        ANALOGS_DATA.meca.center(mu=2), **EXPECTED_VALUES.loc[8].to_dict()
-    )
-    is_expected_array(
-        ANALOGS_DATA.meca.center(ANALOGS_DATA.isel(time_frame=0)),
-        **EXPECTED_VALUES.loc[9].to_dict()
+        ANALOGS_DATA.meca.center(ANALOGS_DATA.isel(time_frame=0)), **EXPECTED_VALUES[9]
     )
 
 
 def test_proc_normalize():
-    is_expected_array(
-        MARKERS_DATA.meca.normalize(), **EXPECTED_VALUES.loc[20].to_dict()
-    )
-    is_expected_array(
-        MARKERS_DATA.meca.normalize(scale=1), **EXPECTED_VALUES.loc[21].to_dict()
-    )
+    is_expected_array(MARKERS_DATA.meca.normalize(), **EXPECTED_VALUES[20])
+    is_expected_array(MARKERS_DATA.meca.normalize(scale=1), **EXPECTED_VALUES[21])
     is_expected_array(
         MARKERS_DATA.meca.normalize(ref=MARKERS_DATA.sel(time_frame=5.76)),
-        **EXPECTED_VALUES.loc[22].to_dict()
+        **EXPECTED_VALUES[22]
     )
 
-    is_expected_array(
-        ANALOGS_DATA.meca.normalize(), **EXPECTED_VALUES.loc[23].to_dict()
-    )
-    is_expected_array(
-        ANALOGS_DATA.meca.normalize(scale=1), **EXPECTED_VALUES.loc[24].to_dict()
-    )
+    is_expected_array(ANALOGS_DATA.meca.normalize(), **EXPECTED_VALUES[23])
+    is_expected_array(ANALOGS_DATA.meca.normalize(scale=1), **EXPECTED_VALUES[24])
     is_expected_array(
         ANALOGS_DATA.meca.normalize(ref=ANALOGS_DATA.sel(time_frame=5.76)),
-        **EXPECTED_VALUES.loc[25].to_dict()
+        **EXPECTED_VALUES[25]
     )

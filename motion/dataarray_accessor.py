@@ -15,16 +15,6 @@ class MecaDataArrayAccessor(object):
     def __init__(self, xarray_obj: xr.DataArray):
         self._obj = xarray_obj
 
-    # @property
-    # def type(self):
-    #     print("getting value".upper())
-    #     return self._type
-    #
-    # @type.setter
-    # def type(self, value):
-    #     print("setting value".upper())
-    #     self._type = value
-
     def to_csv(self):
         """
         This function is exposed to both all object

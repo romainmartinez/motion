@@ -1,5 +1,2 @@
-def __split_col_prefix(prefix: str):
-    if prefix:
-        return lambda x: x.split(prefix)[-1]
-    else:
-        return lambda x: x
+def col_spliter(x, p, s):
+    return x.split(p)[-1].split(s)[0]

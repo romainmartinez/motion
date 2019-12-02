@@ -1,3 +1,6 @@
+import time
+from functools import wraps
+
 import numpy as np
 import xarray as xr
 
@@ -34,8 +37,8 @@ def is_expected_array(
     np.testing.assert_array_almost_equal(
         x=array.median(), y=median_val, decimal=decimal, err_msg="Median does not match"
     )
-    np.testing.assert_array_almost_equal(
-        x=array.sum(), y=sum_val, decimal=decimal, err_msg="Sum does not match"
+    np.testing.assert_allclose(
+        actual=array.sum(), desired=sum_val, rtol=0.05, err_msg="Sum does not match"
     )
     np.testing.assert_array_equal(
         x=array.isnull().sum(), y=nans_val, err_msg="Nans value value does not match"
@@ -61,3 +64,17 @@ def print_expected_values(array: xr.DataArray):
 
     nans_val = array.isnull().sum().item()
     print(f"{nans_val=}")
+
+
+def timing(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        print(f.__name__)
+
+        start = time.time()
+        result = f(*args, **kwargs)
+
+        print(f"\t{f.__name__} succeed ({time.time() - start})")
+        return result
+
+    return wrapper

@@ -13,7 +13,7 @@ def test_analogs_creation():
     assert a.dims == ("channel", "time_frame")
 
     b = Analogs(ANALOGS_DATA.values)
-    is_expected_array(b, **EXPECTED_VALUES.loc[56].to_dict())
+    is_expected_array(b, **EXPECTED_VALUES[56])
 
     with pytest.raises(ValueError):
         assert Analogs(MARKERS_DATA)
@@ -25,7 +25,7 @@ def test_markers_creation():
     assert a.dims == ("axis", "channel", "time_frame")
 
     b = Markers(MARKERS_DATA.values)
-    is_expected_array(b, **EXPECTED_VALUES.loc[57].to_dict())
+    is_expected_array(b, **EXPECTED_VALUES[57])
     print_expected_values(b)
 
     with pytest.raises(ValueError):

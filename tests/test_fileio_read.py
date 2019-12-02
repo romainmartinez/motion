@@ -1,29 +1,41 @@
+import numpy as np
 import pytest
 
-import motion
 from motion import Analogs, Markers
 from tests._constants import (
     MARKERS_ANALOGS_C3D,
     ANALOGS_CSV,
     MARKERS_CSV,
+    MARKERS_CSV_WITHOUT_HEADER,
+    ANALOGS_XLSX,
+    MARKERS_XLSX,
     EXPECTED_VALUES,
 )
-from tests.utils import is_expected_array
+from tests.utils import is_expected_array, timing
 
-_extensions = ["csv"]
-# analogs -------------------
+_extensions = ["c3d", "csv"]
 _analogs_cases = [
-    {"usecols": None, **EXPECTED_VALUES.loc[10].to_dict()},
-    {
-        "usecols": ["EMG1", "EMG10", "EMG11", "EMG12"],
-        **EXPECTED_VALUES.loc[11].to_dict(),
-    },
-    {"usecols": [1, 3, 5, 7], **EXPECTED_VALUES.loc[12].to_dict()},
-    {"usecols": ["EMG1"], **EXPECTED_VALUES.loc[13].to_dict()},
-    {"usecols": [2], **EXPECTED_VALUES.loc[14].to_dict()},
+    {"usecols": None, **EXPECTED_VALUES[10]},
+    {"usecols": ["EMG1", "EMG10", "EMG11", "EMG12"], **EXPECTED_VALUES[11]},
+    {"usecols": [1, 3, 5, 7], **EXPECTED_VALUES[12]},
+    {"usecols": ["EMG1"], **EXPECTED_VALUES[13]},
+    {"usecols": [2], **EXPECTED_VALUES[14]},
+]
+analogs_csv_kwargs = dict(filename=ANALOGS_CSV, header=3, first_row=5, first_column=2)
+markers_csv_kwargs = dict(
+    filename=MARKERS_CSV, header=2, first_row=5, first_column=2, prefix_delimiter=":"
+)
+
+_markers_cases = [
+    {"usecols": None, **EXPECTED_VALUES[15]},
+    {"usecols": ["CLAV_post", "PSISl", "STERr", "CLAV_post"], **EXPECTED_VALUES[16]},
+    {"usecols": [1, 3, 5, 7], **EXPECTED_VALUES[17]},
+    {"usecols": ["CLAV_post"], **EXPECTED_VALUES[18]},
+    {"usecols": [2], **EXPECTED_VALUES[19]},
 ]
 
 
+@timing
 @pytest.mark.parametrize(
     "usecols, shape_val, first_last_val, mean_val, median_val, sum_val, nans_val",
     [(d.values()) for d in _analogs_cases],
@@ -39,23 +51,19 @@ def test_read_analogs(
     nans_val,
     extension,
 ):
-    decimal = 4
     if extension == "csv":
-        Analogs.from_csv(
-            ANALOGS_CSV, usecols=usecols, header=3, first_row=5, first_column=2
-        )
-        # if usecols is None:
-        #     usecols = lambda a: a not in ["Frame", "Sub Frame"]
-        # elif isinstance(usecols[0], int):
-        #     usecols = [i + 2 for i in usecols]  # skip two first columns
-        #     decimal = 0  # csv files are rounded
-        # data = motion.read_analogs_csv(
-        #     ANALOGS_CSV, usecols=usecols, skiprows=[0, 1, 2, 4], rate=2000
-        # )
+        data = Analogs.from_csv(**analogs_csv_kwargs, usecols=usecols)
+        decimal = 0
     elif extension == "c3d":
-        data = motion.read_analogs_c3d(MARKERS_ANALOGS_C3D, prefix=".", usecols=usecols)
+        data = Analogs.from_c3d(
+            MARKERS_ANALOGS_C3D, prefix_delimiter=".", usecols=usecols
+        )
+        decimal = 4
     else:
         raise ValueError("wrong extension provided")
+
+    if usecols and isinstance(usecols[0], str):
+        np.testing.assert_array_equal(x=data.channel, y=usecols)
 
     is_expected_array(
         data,
@@ -69,29 +77,69 @@ def test_read_analogs(
     )
 
 
-@pytest.mark.parametrize("usecols", [2.0, [20.0]])
+@pytest.mark.parametrize("usecols", [[20.0]])
 @pytest.mark.parametrize("extension", _extensions)
 def test_read_catch_error(
     usecols, extension,
 ):
-    reader = getattr(motion, f"read_analogs_{extension}")
+    with pytest.raises(IndexError):
+        Markers.from_csv(MARKERS_CSV)
+
+    if extension == "csv":
+        with pytest.raises(ValueError):
+            assert Analogs.from_csv(**analogs_csv_kwargs, usecols=usecols)
+        with pytest.raises(ValueError):
+            assert Markers.from_csv(**markers_csv_kwargs, usecols=usecols)
+    elif extension == "c3d":
+        with pytest.raises(ValueError):
+            assert Analogs.from_c3d(MARKERS_ANALOGS_C3D, usecols=usecols)
+
+    reader = getattr(Markers, f"from_{extension}")
     with pytest.raises(ValueError):
         assert reader(MARKERS_ANALOGS_C3D, usecols=usecols)
 
 
-# markers -------------------
-_markers_cases = [
-    {"usecols": None, **EXPECTED_VALUES.loc[15].to_dict()},
-    {
-        "usecols": ["CLAV_post", "PSISl", "STERr", "CLAV_post"],
-        **EXPECTED_VALUES.loc[16].to_dict(),
-    },
-    {"usecols": [1, 3, 5, 7], **EXPECTED_VALUES.loc[17].to_dict()},
-    {"usecols": ["CLAV_post"], **EXPECTED_VALUES.loc[18].to_dict()},
-    {"usecols": [2], **EXPECTED_VALUES.loc[19].to_dict()},
-]
+def test_csv_last_column_to_remove():
+    last_column_to_remove = 5
+    ref = Analogs.from_csv(**analogs_csv_kwargs).channel[:-last_column_to_remove]
+    without_last_columns = Analogs.from_csv(
+        **analogs_csv_kwargs, last_column_to_remove=last_column_to_remove
+    ).channel
+    np.testing.assert_array_equal(x=ref, y=without_last_columns)
 
 
+def test_csv_edge_cases():
+    time_frame_with_rate = Analogs.from_csv(
+        **analogs_csv_kwargs, attrs={"rate": 2000}
+    ).time_frame
+    assert time_frame_with_rate[-1] == 5.7995
+
+    time_column_with_id = Analogs.from_csv(**analogs_csv_kwargs, time_column="Frame")
+
+    time_column_with_name = Analogs.from_csv(**analogs_csv_kwargs, time_column=0)
+
+    np.testing.assert_array_equal(
+        time_column_with_id.time_frame, time_column_with_name.time_frame
+    )
+    np.testing.assert_array_equal(time_column_with_id, time_column_with_name)
+
+    with pytest.raises(ValueError):
+        Analogs.from_csv(**analogs_csv_kwargs, time_column=[20.0])
+
+
+def test_csv_without_header():
+    is_expected_array(
+        Analogs.from_csv(ANALOGS_CSV, first_row=5, first_column=2),
+        **EXPECTED_VALUES[59],
+    )
+
+    is_expected_array(
+        Markers.from_csv(MARKERS_CSV_WITHOUT_HEADER, first_column=2),
+        **EXPECTED_VALUES[58],
+    )
+
+
+@timing
 @pytest.mark.parametrize(
     "usecols, shape_val, first_last_val, mean_val, median_val, sum_val, nans_val",
     [(d.values()) for d in _markers_cases],
@@ -107,20 +155,19 @@ def test_read_markers(
     nans_val,
     extension,
 ):
-    decimal = 4
     if extension == "csv":
-        data = Markers.from_csv(
-            MARKERS_CSV,
-            usecols=usecols,
-            header=2,
-            first_row=5,
-            first_column=2,
-            prefix_delimiter=":",
-        )
+        data = Markers.from_csv(**markers_csv_kwargs, usecols=usecols)
+        decimal = 0
     elif extension == "c3d":
-        data = motion.read_markers_c3d(MARKERS_ANALOGS_C3D, prefix=":", usecols=usecols)
+        data = Markers.from_c3d(
+            MARKERS_ANALOGS_C3D, prefix_delimiter=":", usecols=usecols
+        )
+        decimal = 4
     else:
         raise ValueError("wrong extension provided")
+
+    if usecols and isinstance(usecols[0], str):
+        np.testing.assert_array_equal(x=data.channel, y=usecols)
 
     is_expected_array(
         data,
@@ -131,4 +178,15 @@ def test_read_markers(
         sum_val,
         nans_val,
         decimal=decimal,
+    )
+
+
+def test_read_xlsx():
+    is_expected_array(
+        Markers.from_excel(**{**markers_csv_kwargs, **dict(filename=MARKERS_XLSX)}),
+        **EXPECTED_VALUES[60],
+    )
+    is_expected_array(
+        Analogs.from_excel(**{**analogs_csv_kwargs, **dict(filename=ANALOGS_XLSX)}),
+        **EXPECTED_VALUES[61],
     )
