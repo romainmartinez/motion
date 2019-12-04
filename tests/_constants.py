@@ -15,7 +15,10 @@ MARKERS_ANALOGS_C3D = DATA_FOLDER / "markers_analogs.c3d"
 ANALOGS_CSV = DATA_FOLDER / "analogs.csv"
 MARKERS_CSV_WITHOUT_HEADER = DATA_FOLDER / "markers_without_header.csv"
 MARKERS_XLSX = DATA_FOLDER / "markers.xlsx"
+MARKERS_TRC = DATA_FOLDER / "markers.trc"
 ANALOGS_XLSX = DATA_FOLDER / "analogs.xlsx"
+ANALOGS_STO = DATA_FOLDER / "inverse_dyn.sto"
+ANALOGS_MOT = DATA_FOLDER / "inverse_kin.mot"
 EXPECTED_VALUES_CSV = DATA_FOLDER / "is_expected_array_val.csv"
 
 MARKERS_DATA = Markers.from_c3d(

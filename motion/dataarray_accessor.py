@@ -1,13 +1,11 @@
-from typing import Union
+from pathlib import Path
+from typing import Union, Optional
 
 import numpy as np
 import xarray as xr
 
-from motion import rototrans
-from motion.processing import algebra
-from motion.processing import filter
-from motion.processing import interp
-from motion.processing import misc
+from motion.io.write import write_matlab, write_csv, to_wide_dataframe
+from motion.processing import algebra, filter, interp, misc
 
 
 @xr.register_dataarray_accessor("meca")
@@ -15,25 +13,42 @@ class MecaDataArrayAccessor(object):
     def __init__(self, xarray_obj: xr.DataArray):
         self._obj = xarray_obj
 
-    def to_csv(self):
+    # io ----------------------------------------
+    def to_matlab(self, filename: Union[str, Path]):
         """
-        This function is exposed to both all object
-        but behave differently if it is a Markers or an Analogs
+        Write a matlab file from a xarray.DataArray
+        Parameters
+        ----------
+        filename
+            File path
         """
+        write_matlab(self._obj, filename)
 
-    def marker_only_function(self):
+    def to_csv(self, filename: Union[str, Path], wide: Optional[bool] = True):
         """
-        this function is only exposed to
-        array created with the Marker class
+        Write a csv file from a xarray.DataArray
+        Parameters
+        ----------
+        filename
+            File path
+        wide
+            True if you want a wide dataframe (one column for each channel).
+            Set to false if you want a tidy dataframe.
         """
+        write_csv(self._obj, filename, wide)
 
-    def analog_only_function(self):
+    def to_wide_dataframe(self):
         """
-        this function is only exposed to
-        array created with the Analog class
+        Returns
+        -------
+        A wide pandas DataFrame (one column by channel).
+        Works only for 2 and 3-dimensional arrays.
+        If you want a tidy dataframe type: `array.to_series()`, or `array.to_dataframe()`.
         """
+        return to_wide_dataframe(self._obj)
 
-    # algebra -----------------------------------
+        # algebra -----------------------------------
+
     def abs(self) -> xr.DataArray:
         """
         Calculate the absolute value element-wise.
@@ -324,16 +339,3 @@ class MecaDataArrayAccessor(object):
         A boolean DataArray containing the outliers.
         """
         return misc.detect_outliers(self._obj, threshold)
-
-    def get_euler_angles(self, angle_sequence: str) -> xr.DataArray:
-        """
-        Get euler angles with specified angle sequence
-        Parameters
-        ----------
-        angle_sequence
-            Euler sequence of angles. Valid values are all permutations of "xyz"
-        Returns
-        -------
-        DataArray with the euler angles associated
-        """
-        return rototrans.get_euler_angles(self._obj, angle_sequence)

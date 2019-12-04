@@ -11,7 +11,7 @@ from tests._constants import (
     MARKERS_XLSX,
     EXPECTED_VALUES,
 )
-from tests.utils import is_expected_array, timing
+from tests.utils import is_expected_array
 
 _extensions = ["c3d", "csv"]
 _analogs_cases = [
@@ -35,7 +35,6 @@ _markers_cases = [
 ]
 
 
-@timing
 @pytest.mark.parametrize(
     "usecols, shape_val, first_last_val, mean_val, median_val, sum_val, nans_val",
     [(d.values()) for d in _analogs_cases],
@@ -139,7 +138,6 @@ def test_csv_without_header():
     )
 
 
-@timing
 @pytest.mark.parametrize(
     "usecols, shape_val, first_last_val, mean_val, median_val, sum_val, nans_val",
     [(d.values()) for d in _markers_cases],

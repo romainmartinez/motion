@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from motion.io.utils import col_spliter
+from motion.io.utils import col_spliter, find_end_header_in_opensim_file
 
 
 def read_c3d(
@@ -129,3 +129,24 @@ def read_csv_or_excel(
             start=0, stop=data.shape[-1] / attrs["rate"], step=1 / attrs["rate"]
         )
     return caller(data, channels, time_frames, attrs=attrs)
+
+
+def read_sto_or_mot(
+    caller, filename: Union[str, Path], end_header: Optional[int] = None, **kwargs
+):
+    if end_header is None:
+        end_header = find_end_header_in_opensim_file(filename)
+
+    data = caller.from_csv(
+        filename, header=end_header + 1, first_column=1, time_column=0, **kwargs,
+    )
+    data.attrs["rate"] = (1 / (data.time_frame[1] - data.time_frame[0])).round().item()
+    return data
+
+
+def read_trc(caller, filename: Union[str, Path], **kwargs):
+    data = caller.from_csv(
+        filename, header=3, first_row=6, first_column=1, time_column=1, **kwargs,
+    )
+    data.attrs["rate"] = (1 / (data.time_frame[1] - data.time_frame[0])).round().item()
+    return data

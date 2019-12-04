@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from motion.io.read import read_csv_or_excel, read_c3d
+from motion.io.read import read_csv_or_excel, read_c3d, read_sto_or_mot
 from motion.io.utils import col_spliter
 
 
@@ -32,16 +32,20 @@ class Analogs:
         -------
         Analogs xarray.DataArray
         """
+        coords = {}
         if data is None:
             data = np.ndarray((0, 0))
-
-        coords = {}
         if channels is not None:
             coords["channel"] = channels
         if time_frames is not None:
             coords["time_frame"] = time_frames
         return xr.DataArray(
-            data=data, dims=("channel", "time_frame"), coords=coords, *args, **kwargs,
+            data=data,
+            dims=("channel", "time_frame"),
+            coords=coords,
+            name="analogs",
+            *args,
+            **kwargs,
         )
 
     @classmethod
@@ -173,6 +177,46 @@ class Analogs:
             attrs,
             sheet_name,
         )
+
+    @classmethod
+    def from_sto(
+        cls, filename: Union[str, Path], end_header: Optional[bool] = None, **kwargs
+    ):
+        """
+        Read a STO file and return an Analogs DataArray
+        Parameters
+        ----------
+        filename
+            Any valid string path
+        end_header
+            Index where `endheader` appears (0 indexed). If not provided, the index is automatically determined.
+        kwargs
+            Keyword arguments to be passed to `from_csv`
+        Returns
+        -------
+        Analogs xarray.DataArray
+        """
+        return read_sto_or_mot(cls, filename, end_header, **kwargs)
+
+    @classmethod
+    def from_mot(
+        cls, filename: Union[str, Path], end_header: Optional[bool] = None, **kwargs
+    ):
+        """
+        Read a MOT file and return an Analogs DataArray
+        Parameters
+        ----------
+        filename
+            Any valid string path
+        end_header
+            Index where `endheader` appears (0 indexed). If not provided, the index is automatically determined.
+        kwargs
+            Keyword arguments to be passed to `from_csv`
+        Returns
+        -------
+        Analogs xarray.DataArray
+        """
+        return read_sto_or_mot(cls, filename, end_header, **kwargs)
 
     @classmethod
     def from_c3d(

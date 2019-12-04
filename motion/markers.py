@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from motion.io.read import read_csv_or_excel, read_c3d
+from motion.io.read import read_csv_or_excel, read_c3d, read_trc
 from motion.io.utils import col_spliter
 
 
@@ -24,6 +24,8 @@ class Markers:
         ----------
         data
             Array to be passed to xarray.DataArray
+        channels
+            Channel names
         args
             Positional argument(s) to be passed to xarray.DataArray
         kwargs
@@ -47,6 +49,7 @@ class Markers:
             data=data,
             dims=("axis", "channel", "time_frame"),
             coords=coords,
+            name="markers",
             *args,
             **kwargs,
         )
@@ -212,6 +215,22 @@ class Markers:
         return read_c3d(
             cls, filename, usecols, prefix_delimiter, suffix_delimiter, attrs
         )
+
+    @classmethod
+    def from_trc(cls, filename: Union[str, Path], **kwargs):
+        """
+        Read a TRC file and return a Markers DataArray
+        Parameters
+        ----------
+        filename
+            Any valid string path
+        kwargs
+            Keyword arguments to be passed to `from_csv`
+        Returns
+        -------
+        Markers xarray.DataArray
+        """
+        return read_trc(cls, filename, **kwargs)
 
     @staticmethod
     def reshape_flat_array(array: Union[np.array, np.ndarray]) -> xr.DataArray:
