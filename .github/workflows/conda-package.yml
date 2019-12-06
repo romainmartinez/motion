@@ -28,11 +28,10 @@ jobs:
       run: |
         wget http://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
         bash miniconda.sh -b -p ~/miniconda
+        source /opt/conda/etc/profile.d/conda.sh
+        hash -r
         conda update -y conda
         conda config --set always_yes yes --set changeps1 no --set auto_update_conda no
-        conda init bash
-        exec bash
-        hash -r
         
     - name: Install Python with dependencies #${{ matrix.python-version }}
       run: |
