@@ -1,0 +1,27 @@
+name: Conda package
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+#       matrix:
+#         python-version: [3.5, 3.6, 3.7, 3.8]
+
+    steps:
+    - name: Install Miniconda
+      run: |
+        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+        bash miniconda.sh -b -p $HOME/miniconda
+        export PATH="$HOME/miniconda/bin:$PATH"
+        hash -r
+        conda config --set always_yes yes --set changeps1 no --set auto_update_conda no
+        conda update -q conda
+    - name: Install Python #${{ matrix.python-version }}
+      run: |
+        conda env update -n root
+        black --check .
+        pytest --cov-report term-missing --color=yes --cov=motion tests
