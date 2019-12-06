@@ -1,6 +1,15 @@
 name: Conda package
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '0 14 * * SUN'
 
 jobs:
   build:
@@ -18,15 +27,12 @@ jobs:
       run: |
         wget http://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
         bash miniconda.sh -b -p $HOME/miniconda
-        conda init bash
-        source $HOME/.bashrc
         conda update -y conda
         conda config --set always_yes yes --set changeps1 no --set auto_update_conda no
         
     - name: Install Python with dependencies #${{ matrix.python-version }}
       run: |
-        conda env create
-        conda activate motion
+        conda env update -f environment.yml -n base
         
     - name: Lint with Black
       run : black --check .
