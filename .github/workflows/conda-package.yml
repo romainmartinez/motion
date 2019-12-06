@@ -26,12 +26,14 @@ jobs:
       
     - name: Install Miniconda
       run: |
+        ps -ef | grep $$
         wget http://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-        bash miniconda.sh -b -p ~/miniconda
-        source /opt/conda/etc/profile.d/conda.sh
-        hash -r
-        conda update -y conda
-        conda config --set always_yes yes --set changeps1 no --set auto_update_conda no
+        bash miniconda.sh -b -p /opt/conda
+        source /opt/conda/bin/activate
+        conda update -y conda;
+        conda config --set always_yes yes
+        conda config --set auto_update_conda False
+        conda info
         
     - name: Install Python with dependencies #${{ matrix.python-version }}
       run: |
