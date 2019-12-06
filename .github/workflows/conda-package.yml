@@ -30,7 +30,9 @@ jobs:
         # conda update -y conda;
         conda config --set always_yes yes
         conda config --set auto_update_conda False
+        export PATH="$CONDA/bin:$PATH"
         source $CONDA/bin/activate
+        conda activate
         conda info
         
     - name: Install Python with dependencies #${{ matrix.python-version }}
