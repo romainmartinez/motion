@@ -8,6 +8,7 @@ on:
     branches:
       - master
   schedule:
+    # every sunday at 14:00 UTC
     # * is a special character in YAML so you have to quote this string
     - cron:  '0 14 * * SUN'
 
@@ -32,7 +33,7 @@ jobs:
         
     - name: Install Python with dependencies #${{ matrix.python-version }}
       run: |
-        conda env update -f environment.yml -n base
+        conda env update -f environment.yml
         
     - name: Lint with Black
       run : black --check .
