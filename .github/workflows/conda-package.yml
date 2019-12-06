@@ -36,6 +36,7 @@ jobs:
     - name: Install Python with dependencies #${{ matrix.python-version }}
       run: |
         conda env update -f environment.yml
+        conda activate motion
         
     - name: Lint with Black
       run : black --check .
