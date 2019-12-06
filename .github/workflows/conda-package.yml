@@ -24,7 +24,7 @@ jobs:
         conda update -q conda
         
     - name: Install Python with dependencies #${{ matrix.python-version }}
-      run: conda env update -n root -f environment.yml
+      run: conda env update -f environment.yml
         
     - name: Lint with Black
       run : black --check .
