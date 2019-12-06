@@ -28,8 +28,8 @@ jobs:
       run: |
         wget http://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
         bash miniconda.sh -b -p ~/miniconda
-        conda init
-        source /home/runner/.bashrc
+        conda init bash
+        source ~/.bashrc
         hash -r
         conda update -y conda
         conda config --set always_yes yes --set changeps1 no --set auto_update_conda no
