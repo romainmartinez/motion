@@ -27,7 +27,9 @@ jobs:
     - name: Install Miniconda
       run: |
         wget http://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-        bash miniconda.sh -b -p $HOME/miniconda
+        bash miniconda.sh -b -p ~/miniconda
+        conda init bash
+        source ~/.bashrc
         conda update -y conda
         conda config --set always_yes yes --set changeps1 no --set auto_update_conda no
         
