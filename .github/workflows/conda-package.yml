@@ -32,11 +32,11 @@ jobs:
         conda config --set auto_update_conda False
         export PATH="$CONDA/bin:$PATH"
         source $CONDA/bin/activate
-        conda activate
         conda info
         
     - name: Install Python with dependencies #${{ matrix.python-version }}
       run: |
+        cond activate
         conda env create -f environment.yml
         conda activate motion
         
