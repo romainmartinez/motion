@@ -15,7 +15,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, macos-latest]
     strategy:
       max-parallel: 4
     #       matrix:
@@ -34,6 +34,7 @@ jobs:
           conda activate base
           conda info
           conda env list
+          echo $(conda info --root)
 
       - name: Install Python with dependencies #${{ matrix.python-version }}
         run: |
