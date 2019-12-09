@@ -1,51 +1,18 @@
-name: Conda package
-
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-  schedule:
-    # every sunday at 14:00 UTC
-    - cron:  '0 14 * * SUN'
-
 jobs:
   build:
-
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest]
-    #          python-version: [3.5, 3.6, 3.7, 3.8]
-
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        python-version: [3.6, 3.7, 3.8]
+    name: Python ${{ matrix.python-version }} example
     steps:
       - uses: actions/checkout@master
-
-#      - name: Install Miniconda
-#        if: matrix.os == "macos-latest"
-#        run: echo "Hey"
-
-      - name: Install Python with dependencies #${{ matrix.python-version }}
-        run: |
-          # source "$CONDA/etc/profile.d/conda.sh"
-          echo "HEEEEEEEEEEEEEEEEEY"
-          echo $CONDA
-          conda info -a
-          conda env create -f environment.yml -q
-
-      - name: Lint with Black
-        run: |
-          source "$CONDA/etc/profile.d/conda.sh"
-          conda activate motion
-          black --check .
-
-      - name: Test with Pytest
-        run: |
-          source "$CONDA/etc/profile.d/conda.sh"
-          conda activate motion
-          pytest --cov-report term-missing --color=yes --cov=motion tests
-#
-#      - name: Code coverage with Codecov
-#        run: echo "todo"
+      - name: Setup conda
+        uses: s-weigand/setup-conda@master
+        with:
+          update-conda: true
+          python-version: ${{ matrix.python-version }}
+          conda-channels: anaconda, conda-forge
+      - run: conda --version
+      - run: which python
