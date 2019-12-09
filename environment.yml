@@ -8,6 +8,7 @@ dependencies:
   - ezc3d
   - matplotlib
   - bottleneck
+  - xlrd
   # dev
   - black
   - pytest
