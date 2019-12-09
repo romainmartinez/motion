@@ -30,7 +30,7 @@ jobs:
       - name: Install Python with dependencies #${{ matrix.python-version }}
         run: |
           # source "$CONDA/etc/profile.d/conda.sh"
-          $CONDA/Scripts/activate base
+          echo $CONDA
           conda info -a
           conda env create -f environment.yml -q
 
