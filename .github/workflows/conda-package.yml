@@ -15,11 +15,12 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       max-parallel: 4
-    #       matrix:
-    #         python-version: [3.5, 3.6, 3.7, 3.8]
+        matrix:
+          os: [ubuntu-latest, macos-latest]
+    #          python-version: [3.5, 3.6, 3.7, 3.8]
 
     steps:
       - uses: actions/checkout@master
@@ -31,7 +32,6 @@ jobs:
           conda config --set always_yes yes
           conda config --set auto_update_conda False
           source $(conda info --root)/etc/profile.d/conda.sh
-          conda activate base
           conda info
           conda env list
           echo $(conda info --root)
