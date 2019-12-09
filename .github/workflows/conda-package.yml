@@ -33,7 +33,7 @@ jobs:
 
       - name: Install Python with dependencies #${{ matrix.python-version }}
         run: |
-          conda env create -f environment.yml -q -n base
+          conda env update -f environment.yml -q -n base
 
       - name: Lint with Black
         run: black --check .
