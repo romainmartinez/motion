@@ -31,4 +31,5 @@ jobs:
           conda-channels: conda-forge
       - run: conda info -a
       - run: conda env create -f environment.yml -q
+      - run: conda activate motion
 
