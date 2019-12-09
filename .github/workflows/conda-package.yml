@@ -32,7 +32,7 @@ jobs:
         conda config --set auto_update_conda False
         ps -p $$ -oargs=
         conda init bash
-        source /home/runner/.bashrc
+        exec bash
         conda activate base
         conda info
         conda env list
