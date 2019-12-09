@@ -27,14 +27,10 @@ jobs:
 #        if: matrix.os == "macos-latest"
 #        run: echo "Hey"
 
-      - name: Update Miniconda
-        run: |
-          # Miniconda is already installed in github actions
-          source "$CONDA/etc/profile.d/conda.sh"
-          conda info -a
-
       - name: Install Python with dependencies #${{ matrix.python-version }}
         run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          conda info -a
           conda env create -f environment.yml -q
 
       - name: Lint with Black
