@@ -1,0 +1,50 @@
+name: Conda package
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  schedule:
+    # every sunday at 14:00 UTC
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '0 14 * * SUN'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+#       matrix:
+#         python-version: [3.5, 3.6, 3.7, 3.8]
+
+    steps:
+    - uses: actions/checkout@master
+      
+    - name: Install Miniconda
+      run: |
+        # Miniconda is already installed in github actions:
+        # conda update -y conda;
+        conda config --set always_yes yes
+        conda config --set auto_update_conda False
+        export PATH="$CONDA/bin:$PATH"
+        source $CONDA/bin/activate
+        conda info
+        
+    - name: Install Python with dependencies #${{ matrix.python-version }}
+      run: |
+        cond activate
+        conda env create -f environment.yml
+        conda activate motion
+        
+    - name: Lint with Black
+      run : black --check .
+    
+    - name: Test with Pytest
+      run: pytest --cov-report term-missing --color=yes --cov=motion tests
+    
+    - name: Code coverage with Codecov
+      run: echo "todo"
