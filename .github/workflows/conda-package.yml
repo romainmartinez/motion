@@ -33,6 +33,7 @@ jobs:
         export PATH="$CONDA/bin:$PATH"
         source $CONDA/bin/activate
         conda info
+        conda env list
         
     - name: Install Python with dependencies #${{ matrix.python-version }}
       run: |
