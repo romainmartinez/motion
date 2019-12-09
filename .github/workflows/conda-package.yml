@@ -34,7 +34,7 @@ jobs:
       - run: pytest --cov-report term-missing --color=yes --cov=motion tests
       - name: Coverall
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+          COVERALLS_REPO_TOKEN: m0Y1JKhhCecsIkye25oHlA8rmiPDhqocp
         run: |
           pip install coveralls
           coveralls
