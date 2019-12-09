@@ -27,25 +27,25 @@ jobs:
       - name: Install Miniconda
         run: |
           # Miniconda is already installed in github actions:
-          conda update -y conda;
-          conda config --set always_yes yes
-          conda config --set auto_update_conda False
-          source $(conda info --root)/etc/profile.d/conda.sh
-          conda info
-          conda env list
-          echo $(conda info --root)
+          source "$CONDA/etc/profile.d/conda.sh"
+          hash -r
+          conda config --set always_yes yes --set changeps1 no
+          conda update -q conda
+          conda info -a
+          conda create -q -n test-environment black
+          conda activate test-environment
 
-      - name: Install Python with dependencies #${{ matrix.python-version }}
-        run: |
-          conda env create -f environment.yml
-          source $(conda info --root)/etc/profile.d/conda.sh
-          conda activate motion
+#      - name: Install Python with dependencies #${{ matrix.python-version }}
+#        run: |
+#          conda env create -f environment.yml
+#          source $(conda info --root)/etc/profile.d/conda.sh
+#          conda activate motion
 
-      - name: Lint with Black
-        run: black --check .
-
-      - name: Test with Pytest
-        run: pytest --cov-report term-missing --color=yes --cov=motion tests
-
-      - name: Code coverage with Codecov
-        run: echo "todo"
+#      - name: Lint with Black
+#        run: black --check .
+#
+#      - name: Test with Pytest
+#        run: pytest --cov-report term-missing --color=yes --cov=motion tests
+#
+#      - name: Code coverage with Codecov
+#        run: echo "todo"
