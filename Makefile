@@ -4,7 +4,7 @@ lint:
 	black .
 
 test:
-	python -m pytest --cov-report term-missing --color=yes --cov=motion tests
+	pytest --cov-report term-missing --color=yes --cov=motion tests
 
 nb_to_md:
 	jupyter nbconvert --to markdown notebooks/*.ipynb --output-dir='./docs'
