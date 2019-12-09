@@ -1,4 +1,4 @@
-name: Conda package
+name: CI
 
 on:
   push:
@@ -11,14 +11,13 @@ on:
     # every sunday at 14:00 UTC
     - cron:  '0 14 * * SUN'
 
-
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
-        python-version: [3.8]
+        python-version: [3.5, 3.6, 3.7, 3.8]
     name: ${{ matrix.os }} - Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@master
@@ -33,4 +32,9 @@ jobs:
       - run: conda env update -f environment.yml -q -n base
       - run: black --check .
       - run: pytest --cov-report term-missing --color=yes --cov=motion tests
+      - run: codecov
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 

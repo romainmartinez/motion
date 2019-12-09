@@ -1,3 +1,50 @@
+<img
+  src="https://raw.githubusercontent.com/pyomeca/design/master/logo/logo_plain_doc.svg?sanitize=true"
+  alt="logo"
+/>
+
+<h2 align="center">A Biomechanics library for Python</h2>
+
+<p align="center">
+  <a href="https://github.com/romainmartinez/motion/actions"
+    ><img
+      alt="Actions Status"
+      src="https://github.com/romainmartinez/motion/workflows/CI/badge.svg"
+  /></a>
+  <a href="https://coveralls.io/github/romainmartinez/motion?branch=master"
+    ><img
+      alt="Coverage Status"
+      src="https://coveralls.io/repos/github/romainmartinez/motion/badge.svg?branch=master"
+  /></a>
+  <a href="https://anaconda.org/conda-forge/pyomeca"
+    ><img
+      alt="License: MIT"
+      src="https://anaconda.org/conda-forge/pyomeca/badges/license.svg"
+  /></a>
+  <a href="https://anaconda.org/conda-forge/pyomeca"
+    ><img
+      alt="PyPI"
+      src="https://anaconda.org/conda-forge/pyomeca/badges/latest_release_date.svg"
+  /></a>
+  <a href="https://anaconda.org/conda-forge/pyomeca"
+    ><img
+      alt="Downloads"
+      src="https://anaconda.org/conda-forge/pyomeca/badges/downloads.svg"
+  /></a>
+  <a href="https://github.com/psf/black"
+    ><img
+      alt="Code style: black"
+      src="https://img.shields.io/badge/code%20style-black-000000.svg"
+  /></a>
+</p>
+
+
+
+
+
+
+
+<hr>
 # Motion
 
 <img src="https://raw.githubusercontent.com/pyomeca/design/master/logo/logo_plain_doc.svg?sanitize=true" alt="logo">
