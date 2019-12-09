@@ -17,6 +17,7 @@ nav:
   - User Guide: user-guide.md
   - Case Studies: case-studies.md
   - About: about.md
+  - API reference: doc.md
 
 markdown_extensions:
   - admonition
