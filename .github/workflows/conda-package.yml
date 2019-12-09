@@ -9,7 +9,6 @@ on:
       - master
   schedule:
     # every sunday at 14:00 UTC
-    # * is a special character in YAML so you have to quote this string
     - cron:  '0 14 * * SUN'
 
 jobs:
@@ -27,7 +26,6 @@ jobs:
       - name: Install Miniconda
         run: |
           # Miniconda is already installed in github actions
-          source "$CONDA/etc/profile.d/conda.sh"
           hash -r
           conda config --set always_yes yes --set changeps1 no
           conda update -q conda
@@ -40,7 +38,10 @@ jobs:
           conda activate motion
 
       - name: Lint with Black
-        run: black --check .
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          conda activate motion
+          black --check .
 #
 #      - name: Test with Pytest
 #        run: pytest --cov-report term-missing --color=yes --cov=motion tests
