@@ -39,8 +39,8 @@ jobs:
           source "$CONDA/etc/profile.d/conda.sh"
           conda activate motion
 
-#      - name: Lint with Black
-#        run: black --check .
+      - name: Lint with Black
+        run: black --check .
 #
 #      - name: Test with Pytest
 #        run: pytest --cov-report term-missing --color=yes --cov=motion tests
