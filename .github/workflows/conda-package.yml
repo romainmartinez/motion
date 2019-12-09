@@ -24,12 +24,13 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Install Miniconda
-        if: matrix.os === "macos-latest"
+        if: matrix.os == "macos-latest"
         run: echo "Hey"
 
       - name: Update Miniconda
         run: |
           # Miniconda is already installed in github actions
+          source "$CONDA/etc/profile.d/conda.sh"
           hash -r
           conda config --set always_yes yes --set changeps1 no
           conda update -q conda
