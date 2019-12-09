@@ -32,6 +32,9 @@ jobs:
       - run: conda env update -f environment.yml -q -n base
       - run: black --check .
       - run: pytest --cov-report term-missing --color=yes --cov=motion tests
-      - run: |
-        conda install coveralls -y -c conda-forge
-        coveralls
+      - name: Coverall
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        run: |
+          pip install coveralls
+          coveralls
