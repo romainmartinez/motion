@@ -1,3 +1,16 @@
+name: Conda package
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  schedule:
+    # every sunday at 14:00 UTC
+    - cron:  '0 14 * * SUN'
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
