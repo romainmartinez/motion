@@ -33,13 +33,19 @@ jobs:
 
       - name: Install Python with dependencies #${{ matrix.python-version }}
         run: |
-          conda env update -f environment.yml -q -n base
+          conda env create -f environment.yml -q
 
       - name: Lint with Black
-        run: black --check .
-#
-#      - name: Test with Pytest
-#        run: pytest --cov-report term-missing --color=yes --cov=motion tests
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          conda activate motion
+          black --check .
+
+      - name: Test with Pytest
+        run: |
+          source "$CONDA/etc/profile.d/conda.sh"
+          conda activate motion
+          pytest --cov-report term-missing --color=yes --cov=motion tests
 #
 #      - name: Code coverage with Codecov
 #        run: echo "todo"
