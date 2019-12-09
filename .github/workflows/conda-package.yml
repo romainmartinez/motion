@@ -31,9 +31,9 @@ jobs:
         run: |
           # Miniconda is already installed in github actions
           source "$CONDA/etc/profile.d/conda.sh"
-          hash -r
-          conda config --set always_yes yes --set changeps1 no
-          conda update -q conda
+#          hash -r
+#          conda config --set always_yes yes --set changeps1 no
+#          conda update -q conda
           conda info -a
 
       - name: Install Python with dependencies #${{ matrix.python-version }}
