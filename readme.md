@@ -3,8 +3,6 @@
   alt="logo"
 />
 
-<h2 align="center">A Biomechanics library for Python</h2>
-
 <p align="center">
   <a href="https://github.com/romainmartinez/motion/actions"
     ><img
@@ -37,17 +35,6 @@
       src="https://img.shields.io/badge/code%20style-black-000000.svg"
   /></a>
 </p>
-
-
-
-
-
-
-
-<hr>
-# Motion
-
-<img src="https://raw.githubusercontent.com/pyomeca/design/master/logo/logo_plain_doc.svg?sanitize=true" alt="logo">
 
 Pyomeca is a python library allowing you to carry out a complete biomechanical analysis; in a simple, logical and concise way.
 

@@ -32,7 +32,7 @@ jobs:
       - run: conda env update -f environment.yml -q -n base
       - run: black --check .
       - run: pytest --cov-report term-missing --color=yes --cov=motion tests
-      - run: codecov
+      - run: conda install -c conda-forge install coveralls -y -q
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
