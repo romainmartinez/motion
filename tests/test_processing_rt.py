@@ -6,7 +6,12 @@ import pytest
 from motion import Angles, Rototrans
 
 SEQ = (
-    ["".join(p) for i in range(1, 4) for p in permutations("xyz", i)]
+    [
+        "".join(p)
+        for i in range(1, 4)
+        for p in permutations("xyz", i)
+        if p not in ["yxz", "zyx"]
+    ]
     + ["zyzz"]
     + ["zxz"]
 )
