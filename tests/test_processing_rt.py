@@ -6,15 +6,11 @@ import pytest
 from motion import Angles, Rototrans
 
 SEQ = (
-    [
-        "".join(p)
-        for i in range(1, 4)
-        for p in permutations("xyz", i)
-        if p not in ["yxz", "zyx"]
-    ]
+    ["".join(p) for i in range(1, 4) for p in permutations("xyz", i)]
     + ["zyzz"]
     + ["zxz"]
 )
+SEQ = [s for s in SEQ if s not in ["yxz", "zyx"]]
 EPSILON = 1e-12
 ANGLES = Angles(np.random.rand(40, 1, 100))
 
