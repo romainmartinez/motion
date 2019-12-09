@@ -38,6 +38,7 @@ jobs:
       - name: Install Python with dependencies #${{ matrix.python-version }}
         run: |
           conda env create -f environment.yml
+          source $(conda info --root)/etc/profile.d/conda.sh
           conda activate motion
 
       - name: Lint with Black
