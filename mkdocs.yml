@@ -17,12 +17,13 @@ nav:
   - User Guide: user-guide.md
   - Case Studies: case-studies.md
   - About: about.md
-  - API reference: doc.md
+  - API reference: api.md
 
 markdown_extensions:
   - admonition
   - footnotes
   - codehilite
+  - mkautodoc
 
 # Repository
 repo_name: 'pyomeca/pyomeca'
