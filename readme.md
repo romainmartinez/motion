@@ -78,12 +78,7 @@ emg = (
 - Each class inherits from a numpy array, so you can create your own analysis step easily.
 
 
-- Easy reading and writing interface to common files in biomechanics:
-  - **c3d** (binary file used in biomechanics): `from_c3d` and `to_c3d`
-  - **csv**: `from_csv` and `to_csv`
-  - **mat** (_MATLAB_ file): `from_mat` and `to_mat`
-  - **sto** (OpenSim storage file): `to_sto` (must install pyosim)
-  - **trc** (OpenSim markers position file): `to_trc` (must install pyosim)
+- Easy reading and writing interface to common files in biomechanics (`.c3d`, `.csv`, `.xlsx`, `.mat`, `.sto`, `.trc`, `.mot`):
 
 
 - Common linear algebra routine implemented: get Euler angles to/from roto-translation matrix, create a system of axes, set a rotation or translation, transpose or inverse, etc.
