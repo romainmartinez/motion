@@ -9,7 +9,7 @@ def fft(
     array: xr.DataArray, freq: Union[int, float], only_positive=True
 ) -> xr.DataArray:
     n = array.time_frame.shape[0]
-    yfft = fftpack.fft(array, n)
+    yfft = fftpack.fft(array.values, n)
     freqs = fftpack.fftfreq(n, 1 / freq)
     if only_positive:
         amp = 2 * np.abs(yfft) / n
