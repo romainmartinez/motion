@@ -69,7 +69,7 @@ emg = (
   - **RotoTrans**: roto-translation matrix
 
 
-- Specialized functionalities include meca processing routine commonly used in biomechanics: filters, normalization, onset detection, outliers detection, derivative, etc.
+- Specialized functionalities including processing routine commonly used in biomechanics: filters, normalization, onset detection, outliers detection, derivative, etc.
 
 
 - Each functionality can be chained. In addition to making it easier to write and read code, it allows you to add and remove analysis steps easily (such as Lego blocks).
