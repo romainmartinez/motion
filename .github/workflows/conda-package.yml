@@ -25,17 +25,17 @@ jobs:
         uses: s-weigand/setup-conda@master
         with:
           activate-conda: true
-          update-conda: true
+          update-conda: false
           python-version: ${{ matrix.python-version }}
           conda-channels: conda-forge
       - run: echo $PATH
-#      - run: conda info -a
-#      - run: conda env update -f environment.yml -q -n base
-#      - run: black --check .
-#      - run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
-#      - name: Coverall
-#        env:
-#          COVERALLS_REPO_TOKEN: m0Y1JKhhCecsIkye25oHlA8rmiPDhqocp
-#        run: |
-#          pip install coveralls
-#          coveralls
+      - run: conda info -a
+      - run: conda env update -f environment.yml -q -n base
+      - run: black --check .
+      - run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
+      - name: Coverall
+        env:
+          COVERALLS_REPO_TOKEN: m0Y1JKhhCecsIkye25oHlA8rmiPDhqocp
+        run: |
+          pip install coveralls
+          coveralls
