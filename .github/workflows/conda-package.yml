@@ -30,7 +30,6 @@ jobs:
           conda-channels: default, conda-forge, anaconda
       - run: echo $PATH
       - run: conda info -a
-      - run: export PATH=${PREFIX}/bin:${PREFIX}/Library/bin:$PATH
       - run: conda env update -f environment.yml -q -n base
       - run: black --check .
       - run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
