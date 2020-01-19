@@ -31,11 +31,11 @@ jobs:
       - run: conda info -a
       - run: conda env update -f environment.yml -q -n base
       - run: black --check .
-      - run: set "PATH=C:\Miniconda\Library\bin:$PATH"
-      - run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
-      - name: Coverall
-        env:
-          COVERALLS_REPO_TOKEN: m0Y1JKhhCecsIkye25oHlA8rmiPDhqocp
-        run: |
-          pip install coveralls
-          coveralls
+      - run: python -m pytest
+#      - run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
+#      - name: Coverall
+#        env:
+#          COVERALLS_REPO_TOKEN: m0Y1JKhhCecsIkye25oHlA8rmiPDhqocp
+#        run: |
+#          pip install coveralls
+#          coveralls
