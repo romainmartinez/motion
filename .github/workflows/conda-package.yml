@@ -32,7 +32,8 @@ jobs:
       - run: conda info -a
       - run: conda env update -f environment.yml -q -n base
       - run: black --check .
-      - run: conda install -c conda-forge sqlite
+      - run: conda install -c conda-forge pywin32
+      - run: set PATH=%PATH%;%CONDA%\Library\bin
       - run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
       - name: Coverall
         env:
