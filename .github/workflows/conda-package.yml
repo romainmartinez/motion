@@ -31,7 +31,7 @@ jobs:
       - run: conda info -a
       - run: conda env update -f environment.yml -q -n base
       - run: black --check .
-      - run: set PATH=%PATH%;C:\Miniconda\Library\bin
+      - run: export "PATH=C:\Miniconda\Library\bin:$PATH"
       - run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
       - name: Coverall
         env:
