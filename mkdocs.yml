@@ -23,7 +23,6 @@ markdown_extensions:
   - admonition
   - footnotes
   - codehilite
-  - mkautodoc
 
 # Repository
 repo_name: 'pyomeca/pyomeca'

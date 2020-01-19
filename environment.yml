@@ -12,5 +12,5 @@ dependencies:
   # dev
   - black
   - pytest
-  - pytest-cov
-  - coverage
+#  - pytest-cov
+#  - coverage
