@@ -25,13 +25,14 @@ jobs:
         uses: s-weigand/setup-conda@master
         with:
           activate-conda: true
-          update-conda: true
+          update-conda: false
           python-version: ${{ matrix.python-version }}
           conda-channels: default, conda-forge, anaconda
       - run: echo $PATH
       - run: conda info -a
       - run: conda env update -f environment.yml -q -n base
       - run: black --check .
+      - run: conda install -c conda-forge sqlite
       - run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
       - name: Coverall
         env:
