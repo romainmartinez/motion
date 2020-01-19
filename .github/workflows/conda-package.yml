@@ -27,7 +27,7 @@ jobs:
           activate-conda: true
           update-conda: true
           python-version: ${{ matrix.python-version }}
-          conda-channels: conda-forge, anaconda
+          conda-channels: default, conda-forge, anaconda
       - run: echo $PATH
       - run: conda info -a
       - run: export PATH=${PREFIX}/bin:${PREFIX}/Library/bin:$PATH
