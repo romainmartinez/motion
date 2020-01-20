@@ -32,7 +32,7 @@ jobs:
 
       - name: Add path DLL to windows path
         run: echo "##[add-path]C:\Miniconda\Library\bin"
-        if: matrix.os == 'windows'
+        if: matrix.os == 'windows-latest'
 
       - name: Install Dependencies
         run: |
