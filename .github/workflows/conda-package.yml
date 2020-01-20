@@ -28,10 +28,9 @@ jobs:
           update-conda: false
           python-version: ${{ matrix.python-version }}
           conda-channels: default, conda-forge, anaconda
-      - run: $ENV:PATH=”$ENV:PATH;C:\Miniconda\Library\bin”
-      - run: $Env:Path
-      - run: conda info -a
+      - run: $env:Path += ";C:\Miniconda\Library\bin"
       - run: conda env update -f environment.yml -q -n base
+      - run: conda info -a
       - run: black --check .
       - run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
       - name: Coverall
