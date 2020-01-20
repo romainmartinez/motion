@@ -47,23 +47,23 @@ def is_expected_array(
 
 def print_expected_values(array: xr.DataArray):
     shape_val = array.shape
-    print(f"{shape_val=}")
+    print(f"shape_val={shape_val}")
 
     ravel = array.values.ravel()
     first_last_val = ravel[0], ravel[-1]
-    print(f"{first_last_val=}")
+    print(f"first_last_val={first_last_val}")
 
     mean_val = array.mean().item()
-    print(f"{mean_val=}")
+    print(f"mean_val={mean_val}")
 
     median_val = array.median().item()
-    print(f"{median_val=}")
+    print(f"median_val={median_val}")
 
     sum_val = array.sum().item()
-    print(f"{sum_val=}")
+    print(f"sum_val={sum_val}")
 
     nans_val = array.isnull().sum().item()
-    print(f"{nans_val=}")
+    print(f"nans_val={nans_val}")
 
 
 def timing(f):
