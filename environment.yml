@@ -13,4 +13,4 @@ dependencies:
   - black
   - pytest
   - pytest-cov
-  - coverage
+  - pytest-sugar
