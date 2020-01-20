@@ -29,14 +29,15 @@ jobs:
           update-conda: false
           python-version: ${{ matrix.python-version }}
           conda-channels: default, conda-forge, anaconda
-        run: conda info -a
 
       - name: Add path DLL to windows path
         run: echo "##[add-path]C:\Miniconda\Library\bin"
         if: matrix.os == 'windows'
 
       - name: Install Dependencies
-        run: conda env update -f environment.yml -q -n base
+        run: |
+          conda env update -f environment.yml -q -n base
+          conda info -a
 
       - name: Lint
         run: black --check .
