@@ -31,8 +31,6 @@ jobs:
       - run: conda info -a
       - run: conda env update -f environment.yml -q -n base
       - run: black --check .
-      - run: conda install pip
-      - run: pip install pytest-cov
       - run: python -m pytest
 #      - run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
 #      - name: Coverall
