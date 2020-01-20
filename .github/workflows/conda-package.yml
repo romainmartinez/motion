@@ -28,9 +28,8 @@ jobs:
           update-conda: false
           python-version: ${{ matrix.python-version }}
           conda-channels: default, conda-forge, anaconda
-      - run: $env:PATH += ";C:\Miniconda\Library\bin"
       - run: echo "##[add-path]C:\Miniconda\Library\bin"
-      - run: conda env update -f envmkdocs-materialironment.yml -q -n base
+      - run: conda env update -f environment.yml -q -n base
       - run: conda info -a
       - run: black --check .
       - run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
