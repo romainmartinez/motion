@@ -29,6 +29,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
           conda-channels: default, conda-forge, anaconda
       - run: $env:PATH += ";C:\Miniconda\Library\bin"
+      - run: echo "##[add-path]C:\Miniconda\Library\bin"
+          if: matrix.os == 'windows'
       - run: conda env update -f environment.yml -q -n base
       - run: conda info -a
       - run: black --check .
