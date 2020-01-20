@@ -21,6 +21,7 @@ jobs:
     name: ${{ matrix.os }} - Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@master
+
       - name: Setup conda
         uses: s-weigand/setup-conda@master
         with:
@@ -28,12 +29,22 @@ jobs:
           update-conda: false
           python-version: ${{ matrix.python-version }}
           conda-channels: default, conda-forge, anaconda
-      - run: echo "##[add-path]C:\Miniconda\Library\bin"
-      - run: conda env update -f environment.yml -q -n base
-      - run: conda info -a
-      - run: black --check .
-      - run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
-      - name: Coverall
+        run: conda info -a
+
+      - name: Add path DLL to windows path
+        run: echo "##[add-path]C:\Miniconda\Library\bin"
+        if: matrix.os == 'windows'
+
+      - name: Install Dependencies
+        run: conda env update -f environment.yml -q -n base
+
+      - name: Lint
+        run: black --check .
+
+      - name: Test
+        run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
+
+      - name: Coverage
         env:
           COVERALLS_REPO_TOKEN: m0Y1JKhhCecsIkye25oHlA8rmiPDhqocp
         run: |
