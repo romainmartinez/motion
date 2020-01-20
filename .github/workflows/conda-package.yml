@@ -16,8 +16,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.6, 3.7, 3.8] # OK: macos, ubuntu [3.6, 3.7, 3.8] | not ok windows 3.7, 3.8
+        os: [macos-latest]
+        python-version: [3.8] # OK: macos, ubuntu [3.6, 3.7, 3.8] | not ok windows 3.7, 3.8
     name: ${{ matrix.os }} - Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@master
