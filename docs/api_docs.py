@@ -1,6 +1,6 @@
 import pdoc
 
-modules = ['motion', 'motion.analogs']
+modules = ["motion", "motion.analogs"]
 context = pdoc.Context()
 
 modules = [pdoc.Module(mod, context=context) for mod in modules]
