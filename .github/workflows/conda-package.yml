@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest]
-        python-version: [3.8] # OK: macos, ubuntu [3.6, 3.7, 3.8] | not ok windows 3.7, 3.8
+        python-version: [3.6, 3.7, 3.8] # OK: macos, ubuntu [3.6, 3.7, 3.8] | not ok windows 3.7, 3.8
     name: ${{ matrix.os }} - Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@master
@@ -30,7 +30,7 @@ jobs:
           conda-channels: default, conda-forge, anaconda
       - run: $env:PATH += ";C:\Miniconda\Library\bin"
       - run: echo "##[add-path]C:\Miniconda\Library\bin"
-      - run: conda env update -f environment.yml -q -n base
+      - run: conda env update -f envmkdocs-materialironment.yml -q -n base
       - run: conda info -a
       - run: black --check .
       - run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
