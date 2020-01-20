@@ -31,8 +31,8 @@ jobs:
           conda-channels: default, conda-forge, anaconda
 
       - name: Add path DLL to windows path
-        - if: matrix.os == 'windows-latest'
-        - run: echo "##[add-path]C:\Miniconda\Library\bin"
+        if: startsWith(matrix.os, 'windows')
+        run: echo "##[add-path]C:\Miniconda\Library\bin"
 
       - name: Install Dependencies
         run: |
