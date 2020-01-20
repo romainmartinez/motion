@@ -30,9 +30,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
           conda-channels: default, conda-forge, anaconda
 
-      - name: Add path DLL to windows path
-        run: echo "##[add-path]C:\Miniconda\Library\bin"
-        if: matrix.os == 'windows-latest'
+      - if: matrix.os == "windows-latest"
+        - run: echo "##[add-path]C:\Miniconda\Library\bin"
 
       - name: Install Dependencies
         run: |
