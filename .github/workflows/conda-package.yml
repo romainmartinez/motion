@@ -28,7 +28,7 @@ jobs:
           activate-conda: true
           update-conda: true
           python-version: ${{ matrix.python-version }}
-          conda-channels: default, conda-forge, anaconda
+          conda-channels: conda-forge
 
       - name: Add path DLL to windows path (windows only)
         if: startsWith(matrix.os, 'windows')
@@ -44,7 +44,7 @@ jobs:
         run: black --check .
 
       - name: Test
-        run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests -k 'test_ezc3d'
+        run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
 
       - name: Coverage (ubuntu only)
         if: startsWith(matrix.os, 'ubuntu')
