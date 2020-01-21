@@ -19,7 +19,7 @@ class Analogs:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Analogs DataArray with `axis`, `channel` and `time_frame` dimensions.
+        Analogs DataArray with `axis`, `channel` and `time_frame` dimensions
 
         To instantiate an `Analogs` with 4 channels and 100 frames filled with some random data:
 
@@ -123,7 +123,7 @@ class Analogs:
         Arguments:
             filename: Any valid string path
             usecols: All elements must either be positional or strings that correspond to column names.
-                For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
+                For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz']
             header: Row of the header (0-indexed)
             first_row: First row of the data (0-indexed)
             first_column: First column of the data (0-indexed)
@@ -132,8 +132,8 @@ class Analogs:
             prefix_delimiter: Delimiter that split each column name by its prefix (we keep only the column name)
             suffix_delimiter: Delimiter that split each column name by its suffix (we keep only the column name)
             skiprows: Line numbers to skip (0-indexed)
-            pandas_kwargs: Keyword arguments to be passed to pandas.read_csv
-            attrs: attrs to be passed to xr.DataArray. If attrs['rate'] is provided, compute the time_frame accordingly
+            pandas_kwargs: Keyword arguments to be passed to `pandas.read_csv`
+            attrs: attrs to be passed to `xr.DataArray`. If attrs['rate'] is provided, compute the time_frame accordingly
 
         Returns:
             Analogs `xarray.DataArray` with the specified data and coordinates
@@ -181,7 +181,7 @@ class Analogs:
             filename: Any valid string path
             sheet_name: Strings are used for sheet names. Integers are used in zero-indexed sheet positions
             usecols: All elements must either be positional or strings that correspond to column names.
-                For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
+                For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz']
             header: Row of the header (0-indexed)
             first_row: First row of the data (0-indexed)
             first_column: First column of the data (0-indexed)
@@ -190,8 +190,8 @@ class Analogs:
             prefix_delimiter: Delimiter that split each column name by its prefix (we keep only the column name)
             suffix_delimiter: Delimiter that split each column name by its suffix (we keep only the column name)
             skiprows: Line numbers to skip (0-indexed)
-            pandas_kwargs: Keyword arguments to be passed to pandas.read_csv
-            attrs: attrs to be passed to xr.DataArray. If attrs['rate'] is provided, compute the time_frame accordingly
+            pandas_kwargs: Keyword arguments to be passed to `pandas.read_excel`
+            attrs: attrs to be passed to `xr.DataArray`. If attrs['rate'] is provided, compute the time_frame accordingly
 
         Returns:
             Analogs `xarray.DataArray` with the specified data and coordinates
@@ -226,7 +226,7 @@ class Analogs:
         Arguments:
             filename: Any valid string path
             end_header: Index where `endheader` appears (0 indexed).
-                If not provided, the index is automatically determined.
+                If not provided, the index is automatically determined
             kwargs: Keyword arguments to be passed to `from_csv`
 
         Returns:
@@ -282,7 +282,15 @@ class Analogs:
         analogs = Analogs.from_c3d(data_path, usecols=channels)
         ```
 
-        Sometimes, t
+        Sometimes the channel name is delimited by a suffix or prefix.
+        To access the prefix, you can specify `prefix_delimiter` and `suffix_delimiter` for the suffix.
+        For example, if the name is `"Voltage.1"` and you specify `suffix_delimiter="."`, you will select "Voltage".
+        Similarly, if you specify `prefix_delimiter=".":
+
+        ```python
+        channels = ["1", "2", "3"]
+        analogs = Analogs.from_c3d(data_path, usecols=channels, prefix_delimiter=".")
+        ```
 
         Arguments:
             filename: Any valid string path

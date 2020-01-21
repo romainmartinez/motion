@@ -16,7 +16,7 @@ class Angles:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Angles DataArray with `row`, `col` and `time_frame` dimensions.
+        Angles DataArray with `row`, `col` and `time_frame` dimensions
 
         To instantiate an `Angles` 4 by 4 and 100 frames filled with some random data:
 
@@ -101,6 +101,6 @@ class Angles:
             angle_sequence: Euler sequence of angles. Valid values are all permutations of "xyz"
 
         Returns:
-            Angles `xarray.DataArray` from the specified rototrans and angles sequence.
+            Angles `xarray.DataArray` from the specified rototrans and angles sequence
         """
         return angles_from_rototrans(cls, rototrans, angle_sequence)

@@ -111,6 +111,6 @@ class Rototrans:
             translations: Translation part of the Rototrans matrix
 
         Returns:
-            Rototrans `xarray.DataArray` from the specified angles and angles sequence.
+            Rototrans `xarray.DataArray` from the specified angles and angles sequence
         """
         return rototrans_from_euler_angles(cls, angles, angle_sequence, translations)

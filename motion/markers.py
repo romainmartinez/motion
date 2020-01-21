@@ -19,7 +19,7 @@ class Markers:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Markers DataArray with `axis`, `channel` and `time_frame` dimensions.
+        Markers DataArray with `axis`, `channel` and `time_frame` dimensions
 
         To instantiate a `Markers` with 4 channels and 100 frames filled with some random data:
 
@@ -137,8 +137,8 @@ class Markers:
             prefix_delimiter: Delimiter that split each column name by its prefix (we keep only the column name)
             suffix_delimiter: Delimiter that split each column name by its suffix (we keep only the column name)
             skiprows: Line numbers to skip (0-indexed)
-            pandas_kwargs: Keyword arguments to be passed to pandas.read_csv
-            attrs: attrs to be passed to xr.DataArray. If attrs['rate'] is provided, compute the time_frame accordingly
+            pandas_kwargs: Keyword arguments to be passed to `pandas.read_csv`
+            attrs: attrs to be passed to `xr.DataArray`. If attrs['rate'] is provided, compute the time_frame accordingly
 
         Returns:
             Markers `xarray.DataArray` with the specified data and coordinates
@@ -195,8 +195,8 @@ class Markers:
             prefix_delimiter: Delimiter that split each column name by its prefix (we keep only the column name)
             suffix_delimiter: Delimiter that split each column name by its suffix (we keep only the column name)
             skiprows: Line numbers to skip (0-indexed)
-            pandas_kwargs: Keyword arguments to be passed to pandas.read_csv
-            attrs: attrs to be passed to xr.DataArray. If attrs['rate'] is provided, compute the time_frame accordingly
+            pandas_kwargs: Keyword arguments to be passed to `pandas.read_excel`
+            attrs: attrs to be passed to `xr.DataArray`. If attrs['rate'] is provided, compute the time_frame accordingly
 
         Returns:
             Markers `xarray.DataArray` with the specified data and coordinates
@@ -231,7 +231,32 @@ class Markers:
         """
         Markers DataArray from a c3d file
 
-        TODO: example with code
+        To read [this c3d file](https://github.com/romainmartinez/motion/blob/master/tests/data/markers_analogs.c3d),
+        type:
+
+        ```python
+        from motion import Markers
+
+        data_path = "/home/romain/Documents/codes/motion/tests/data/markers_analogs.c3d"
+        markers = Markers.from_c3d(data_path)
+        ```
+
+        If you know the channel names, you can retrieve only the ones you are interested in:
+
+        ```python
+        channels = ["Daphnee:ASISl", "Daphnee:PSISr", "Daphnee:PSISl"]
+        markers = Markers.from_c3d(data_path, usecols=channels)
+        ```
+
+        Sometimes the channel name is delimited by a suffix or prefix.
+        To access the prefix, you can specify `prefix_delimiter` and `suffix_delimiter` for the suffix.
+        For example, if the name is `""Daphnee:ASISl"` and you specify `suffix_delimiter=":"`, you will select "Daphnee".
+        Similarly, if you specify `prefix_delimiter=":":
+
+        ```python
+        channels = ["ASISl", "PSISr", "PSISl"]
+        markers = Markers.from_c3d(data_path, prefix_delimiter=":")
+        ```
 
         Arguments:
             filename: Any valid string path
