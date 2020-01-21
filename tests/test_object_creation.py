@@ -2,41 +2,78 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from motion import Analogs, Markers, Angles
+from motion import Analogs, Markers, Angles, Rototrans
 from ._constants import ANALOGS_DATA, MARKERS_DATA, EXPECTED_VALUES
 from .utils import is_expected_array
 
 
 def test_analogs_creation():
-    a = Analogs()
-    np.testing.assert_array_equal(x=a, y=xr.DataArray())
-    assert a.dims == ("channel", "time_frame")
+    dims = ("channel", "time_frame")
+    array = Analogs()
+    np.testing.assert_array_equal(x=array, y=xr.DataArray())
+    assert array.dims == dims
 
-    b = Analogs(ANALOGS_DATA.values)
-    is_expected_array(b, **EXPECTED_VALUES[56])
+    array = Analogs(ANALOGS_DATA.values)
+    is_expected_array(array, **EXPECTED_VALUES[56])
+
+    size = 10, 100
+    array = Analogs.from_random_data(size=size)
+    assert array.shape == size
+    assert array.dims == dims
 
     with pytest.raises(ValueError):
         assert Analogs(MARKERS_DATA)
 
 
 def test_markers_creation():
-    a = Markers()
-    np.testing.assert_array_equal(x=a, y=xr.DataArray())
-    assert a.dims == ("axis", "channel", "time_frame")
+    dims = ("axis", "channel", "time_frame")
+    array = Markers()
+    np.testing.assert_array_equal(x=array, y=xr.DataArray())
+    assert array.dims == dims
 
-    b = Markers(MARKERS_DATA.values)
-    is_expected_array(b, **EXPECTED_VALUES[57])
+    array = Markers(MARKERS_DATA.values)
+    is_expected_array(array, **EXPECTED_VALUES[57])
+
+    size = 3, 10, 100
+    array = Markers.from_random_data(size=size)
+    assert array.shape == (4, size[1], size[2])
+    assert array.dims == dims
 
     with pytest.raises(ValueError):
         assert Markers(ANALOGS_DATA)
 
 
 def test_angles_creation():
-    a = Angles()
-    np.testing.assert_array_equal(x=a, y=xr.DataArray())
+    dims = ("row", "col", "time_frame")
+    array = Angles()
+    np.testing.assert_array_equal(x=array, y=xr.DataArray())
+    assert array.dims == dims
 
-    b = Angles(MARKERS_DATA.values, time_frames=MARKERS_DATA.time_frame)
-    is_expected_array(b, **EXPECTED_VALUES[57])
+    array = Angles(MARKERS_DATA.values, time_frames=MARKERS_DATA.time_frame)
+    is_expected_array(array, **EXPECTED_VALUES[57])
+
+    size = 10, 10, 100
+    array = Angles.from_random_data(size=size)
+    assert array.shape == size
+    assert array.dims == dims
+
+    with pytest.raises(ValueError):
+        assert Angles(ANALOGS_DATA)
+
+
+def test_rototrans_creation():
+    dims = ("row", "col", "time_frame")
+    array = Rototrans()
+    np.testing.assert_array_equal(x=array, y=xr.DataArray(np.eye(4)[..., np.newaxis]))
+    assert array.dims == dims
+
+    array = Rototrans(MARKERS_DATA.values, time_frames=MARKERS_DATA.time_frame)
+    is_expected_array(array, **EXPECTED_VALUES[57])
+
+    size = 4, 4, 100
+    array = Rototrans.from_random_data(size=size)
+    assert array.shape == size
+    assert array.dims == dims
 
     with pytest.raises(ValueError):
         assert Angles(ANALOGS_DATA)
