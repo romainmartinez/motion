@@ -16,8 +16,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest]
-        python-version: [3.6] # OK: macos, ubuntu [3.6, 3.7, 3.8] | not ok windows 3.7, 3.8
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [3.6, 3.7, 3.8] # OK: macos, ubuntu [3.6, 3.7, 3.8] | not ok windows 3.7, 3.8
     name: ${{ matrix.os }} - Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@master
@@ -44,7 +44,7 @@ jobs:
         run: black --check .
 
       - name: Test
-        run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
+        run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests -k 'test_ezc3d'
 
       - name: Coverage (ubuntu only)
         if: startsWith(matrix.os, 'ubuntu')
