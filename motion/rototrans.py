@@ -50,6 +50,29 @@ class Rototrans:
         )
 
     @classmethod
+    def from_random_data(
+        cls, distribution: str = "normal", size: tuple = (4, 4, 100), *args, **kwargs
+    ) -> xr.DataArray:
+        """
+        Create random data from a specified distribution (normal by default) using random walk
+
+        TODO: example
+
+        Parameters:
+            distribution: Distribution available in
+              [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions)
+            size: Shape of the desired array
+            args: Positional argument(s) to be passed to numpy.random.`distribution`
+            kwargs: Keyword argument(s) to be passed to numpy.random.`distribution`
+
+        Returns:
+            Random rototrans `xarray.DataArray` sampled from a given distribution
+        """
+        return Rototrans(
+            getattr(np.random, distribution)(size=size, *args, **kwargs).cumsum(-1)
+        )
+
+    @classmethod
     def from_euler_angles(
         cls,
         angles: Optional[xr.DataArray] = None,
