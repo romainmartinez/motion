@@ -118,10 +118,10 @@ def read_csv_or_excel(
     if last_column_to_remove:
         data = data.drop(data.columns[-last_column_to_remove:], axis=1)
 
-    channels, idx = caller.get_requested_channels_from_pandas(
+    channels, idx = caller._get_requested_channels_from_pandas(
         data.columns, header, usecols, prefix_delimiter, suffix_delimiter
     )
-    data = caller.reshape_flat_array(data.values[:, idx] if idx else data.values)
+    data = caller._reshape_flat_array(data.values[:, idx] if idx else data.values)
 
     attrs = attrs if attrs else {}
     if "rate" in attrs and time_frames is None:

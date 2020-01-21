@@ -17,7 +17,6 @@ def test_write_csv(data: xr.DataArray, wide: bool):
 
     if wide:
         if data.ndim > 2:
-            # TODO: test load csv for > 2 dimensions
             return
         newly_created_file = (
             pd.read_csv(temp_filename, index_col="time_frame")

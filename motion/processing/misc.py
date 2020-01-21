@@ -36,7 +36,6 @@ def detect_onset(
     threshold2: int = None,
     n_above2: int = 1,
 ) -> np.array:
-    # TODO: vectorize?
     if x.ndim != 1:
         raise ValueError(
             f"detect_onset works only for one-dimensional vector. You have {x.ndim} dimensions."

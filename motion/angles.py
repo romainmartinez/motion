@@ -16,18 +16,39 @@ class Angles:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Angles array with `axis`, `channel` and `time_frame` dimensions
-        Parameters
-        ----------
-        data
-            Array to be passed to xarray.DataArray
-        args
-            Positional argument(s) to be passed to xarray.DataArray
-        kwargs
-            Keyword argument(s) to be passed to xarray.DataArray
-        Returns
-        -------
-        Angles xarray.DataArray
+        Angles DataArray with `row`, `col` and `time_frame` dimensions.
+
+        To instantiate an `Angles` 4 by 4 and 100 frames filled with some random data:
+
+        ```python
+        import numpy as np
+        from motion import Angles
+
+        n_row = 4
+        n_col = 4
+        n_frames = 100
+        data = np.random.random(size=(n_row, n_col, n_frames))
+        angles = Angles(data)
+        ```
+
+        You can an associate time vector:
+
+        ```python
+        rate = 100  # Hz
+        time_frames = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
+        angles = Angles(data, time_frames=time_frames)
+        ```
+
+        Calling `Angles()` generate an empty array.
+
+        Arguments:
+            data: Array to be passed to xarray.DataArray
+            time_frames: Time vector in seconds associated with the `data` parameter
+            args: Positional argument(s) to be passed to xarray.DataArray
+            kwargs: Keyword argument(s) to be passed to xarray.DataArray
+
+        Returns:
+            Angles `xarray.DataArray` with the specified data and coordinates
         """
         coords = {}
         if data is None:

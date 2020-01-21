@@ -19,18 +19,46 @@ class Analogs:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Analogs array with `channel` and `time_frame` dimensions
-        Parameters
-        ----------
-        data
-            Array to be passed to xarray.DataArray
-        args
-            Positional argument(s) to be passed to xarray.DataArray
-        kwargs
-            Keyword argument(s) to be passed to xarray.DataArray
-        Returns
-        -------
-        Analogs xarray.DataArray
+        Analogs DataArray with `axis`, `channel` and `time_frame` dimensions.
+
+        To instantiate an `Analogs` with 4 channels and 100 frames filled with some random data:
+
+        ```python
+        import numpy as np
+        from motion import Analogs
+
+        n_channels = 4
+        n_frames = 100
+        data = np.random.random(size=(n_channels, n_frames))
+        analogs = Analogs(data)
+        ```
+
+        You can add the channel names:
+
+        ```python
+        names = ["A", "B", "C", "D"]
+        analogs = Analogs(data, channels=names)
+        ```
+
+        And an associate time vector:
+
+        ```python
+        rate = 100  # Hz
+        time_frames = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
+        analogs = Analogs(data, channels=names, time_frames=time_frames)
+        ```
+
+        Calling `Analogs()` generate an empty array.
+
+        Arguments:
+            data: Array to be passed to xarray.DataArray
+            channels: Channel names
+            time_frames: Time vector in seconds associated with the `data` parameter
+            args: Positional argument(s) to be passed to xarray.DataArray
+            kwargs: Keyword argument(s) to be passed to xarray.DataArray
+
+        Returns:
+            Analogs `xarray.DataArray` with the specified data and coordinates
         """
         coords = {}
         if data is None:
@@ -88,34 +116,27 @@ class Analogs:
         attrs: Optional[dict] = None,
     ) -> xr.DataArray:
         """
-        Read csv data and convert to Analogs DataArray
-        Parameters
-        ----------
-        filename:
-            Any valid string path
-        usecols:
-            All elements must either be positional or strings that correspond to column names.
-            For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
-        header:
-            Row of the header (0-indexed)
-        first_row:
-            First row of the data (0-indexed)
-        first_column:
-            First column of the data (0-indexed)
-        time_column:
-            Column of the time column. If None, we associate the index
-        last_column_to_remove:
-            If for some reason the csv reads extra columns, how many should be ignored
-        prefix_delimiter:
-            Delimiter that split each column name by its prefix (we keep only the column name)
-        suffix_delimiter:
-            Delimiter that split each column name by its suffix (we keep only the column name)
-        skiprows:
-            Line numbers to skip (0-indexed)
-        pandas_kwargs:
-            Keyword arguments to be passed to pandas.read_csv
-        attrs:
-            attrs to be passed to xr.DataArray. If attrs['rate'] is provided, compute the time_frame accordingly
+        Analogs DataArray from a csv file
+
+        TODO: example
+
+        Arguments:
+            filename: Any valid string path
+            usecols: All elements must either be positional or strings that correspond to column names.
+                For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
+            header: Row of the header (0-indexed)
+            first_row: First row of the data (0-indexed)
+            first_column: First column of the data (0-indexed)
+            time_column: Column of the time column. If None, we associate the index
+            last_column_to_remove: If for some reason the csv reads extra columns, how many should be ignored
+            prefix_delimiter: Delimiter that split each column name by its prefix (we keep only the column name)
+            suffix_delimiter: Delimiter that split each column name by its suffix (we keep only the column name)
+            skiprows: Line numbers to skip (0-indexed)
+            pandas_kwargs: Keyword arguments to be passed to pandas.read_csv
+            attrs: attrs to be passed to xr.DataArray. If attrs['rate'] is provided, compute the time_frame accordingly
+
+        Returns:
+            Analogs `xarray.DataArray` with the specified data and coordinates
         """
         return read_csv_or_excel(
             cls,
@@ -152,36 +173,28 @@ class Analogs:
         attrs: Optional[dict] = None,
     ) -> xr.DataArray:
         """
-        Read excel data and convert to Analogs DataArray
-        Parameters
-        ----------
-        filename:
-            Any valid string path
-        sheet_name:
-            Strings are used for sheet names. Integers are used in zero-indexed sheet positions
-        usecols:
-            All elements must either be positional or strings that correspond to column names.
-            For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
-        header:
-            Row of the header (0-indexed)
-        first_row:
-            First row of the data (0-indexed)
-        first_column:
-            First column of the data (0-indexed)
-        time_column:
-            Column of the time column. If None, we associate the index
-        last_column_to_remove:
-            If for some reason the csv reads extra columns, how many should be ignored
-        prefix_delimiter:
-            Delimiter that split each column name by its prefix (we keep only the column name)
-        suffix_delimiter:
-            Delimiter that split each column name by its suffix (we keep only the column name)
-        skiprows:
-            Line numbers to skip (0-indexed)
-        pandas_kwargs:
-            Keyword arguments to be passed to pandas.read_csv
-        attrs:
-            attrs to be passed to xr.DataArray. If attrs['rate'] is provided, compute the time_frame accordingly
+        Analogs DataArray from a excel file
+
+        TODO: example with code
+
+        Arguments:
+            filename: Any valid string path
+            sheet_name: Strings are used for sheet names. Integers are used in zero-indexed sheet positions
+            usecols: All elements must either be positional or strings that correspond to column names.
+                For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
+            header: Row of the header (0-indexed)
+            first_row: First row of the data (0-indexed)
+            first_column: First column of the data (0-indexed)
+            time_column: Column of the time column. If None, we associate the index
+            last_column_to_remove: If for some reason the csv reads extra columns, how many should be ignored
+            prefix_delimiter: Delimiter that split each column name by its prefix (we keep only the column name)
+            suffix_delimiter: Delimiter that split each column name by its suffix (we keep only the column name)
+            skiprows: Line numbers to skip (0-indexed)
+            pandas_kwargs: Keyword arguments to be passed to pandas.read_csv
+            attrs: attrs to be passed to xr.DataArray. If attrs['rate'] is provided, compute the time_frame accordingly
+
+        Returns:
+            Analogs `xarray.DataArray` with the specified data and coordinates
         """
         return read_csv_or_excel(
             cls,
@@ -204,40 +217,39 @@ class Analogs:
     @classmethod
     def from_sto(
         cls, filename: Union[str, Path], end_header: Optional[bool] = None, **kwargs
-    ):
+    ) -> xr.DataArray:
         """
-        Read a STO file and return an Analogs DataArray
-        Parameters
-        ----------
-        filename
-            Any valid string path
-        end_header
-            Index where `endheader` appears (0 indexed). If not provided, the index is automatically determined.
-        kwargs
-            Keyword arguments to be passed to `from_csv`
-        Returns
-        -------
-        Analogs xarray.DataArray
+        Analogs DataArray from a sto file
+
+        TODO: example with code
+
+        Arguments:
+            filename: Any valid string path
+            end_header: Index where `endheader` appears (0 indexed).
+                If not provided, the index is automatically determined.
+            kwargs: Keyword arguments to be passed to `from_csv`
+
+        Returns:
+            Analogs `xarray.DataArray` with the specified data and coordinates
         """
         return read_sto_or_mot(cls, filename, end_header, **kwargs)
 
     @classmethod
     def from_mot(
         cls, filename: Union[str, Path], end_header: Optional[bool] = None, **kwargs
-    ):
+    ) -> xr.DataArray:
         """
-        Read a MOT file and return an Analogs DataArray
-        Parameters
-        ----------
-        filename
-            Any valid string path
-        end_header
-            Index where `endheader` appears (0 indexed). If not provided, the index is automatically determined.
-        kwargs
-            Keyword arguments to be passed to `from_csv`
-        Returns
-        -------
-        Analogs xarray.DataArray
+        Analogs DataArray from a mot file
+
+        TODO: example with code
+
+        Arguments:
+            filename: Any valid string path
+            end_header: Index where `endheader` appears (0 indexed). If not provided, the index is automatically determined.
+            kwargs: Keyword arguments to be passed to `from_csv`
+
+        Returns:
+            Analogs `xarray.DataArray` with the specified data and coordinates
         """
         return read_sto_or_mot(cls, filename, end_header, **kwargs)
 
@@ -249,43 +261,61 @@ class Analogs:
         prefix_delimiter: Optional[str] = None,
         suffix_delimiter: Optional[str] = None,
         attrs: Optional[dict] = None,
-    ):
+    ) -> xr.DataArray:
         """
-        Read c3d data and convert to Analogs DataArray
-        Parameters
-        ----------
-        filename
-            Any valid string path
-        usecols
-            All elements must either be positional or strings that correspond to column names.
-            For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
-        prefix_delimiter:
-            Delimiter that split each column name by its prefix (we keep only the column name)
-        suffix_delimiter:
-            Delimiter that split each column name by its suffix (we keep only the column name)
-        attrs
-            attrs to be passed to xr.DataArray
-        Returns
-        -------
-        Analogs xarray.DataArray
+        Analogs DataArray from a c3d file
+
+        To read [this c3d file](https://github.com/romainmartinez/motion/blob/master/tests/data/markers_analogs.c3d),
+        type:
+
+        ```python
+        from motion import Analogs
+
+        data_path = "/home/romain/Documents/codes/motion/tests/data/markers_analogs.c3d"
+        analogs = Analogs.from_c3d(data_path)
+        ```
+
+        If you know the channel names, you can retrieve only the ones you are interested in:
+
+        ```python
+        channels = ["Voltage.1", "Voltage.2", "Voltage.3"]
+        analogs = Analogs.from_c3d(data_path, usecols=channels)
+        ```
+
+        Sometimes, t
+
+        Arguments:
+            filename: Any valid string path
+            usecols: All elements must either be positional or strings that correspond to column names.
+                For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
+            prefix_delimiter: Delimiter that split each column name by its prefix (we keep only the column name)
+            suffix_delimiter: Delimiter that split each column name by its suffix (we keep only the column name)
+            attrs: attrs to be passed to xr.DataArray
+
+        Returns:
+            Analogs `xarray.DataArray` with the specified data and coordinates
         """
         return read_c3d(
             cls, filename, usecols, prefix_delimiter, suffix_delimiter, attrs
         )
 
     @staticmethod
-    def reshape_flat_array(array: Union[np.array, np.ndarray]) -> xr.DataArray:
+    def _reshape_flat_array(array: Union[np.array, np.ndarray]) -> xr.DataArray:
         """
         Takes a tabular numpy array (frames x N) and return a (N x frames) numpy array
-        Parameters
-        ----------
-        array:
-            A tabular array (frames x N) with N = 3 x marker
+
+        TODO: example with code
+
+        Arguments:
+            array: A tabular array (frames x N) with N = 3 x marker
+
+        Returns:
+            Reshaped Analogs `xarray.DataArray`
         """
         return array.T
 
     @staticmethod
-    def get_requested_channels_from_pandas(
+    def _get_requested_channels_from_pandas(
         columns, header, usecols, prefix_delimiter: str, suffix_delimiter: str
     ) -> Tuple[Optional[list], Optional[list]]:
         if usecols:

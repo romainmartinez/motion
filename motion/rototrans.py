@@ -16,18 +16,39 @@ class Rototrans:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Rototrans array with `axis`, `channel` and `time_frame` dimensions
-        Parameters
-        ----------
-        data
-            Array to be passed to xarray.DataArray
-        args
-            Positional argument(s) to be passed to xarray.DataArray
-        kwargs
-            Keyword argument(s) to be passed to xarray.DataArray
-        Returns
-        -------
-        Rototrans xarray.DataArray
+        Rototrans DataArray with `axis`, `channel` and `time_frame` dimensions
+
+        To instantiate a `Rototrans` 4 by 4 and 100 frames filled with some random data:
+
+        ```python
+        import numpy as np
+        from motion import Rototrans
+
+        n_row = 4
+        n_col = 4
+        n_frames = 100
+        data = np.random.random(size=(n_row, n_col, n_frames))
+        rt = Rototrans(data)
+        ```
+
+        You can an associate time vector:
+
+        ```python
+        rate = 100  # Hz
+        time_frames = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
+        rt = Rototrans(data, time_frames=time_frames)
+        ```
+
+        Calling `Rototrans()` generate an empty array.
+
+        Arguments:
+            data: Array to be passed to xarray.DataArray
+            time_frames: Time vector in seconds associated with the `data` parameter
+            args: Positional argument(s) to be passed to xarray.DataArray
+            kwargs: Keyword argument(s) to be passed to xarray.DataArray
+
+        Returns:
+            Rototrans `xarray.DataArray` with the specified data and coordinates
         """
         coords = {}
         if data is None:
@@ -78,16 +99,18 @@ class Rototrans:
         angles: Optional[xr.DataArray] = None,
         angle_sequence: Optional[str] = None,
         translations: Optional[xr.DataArray] = None,
-    ):
+    ) -> xr.DataArray:
         """
-        Get rototrans DataArray from angles/translations
-        Parameters
-        ----------
-        angles:
-            Euler angles of the rototranslation
-        angle_sequence:
-            Euler sequence of angles; valid values are all permutation of axes (e.g. "xyz", "yzx", ...)
-        translations
-            Translation part of the Rototrans matrix
+        Rototrans DataArray from a rototranslation matrix and specified angle sequence
+
+        TODO: example with code
+
+        Arguments:
+            angles: Euler angles of the rototranslation matrix
+            angle_sequence: Euler sequence of angles. Valid values are all permutations of "xyz"
+            translations: Translation part of the Rototrans matrix
+
+        Returns:
+            Rototrans `xarray.DataArray` from the specified angles and angles sequence.
         """
         return rototrans_from_euler_angles(cls, angles, angle_sequence, translations)

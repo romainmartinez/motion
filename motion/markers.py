@@ -19,20 +19,47 @@ class Markers:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Markers array with `axis`, `channel` and `time_frame` dimensions
-        Parameters
-        ----------
-        data
-            Array to be passed to xarray.DataArray
-        channels
-            Channel names
-        args
-            Positional argument(s) to be passed to xarray.DataArray
-        kwargs
-            Keyword argument(s) to be passed to xarray.DataArray
-        Returns
-        -------
-        Markers xarray.DataArray
+        Markers DataArray with `axis`, `channel` and `time_frame` dimensions.
+
+        To instantiate a `Markers` with 4 channels and 100 frames filled with some random data:
+
+        ```python
+        import numpy as np
+        from motion import Markers
+
+        n_axis = 3
+        n_channels = 4
+        n_frames = 100
+        data = np.random.random(size=(n_axis, n_channels, n_frames))
+        markers = Markers(data)
+        ```
+
+        You can add the channel names:
+
+        ```python
+        names = ["A", "B", "C", "D"]
+        markers = Markers(data, channels=names)
+        ```
+
+        And an associate time vector:
+
+        ```python
+        rate = 100  # Hz
+        time_frames = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
+        markers = Markers(data, channels=names, time_frames=time_frames)
+        ```
+
+        Calling `Markers()` generate an empty array.
+
+        Arguments:
+            data: Array to be passed to xarray.DataArray
+            channels: Channel names
+            time_frames: Time vector in seconds associated with the `data` parameter
+            args: Positional argument(s) to be passed to xarray.DataArray
+            kwargs: Keyword argument(s) to be passed to xarray.DataArray
+
+        Returns:
+            Markers `xarray.DataArray` with the specified data and coordinates
         """
         coords = {}
         if data is None:
@@ -94,34 +121,27 @@ class Markers:
         attrs: Optional[dict] = None,
     ) -> xr.DataArray:
         """
-        Read csv data and convert to Markers DataArray
-        Parameters
-        ----------
-        filename:
-            Any valid string path
-        usecols:
-            All elements must either be positional or strings that correspond to column names.
-            For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
-        header:
-            Row of the header (0-indexed)
-        first_row:
-            First row of the data (0-indexed)
-        first_column:
-            First column of the data (0-indexed)
-        time_column:
-            Column of the time column. If None, we associate the index
-        last_column_to_remove:
-            If for some reason the csv reads extra columns, how many should be ignored
-        prefix_delimiter:
-            Delimiter that split each column name by its prefix (we keep only the column name)
-        suffix_delimiter:
-            Delimiter that split each column name by its suffix (we keep only the column name)
-        skiprows:
-            Line numbers to skip (0-indexed)
-        pandas_kwargs:
-            Keyword arguments to be passed to pandas.read_csv
-        attrs:
-            attrs to be passed to xr.DataArray. If attrs['rate'] is provided, compute the time_frame accordingly
+        Markers DataArray from a csv file
+
+        TODO: example with code
+
+        Arguments:
+            filename: Any valid string path
+            usecols: All elements must either be positional or strings that correspond to column names.
+                For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
+            header: Row of the header (0-indexed)
+            first_row: First row of the data (0-indexed)
+            first_column: First column of the data (0-indexed)
+            time_column: Column of the time column. If None, we associate the index
+            last_column_to_remove: If for some reason the csv reads extra columns, how many should be ignored
+            prefix_delimiter: Delimiter that split each column name by its prefix (we keep only the column name)
+            suffix_delimiter: Delimiter that split each column name by its suffix (we keep only the column name)
+            skiprows: Line numbers to skip (0-indexed)
+            pandas_kwargs: Keyword arguments to be passed to pandas.read_csv
+            attrs: attrs to be passed to xr.DataArray. If attrs['rate'] is provided, compute the time_frame accordingly
+
+        Returns:
+            Markers `xarray.DataArray` with the specified data and coordinates
         """
         return read_csv_or_excel(
             cls,
@@ -158,36 +178,28 @@ class Markers:
         attrs: Optional[dict] = None,
     ) -> xr.DataArray:
         """
-        Read excel data and convert to Markers DataArray
-        Parameters
-        ----------
-        filename:
-            Any valid string path
-        sheet_name:
-            Strings are used for sheet names. Integers are used in zero-indexed sheet positions
-        usecols:
-            All elements must either be positional or strings that correspond to column names.
-            For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
-        header:
-            Row of the header (0-indexed)
-        first_row:
-            First row of the data (0-indexed)
-        first_column:
-            First column of the data (0-indexed)
-        time_column:
-            Column of the time column. If None, we associate the index
-        last_column_to_remove:
-            If for some reason the csv reads extra columns, how many should be ignored
-        prefix_delimiter:
-            Delimiter that split each column name by its prefix (we keep only the column name)
-        suffix_delimiter:
-            Delimiter that split each column name by its suffix (we keep only the column name)
-        skiprows:
-            Line numbers to skip (0-indexed)
-        pandas_kwargs:
-            Keyword arguments to be passed to pandas.read_csv
-        attrs:
-            attrs to be passed to xr.DataArray. If attrs['rate'] is provided, compute the time_frame accordingly
+        Markers DataArray from a excel file
+
+        TODO: example with code
+
+        Arguments:
+            filename: Any valid string path
+            sheet_name: Strings are used for sheet names. Integers are used in zero-indexed sheet positions
+            usecols: All elements must either be positional or strings that correspond to column names.
+                For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
+            header: Row of the header (0-indexed)
+            first_row: First row of the data (0-indexed)
+            first_column: First column of the data (0-indexed)
+            time_column: Column of the time column. If None, we associate the index
+            last_column_to_remove: If for some reason the csv reads extra columns, how many should be ignored
+            prefix_delimiter: Delimiter that split each column name by its prefix (we keep only the column name)
+            suffix_delimiter: Delimiter that split each column name by its suffix (we keep only the column name)
+            skiprows: Line numbers to skip (0-indexed)
+            pandas_kwargs: Keyword arguments to be passed to pandas.read_csv
+            attrs: attrs to be passed to xr.DataArray. If attrs['rate'] is provided, compute the time_frame accordingly
+
+        Returns:
+            Markers `xarray.DataArray` with the specified data and coordinates
         """
         return read_csv_or_excel(
             cls,
@@ -215,55 +227,45 @@ class Markers:
         prefix_delimiter: Optional[str] = None,
         suffix_delimiter: Optional[str] = None,
         attrs: Optional[dict] = None,
-    ):
+    ) -> xr.DataArray:
         """
-        Read c3d data and convert to Markers DataArray
-        Parameters
-        ----------
-        filename
-            Any valid string path
-        usecols
-            All elements must either be positional or strings that correspond to column names.
-            For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
-        prefix_delimiter:
-            Delimiter that split each column name by its prefix (we keep only the column name)
-        suffix_delimiter:
-            Delimiter that split each column name by its suffix (we keep only the column name)
-        attrs
-            attrs to be passed to xr.DataArray
-        Returns
-        -------
-        Markers xarray.DataArray
+        Markers DataArray from a c3d file
+
+        TODO: example with code
+
+        Arguments:
+            filename: Any valid string path
+            usecols: All elements must either be positional or strings that correspond to column names.
+                For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
+            prefix_delimiter: Delimiter that split each column name by its prefix (we keep only the column name)
+            suffix_delimiter: Delimiter that split each column name by its suffix (we keep only the column name)
+            attrs: attrs to be passed to xr.DataArray
+
+        Returns:
+            Markers `xarray.DataArray` with the specified data and coordinates
         """
         return read_c3d(
             cls, filename, usecols, prefix_delimiter, suffix_delimiter, attrs
         )
 
     @classmethod
-    def from_trc(cls, filename: Union[str, Path], **kwargs):
+    def from_trc(cls, filename: Union[str, Path], **kwargs) -> xr.DataArray:
         """
-        Read a TRC file and return a Markers DataArray
-        Parameters
-        ----------
-        filename
-            Any valid string path
-        kwargs
-            Keyword arguments to be passed to `from_csv`
-        Returns
-        -------
-        Markers xarray.DataArray
+        Markers DataArray from a trc file
+
+        TODO: example with code
+
+        Arguments:
+            filename: Any valid string path
+            kwargs: Keyword arguments to be passed to `from_csv`
+
+        Returns:
+            Markers `xarray.DataArray` with the specified data and coordinates
         """
         return read_trc(cls, filename, **kwargs)
 
     @staticmethod
-    def reshape_flat_array(array: Union[np.array, np.ndarray]) -> xr.DataArray:
-        """
-        Takes a tabular numpy array (frames x [N * 3]) and return a (3 x N x frames) numpy array
-        Parameters
-        ----------
-        array:
-            A tabular array (frames x N) with N = 3 x marker
-        """
+    def _reshape_flat_array(array: Union[np.array, np.ndarray]) -> xr.DataArray:
         if array.shape[1] % 3 != 0:
             raise IndexError(
                 "Array second dimension should be divisible by 3. "
@@ -272,7 +274,7 @@ class Markers:
         return array.T.reshape((3, int(array.shape[1] / 3), array.shape[0]), order="F")
 
     @staticmethod
-    def get_requested_channels_from_pandas(
+    def _get_requested_channels_from_pandas(
         columns, header, usecols, prefix_delimiter: str, suffix_delimiter: str
     ) -> Tuple[Optional[list], Optional[list]]:
         if usecols:

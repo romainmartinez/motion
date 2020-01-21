@@ -17,12 +17,23 @@ nav:
   - User Guide: user-guide.md
   - Case Studies: case-studies.md
   - About: about.md
-  - API reference: api.md
+  - API reference:
+      analogs[example]: api/analogs.md
+      angles[example]: api/angles.md
+      markers[example]: api/markers.md
+      dataarray_accessor[example]: api/dataarray_accessor.md
+      rototrans[example]: api/rototrans.md
 
 markdown_extensions:
   - admonition
   - footnotes
   - codehilite
+
+plugins:
+  - search
+  - mkdocstrings:
+      watch:
+        - motion
 
 # Repository
 repo_name: 'pyomeca/pyomeca'

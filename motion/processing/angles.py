@@ -2,7 +2,9 @@ import numpy as np
 import xarray as xr
 
 
-def angles_from_rototrans(caller, rototrans: xr.DataArray, angle_sequence: str):
+def angles_from_rototrans(
+    caller, rototrans: xr.DataArray, angle_sequence: str
+) -> xr.DataArray:
     """
     Get euler angles with specified angle sequence
     Parameters
