@@ -12,6 +12,7 @@ def test_ezc3d():
 
     # c3d = ezc3d.c3d("markers_analogs.c3d")
     array = c3d["data"]["points"]
+    array[array == 0] = np.nan
     decimal = 6
 
     np.testing.assert_array_equal(
