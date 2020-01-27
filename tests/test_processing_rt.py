@@ -12,7 +12,7 @@ SEQ = (
 )
 SEQ = [s for s in SEQ if s not in ["yxz", "zyx"]]
 EPSILON = 1e-12
-ANGLES = Angles(np.random.rand(40, 1, 100))
+ANGLES = Angles(np.random.rand(4, 1, 100))
 
 
 @pytest.mark.parametrize("seq", SEQ)

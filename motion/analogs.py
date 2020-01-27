@@ -83,9 +83,25 @@ class Analogs:
         """
         Create random data from a specified distribution (normal by default) using random walk
 
-        TODO: example
+        To instantiate an `Analogs` with some random data sampled from a normal distribution:
 
-        Parameters:
+        ```python
+        from motion import Analogs
+
+        n_channels = 10
+        n_frames = 100
+        size = n_channels, n_frames
+        analogs = Analogs.from_random_data(size=size)
+        ```
+
+        You can choose any distribution available in
+            [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions):
+
+        ```python
+        analogs = Analogs.from_random_data(distribution="uniform", size=size, low=1, high=10)
+        ```
+
+        Arguments:
             distribution: Distribution available in
               [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions)
             size: Shape of the desired array
@@ -118,7 +134,56 @@ class Analogs:
         """
         Analogs DataArray from a csv file
 
-        TODO: example
+        To read [this csv file](https://github.com/romainmartinez/motion/blob/master/tests/data/analogs.csv),
+        type:
+
+        ```python
+        from motion import Analogs
+
+        data_path = "./tests/data/analogs.csv"
+        analogs = Analogs.from_csv(data_path, header=3, first_row=5, first_column=2)
+        ```
+
+        If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
+
+        ```python
+        channels = ["IM EMG1", "IM EMG2", "IM EMG3"]
+        analogs = Analogs.from_csv(
+            data_path, header=3, first_row=5, first_column=2, usecols=channels
+        )
+        ```
+
+        Or by position:
+
+        ```python
+        channels = [5, 6, 7]
+        analogs = Analogs.from_csv(
+            data_path, header=3, first_row=5, first_column=2, usecols=channels
+        )
+        ```
+
+        Sometimes the channel name is delimited by a suffix or prefix.
+        To access the prefix, you can specify `prefix_delimiter` and `suffix_delimiter` for the suffix.
+        For example, if the name is `"IM EMG1"` and you specify `suffix_delimiter=" "`, you will select "IM".
+        Similarly, if you specify `prefix_delimiter=" ":
+
+        ```python
+        channels = ["EMG1", "EMG2", "EMG3"]
+        analogs = Analogs.from_csv(
+            data_path,
+            header=3,
+            first_row=5,
+            first_column=2,
+            usecols=channels,
+            suffix_delimiter=" ",
+        )
+        ```
+
+        It is also possible to specify a column containing the time vector:
+
+        ```python
+        analogs = Analogs.from_csv(data_path, header=3, first_row=5, first_column=1, time_column=0)
+        ```
 
         Arguments:
             filename: Any valid string path
@@ -175,7 +240,39 @@ class Analogs:
         """
         Analogs DataArray from a excel file
 
-        TODO: example with code
+        To read [this excel file](https://github.com/romainmartinez/motion/blob/master/tests/data/analogs.xlsx),
+        type:
+
+        ```python
+        from motion import Analogs
+
+        data_path = "./tests/data/analogs.xlsx"
+        analogs = Analogs.from_excel(data_path, header=3, first_row=5, first_column=2)
+        ```
+
+        If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
+
+        ```python
+        channels = ["A"]
+        analogs = Analogs.from_excel(
+            data_path, header=3, first_row=5, first_column=2, usecols=channels
+        )
+        ```
+
+        Or by position:
+
+        ```python
+        channels = [1]
+        analogs = Analogs.from_excel(
+            data_path, header=3, first_row=5, first_column=2, usecols=channels
+        )
+        ```
+
+        It is also possible to specify a column containing the time vector:
+
+        ```python
+        analogs = Analogs.from_excel(data_path, header=3, first_row=5, first_column=1, time_column=0)
+        ```
 
         Arguments:
             filename: Any valid string path
@@ -221,7 +318,29 @@ class Analogs:
         """
         Analogs DataArray from a sto file
 
-        TODO: example with code
+        To read [this sto file](https://github.com/romainmartinez/motion/blob/master/tests/data/inverse_dyn.sto),
+        type:
+
+        ```python
+        from motion import Analogs
+
+        data_path = "./tests/data/inverse_dyn.sto"
+        analogs = Analogs.from_sto(data_path)
+        ```
+
+        If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
+
+        ```python
+        channels = ["shoulder_plane_moment", "shoulder_ele_moment"]
+        analogs = Analogs.from_sto(data_path, usecols=channels)
+        ```
+
+        Or by position:
+
+        ```python
+        channels = [3, 4]
+        analogs = Analogs.from_sto(data_path, usecols=channels)
+        ```
 
         Arguments:
             filename: Any valid string path
@@ -241,7 +360,29 @@ class Analogs:
         """
         Analogs DataArray from a mot file
 
-        TODO: example with code
+        To read [this mot file](https://github.com/romainmartinez/motion/blob/master/tests/data/inverse_kin.mot),
+        type:
+
+        ```python
+        from motion import Analogs
+
+        data_path = "./tests/data/inverse_kin.mot"
+        analogs = Analogs.from_mot(data_path)
+        ```
+
+        If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
+
+        ```python
+        channels = ["elbow_flexion", "pro_sup"]
+        analogs = Analogs.from_mot(data_path, usecols=channels)
+        ```
+
+        Or by position:
+
+        ```python
+        channels = [3, 4]
+        analogs = Analogs.from_mot(data_path, usecols=channels)
+        ```
 
         Arguments:
             filename: Any valid string path
@@ -271,7 +412,7 @@ class Analogs:
         ```python
         from motion import Analogs
 
-        data_path = "/home/romain/Documents/codes/motion/tests/data/markers_analogs.c3d"
+        data_path = "./tests/data/markers_analogs.c3d"
         analogs = Analogs.from_c3d(data_path)
         ```
 
@@ -311,8 +452,6 @@ class Analogs:
     def _reshape_flat_array(array: Union[np.array, np.ndarray]) -> xr.DataArray:
         """
         Takes a tabular numpy array (frames x N) and return a (N x frames) numpy array
-
-        TODO: example with code
 
         Arguments:
             array: A tabular array (frames x N) with N = 3 x marker

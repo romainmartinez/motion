@@ -70,7 +70,7 @@ class MecaDataArrayAccessor(object):
 
         TODO: example with code
 
-        Parameters:
+        Arguments:
             other: second array to multiply
 
         Returns:
@@ -84,7 +84,7 @@ class MecaDataArrayAccessor(object):
 
         TODO: example with code
 
-        Parameters:
+        Arguments:
             args: For other positional arguments,
               see the [numpy docs](https://docs.scipy.org/doc/numpy/reference/generated/numpy.square.html)
             kwargs: For other keyword-only arguments,
@@ -101,7 +101,7 @@ class MecaDataArrayAccessor(object):
 
         TODO: example with code
 
-        Parameters:
+        Arguments:
             args: For other positional arguments,
               see the [numpy docs](https://docs.scipy.org/doc/numpy/reference/generated/numpy.sqrt.html)
             kwargs: For other keyword-only arguments,
@@ -118,7 +118,7 @@ class MecaDataArrayAccessor(object):
 
         TODO: example with code
 
-        Parameters:
+        Arguments:
             dim: Name(s) of the data dimension(s)
             ord: Order of the norm
 
@@ -146,7 +146,7 @@ class MecaDataArrayAccessor(object):
 
         TODO: example with code
 
-        Parameters:
+        Arguments:
             mu: mean of the signal to subtract. If not provided, takes the mean along the time_frame axis
 
         Returns:
@@ -164,7 +164,7 @@ class MecaDataArrayAccessor(object):
 
         TODO: example with code
 
-        Parameters:
+        Arguments:
             ref: Reference value. Could have multiple dimensions. If not provided, takes the mean along the time_frame axis
             scale: Scale on which to express array (e.g. if 100, the signal is normalized from 0 to 100)
         Returns:
@@ -184,7 +184,7 @@ class MecaDataArrayAccessor(object):
 
         TODO: example with code
 
-        Parameters:
+        Arguments:
             time_vector: desired time vector (first to last time_frame with n_frames points by default)
             n_frames: if time_vector is not specified, the length of the desired time vector
             norm_time_frame: Normalize the time_frame dimension from 0 to 100 if True
@@ -205,7 +205,7 @@ class MecaDataArrayAccessor(object):
 
         todo: example
 
-        Parameters:
+        Arguments:
             freq: Sampling frequency
             order: Order of the filter
             cutoff: Cut-off frequency
@@ -223,7 +223,7 @@ class MecaDataArrayAccessor(object):
 
         todo: example
 
-        Parameters:
+        Arguments:
             freq: Sampling frequency
             order: Order of the filter
             cutoff: Cut-off frequency
@@ -241,7 +241,7 @@ class MecaDataArrayAccessor(object):
 
         todo: example
 
-        Parameters:
+        Arguments:
             freq: Sampling frequency
             order: Order of the filter
             cutoff: Cut-off frequency such as (lower, upper)
@@ -259,7 +259,7 @@ class MecaDataArrayAccessor(object):
 
         todo: example
 
-        Parameters:
+        Arguments:
             freq: Sampling frequency
             order: Order of the filter
             cutoff: Cut-off frequency such as (lower, upper)
@@ -276,7 +276,7 @@ class MecaDataArrayAccessor(object):
 
        todo: example
 
-       Parameters:
+       Arguments:
             freq: Sampling frequency (usually in array.attrs['rate'])
             only_positive: Returns only the positives frequencies if true
 
@@ -298,7 +298,7 @@ class MecaDataArrayAccessor(object):
 
         todo: example
 
-        Parameters:
+        Arguments:
             threshold: minimum amplitude to detect
             n_above: minimum number of continuous samples >= `threshold` to detect
             n_below: minimum number of continuous samples below `threshold`
@@ -323,7 +323,7 @@ class MecaDataArrayAccessor(object):
 
         todo: example
 
-        Parameters:
+        Arguments:
             threshold: Multiple of standard deviation from which data is considered outlier
 
         Returns:

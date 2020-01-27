@@ -71,9 +71,24 @@ class Angles:
         """
         Create random data from a specified distribution (normal by default) using random walk
 
-        TODO: example
+        To instantiate an `Angles` with some random data sampled from a normal distribution:
 
-        Parameters:
+        ```python
+        from motion import Angles
+
+        n_frames = 100
+        size = 10, 10, n_frames
+        angles = Angles.from_random_data(size=size)
+        ```
+
+        You can choose any distribution available in
+            [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions):
+
+        ```python
+        angles = Angles.from_random_data(distribution="uniform", size=size, low=1, high=10)
+        ```
+
+        Arguments:
             distribution: Distribution available in
               [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions)
             size: Shape of the desired array
@@ -94,7 +109,17 @@ class Angles:
         """
         Angles DataArray from a rototranslation matrix and specified angle sequence
 
-        TODO: example with code
+        To get the euler angles from a random rototranslation matrix with a given angle sequence type:
+
+        ```python
+        from motion import Angles, Rototrans
+
+        size = (4, 4, 100)
+        rt = Rototrans.from_random_data(size=size)
+        angles_sequence = "xyz"
+
+        angles = Angles.from_rototrans(rototrans=rt, angle_sequence=angles_sequence)
+        ```
 
         Arguments:
             rototrans: Rototranslation matrix created with motion.Rototrans()

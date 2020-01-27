@@ -77,9 +77,24 @@ class Rototrans:
         """
         Create random data from a specified distribution (normal by default) using random walk
 
-        TODO: example
+        To instantiate a `Rototrans` with some random data sampled from a normal distribution:
 
-        Parameters:
+        ```python
+        from motion import Rototrans
+
+        n_frames = 100
+        size = 4, 4, n_frames
+        rt = Rototrans.from_random_data(size=size)
+        ```
+
+        You can choose any distribution available in
+            [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions):
+
+        ```python
+        rt = Rototrans.from_random_data(distribution="uniform", size=size, low=1, high=10)
+        ```
+
+        Arguments:
             distribution: Distribution available in
               [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions)
             size: Shape of the desired array
@@ -101,9 +116,28 @@ class Rototrans:
         translations: Optional[xr.DataArray] = None,
     ) -> xr.DataArray:
         """
-        Rototrans DataArray from a rototranslation matrix and specified angle sequence
+        Rototrans DataArray from euler angles and specified angle sequence
 
-        TODO: example with code
+        To get the rototranslation matrix from random euler angles with a given angle sequence type:
+
+        ```python
+        from motion import Angles, Rototrans
+
+        size = (3, 1, 100)
+        angles = Angles.from_random_data(size=size)
+        angles_sequence = "xyz"
+
+        rt = Rototrans.from_euler_angles(angles=angles, angle_sequence=angles_sequence)
+        ```
+
+        A translation vector can also be specified:
+
+        ```python
+        translation = Angles.from_random_data(size=size)
+        rt = Rototrans.from_euler_angles(
+            angles=angles, angle_sequence=angles_sequence, translations=translation
+        )
+        ```
 
         Arguments:
             angles: Euler angles of the rototranslation matrix

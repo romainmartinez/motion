@@ -125,6 +125,10 @@ def test_csv_edge_cases():
     with pytest.raises(ValueError):
         Analogs.from_csv(**analogs_csv_kwargs, time_column=[20.0])
 
+    assert Analogs.from_csv(
+        **analogs_csv_kwargs, prefix_delimiter="G", suffix_delimiter="M"
+    ).shape == (38, 11600)
+
 
 def test_csv_without_header():
     is_expected_array(
