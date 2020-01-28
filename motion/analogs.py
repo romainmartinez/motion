@@ -182,7 +182,9 @@ class Analogs:
         It is also possible to specify a column containing the time vector:
 
         ```python
-        analogs = Analogs.from_csv(data_path, header=3, first_row=5, first_column=1, time_column=0)
+        analogs = Analogs.from_csv(
+            data_path, header=3, first_row=5, first_column=1, time_column=0
+        )
         ```
 
         Arguments:
@@ -271,7 +273,9 @@ class Analogs:
         It is also possible to specify a column containing the time vector:
 
         ```python
-        analogs = Analogs.from_excel(data_path, header=3, first_row=5, first_column=1, time_column=0)
+        analogs = Analogs.from_excel(
+            data_path, header=3, first_row=5, first_column=1, time_column=0
+        )
         ```
 
         Arguments:

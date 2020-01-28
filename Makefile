@@ -4,16 +4,16 @@ lint:
 	black .
 
 test:
-	pytest --cov-report term-missing --color=yes --cov=motion tests
+	pytest --cov-report term-missing --color=yes --cov=motion tests -rxXs
 
 nb_to_md:
 	jupyter nbconvert --to markdown notebooks/*.ipynb --output-dir='./docs'
 
 doc:
-	cp readme.md docs/index.md; \
+	cp README.md docs/index.md; \
 	mkdocs gh-deploy
 
 clean:
 	rm -rf .pytest_cache .coverage site notebooks/.ipynb_checkpoints
 
-all: lint test nb_to_md doc clean
+all: lint nb_to_md test doc clean

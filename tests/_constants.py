@@ -1,9 +1,18 @@
 from pathlib import Path
 
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 # Path to data
 from motion import Analogs, Markers
+
+mpl.rcParams["axes.spines.right"] = False
+mpl.rcParams["axes.spines.top"] = False
+plt.style.use("seaborn-ticks")  # bmh, ggplot, seaborn-whitegrid
+
+np.random.seed(42)  # to make the random sampling consistent across runs
 
 if "tests" in f"{Path('.').absolute()}":
     DATA_FOLDER = Path("data")

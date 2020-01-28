@@ -1,3 +1,5 @@
+import inspect
+import re
 import time
 from functools import wraps
 
@@ -78,3 +80,21 @@ def timing(f):
         return result
 
     return wrapper
+
+
+def function_has_return(func):
+    """Caution: this will return True if the function contains the word 'return'"""
+    lines, _ = inspect.getsourcelines(func)
+    return any("return" in line for line in lines)
+
+
+def extract_code_blocks_from_md(
+    docstring: str, start_code_block: str = "```python", end_code_block: str = "```"
+) -> str:
+    return inspect.cleandoc(
+        "\n".join(
+            re.findall(
+                fr"{start_code_block}(.*?){end_code_block}", docstring, re.DOTALL
+            )
+        )
+    )

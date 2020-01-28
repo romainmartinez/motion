@@ -47,17 +47,8 @@ See Pyomeca's [documentation site](https://romainmartinez.github.io/motion).
 Here is an example of a complete EMG pipeline in just one command:
 
 ```python
-from pyomeca import Analogs3d
+from motion import Analogs
 
-emg = (
-    Analogs3d.from_c3d("path/to/your/c3d.c3d", names=['anterior_deltoid', 'biceps'])
-    .band_pass(freq=2000, order=4, cutoff=[10, 425])
-    .center()
-    .rectify()
-    .low_pass(freq=2000, order=4, cutoff=5)
-    .normalization()
-    .time_normalize()
-)
 ```
 
 ## Features

@@ -49,17 +49,17 @@ def angles_from_rototrans(
         angles[0, :, :] = -np.arcsin(rototrans[0, 1, :])
         angles[1, :, :] = -np.arcsin(rototrans[2, 0, :])
     elif angle_sequence == "xyz":
-        angles[0, :, :] = np.arctan2(rototrans[1, 2, :], rototrans[2, 2, :])
-        angles[1, :, :] = np.arcsin(rototrans[0, 1, :])
+        angles[0, :, :] = np.arctan2(-rototrans[1, 2, :], rototrans[2, 2, :])
+        angles[1, :, :] = np.arcsin(rototrans[0, 2, :])
         angles[2, :, :] = np.arctan2(-rototrans[0, 1, :], rototrans[0, 0, :])
     elif angle_sequence == "xzy":
         angles[0, :, :] = np.arctan2(rototrans[2, 1, :], rototrans[1, 1, :])
         angles[2, :, :] = np.arctan2(rototrans[0, 2, :], rototrans[0, 0, :])
-        angles[1, :, :] = -np.arcsin(rototrans[0, 1, :])
+        angles[1, :, :] = np.arcsin(-rototrans[0, 1, :])
     elif angle_sequence == "yzx":
         angles[2, :, :] = np.arctan2(-rototrans[1, 2, :], rototrans[1, 1, :])
         angles[0, :, :] = np.arctan2(-rototrans[2, 0, :], rototrans[0, 0, :])
-        angles[1, :, :] = np.arcsin(rototrans[1, 2, :])
+        angles[1, :, :] = np.arcsin(rototrans[1, 0, :])
     elif angle_sequence == "zxy":
         angles[1, :, :] = np.arcsin(rototrans[2, 1, :])
         angles[2, :, :] = np.arctan2(-rototrans[2, 0, :], rototrans[2, 2, :])
@@ -68,6 +68,10 @@ def angles_from_rototrans(
         angles[0, :, :] = np.arctan2(rototrans[1, 2, :], rototrans[0, 2, :])
         angles[1, :, :] = np.arccos(rototrans[2, 2, :])
         angles[2, :, :] = np.arctan2(rototrans[2, 1, :], -rototrans[2, 0, :])
+    elif angle_sequence == "zyx":
+        angles[2, :, :] = np.arctan2(rototrans[2, 1, :], rototrans[2, 2, :])
+        angles[1, :, :] = np.arcsin(-rototrans[2, 0, :])
+        angles[0, :, :] = np.arctan2(rototrans[1, 0, :], rototrans[0, 0, :])
     elif angle_sequence == "zxz":
         angles[0, :, :] = np.arctan2(rototrans[0, 2, :], -rototrans[1, 2, :])
         angles[1, :, :] = np.arccos(rototrans[2, 2, :])

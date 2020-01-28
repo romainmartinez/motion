@@ -1,9 +1,10 @@
 import inspect
-import re
 
+import black
 import pytest
 
 import motion
+from tests.utils import extract_code_blocks_from_md, function_has_return
 
 
 class DocStringError(Exception):
@@ -16,7 +17,6 @@ methods = [
     for method_name, method_obj in inspect.getmembers(class_obj)
     if (inspect.isfunction(method_obj) or inspect.ismethod(method_obj))
     and method_name[0] != "_"
-    and class_name != "MecaDataArrayAccessor"
 ]
 ignored_args = ["cls", "self"]
 
@@ -35,7 +35,23 @@ def test_docstring_has_example(method):
 
 @pytest.mark.parametrize("method", methods)
 def test_docstring_example(method):
-    exec(extract_code_from_docstring(method.__doc__), {}, {})
+    code_block = extract_code_blocks_from_md(method.__doc__).replace(
+        "plt.show()",
+        f'plt.savefig("docs/images/api/{method.__name__}.svg", bbox_inches="tight")\nplt.figure()',
+    )
+    exec(
+        code_block, {}, {},
+    )
+    with open('test.py', 'w') as f:
+        f.write(code_block)
+
+
+@pytest.mark.parametrize("method", methods)
+def test_docstring_lint_code_blocks(method):
+    code_blocks = extract_code_blocks_from_md(method.__doc__)
+    if code_blocks:
+        code_blocks = f"{code_blocks}\n"
+        assert code_blocks == black.format_str(code_blocks, mode=black.FileMode())
 
 
 @pytest.mark.parametrize("method", methods)
@@ -52,30 +68,13 @@ def test_docstring_return(method):
 @pytest.mark.parametrize("method", methods)
 def test_docstring_parameters(method):
     argspec = inspect.getfullargspec(method)
-    if argspec.args and "Arguments:" not in method.__doc__:
+    args = [a for a in argspec.args if a not in ignored_args]
+    if args and "Arguments:" not in method.__doc__:
         raise DocStringError(f"`Arguments` block missing in `{method}` docstring")
-    for arg in argspec.args:
+    for arg in args:
         if arg in ignored_args:
             continue
         if arg not in method.__doc__:
             raise DocStringError(f"{arg} not described in {method} docstring")
         if arg not in argspec.annotations:
             raise DocStringError(f"{arg} not type annotated in {method}")
-
-
-def function_has_return(func):
-    """Caution: this will return True if the function contains the word 'return'"""
-    lines, _ = inspect.getsourcelines(func)
-    return any("return" in line for line in lines)
-
-
-def extract_code_from_docstring(
-    docstring: str, start_code_block: str = "```python", end_code_block: str = "```"
-) -> str:
-    return inspect.cleandoc(
-        "\n".join(
-            re.findall(
-                fr"{start_code_block}(.*?){end_code_block}", docstring, re.DOTALL
-            )
-        )
-    )

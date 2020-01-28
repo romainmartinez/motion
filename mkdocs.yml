@@ -1,9 +1,7 @@
-# Project information
 site_name: 'Motion'
-site_description: 'A Material Design theme for MkDocs'
+site_description: 'An Open-Source Framework for Biomechanical Analysis'
 site_author: 'Romain Martinez'
 
-# Configuration
 theme:
   name: 'material'
   palette:
@@ -12,17 +10,16 @@ theme:
   logo: 'images/logo.svg'
   favicon: 'images/favicon.ico'
 nav:
-  - Home: index.md
   - Getting Started: getting-started.md
   - User Guide: user-guide.md
   - Case Studies: case-studies.md
   - About: about.md
   - API reference:
-      analogs[example]: api/analogs.md
-      angles[example]: api/angles.md
-      markers[example]: api/markers.md
-      dataarray_accessor[example]: api/dataarray_accessor.md
-      rototrans[example]: api/rototrans.md
+      Analogs: api/analogs.md
+      Angles: api/angles.md
+      Markers: api/markers.md
+      Dataarray_accessor: api/dataarray_accessor.md
+      Rototrans: api/rototrans.md
 
 markdown_extensions:
   - admonition
@@ -35,15 +32,15 @@ plugins:
       watch:
         - motion
 
-# Repository
 repo_name: 'pyomeca/pyomeca'
 repo_url: 'https://github.com/pyomeca/pyomeca'
 
-# Copyright
 copyright: 'Copyright &copy; 2019 Romain Martinez'
 
-# Customization
 extra:
   social:
     - type: 'github'
       link: 'https://github.com/romainmartinez'
+
+extra_css:
+  - custom.css

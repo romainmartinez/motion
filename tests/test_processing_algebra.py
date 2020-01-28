@@ -1,5 +1,6 @@
 import numpy as np
 
+from motion import Markers
 from tests._constants import MARKERS_DATA, ANALOGS_DATA, EXPECTED_VALUES
 from tests.utils import is_expected_array
 
@@ -32,12 +33,65 @@ def test_proc_square_sqrt():
 
 
 def test_proc_norm():
+    n_frames = 100
+    n_markers = 10
+    m = Markers(np.random.rand(3, n_markers, n_frames))
+
+    # norm by hand
+    expected_norm = np.linalg.norm(m[:3, ...], axis=0)
+
+    # norm with motion
+    computed_norm = m.meca.norm(dim="axis")
+
+    np.testing.assert_almost_equal(computed_norm, expected_norm, decimal=10)
+
     is_expected_array(MARKERS_DATA.meca.norm(dim="axis"), **EXPECTED_VALUES[44])
     is_expected_array(MARKERS_DATA.meca.norm(dim="channel"), **EXPECTED_VALUES[45])
     is_expected_array(MARKERS_DATA.meca.norm(dim="time_frame"), **EXPECTED_VALUES[46])
 
     is_expected_array(ANALOGS_DATA.meca.norm(dim="channel"), **EXPECTED_VALUES[47])
     is_expected_array(ANALOGS_DATA.meca.norm(dim="time_frame"), **EXPECTED_VALUES[48])
+
+
+# def test_proc_transpose():
+#     print("debug")
+#     n_frames = 10
+#     random_angles = Angles(np.random.rand(3, 1, n_frames))
+#     rt = Rototrans.from_euler_angles(random_angles, angle_sequence="xyz")
+#
+#     # expected values
+#     expected_transpose = np.zeros((4, 4, n_frames))
+#     expected_transpose[3, 3, :] = 1
+#     for row in range(4):
+#         for col in range(4):
+#             for frame in range(n_frames):
+#                 expected_transpose[row, col, frame] = rt[col, row, frame]
+#     for frame in range(n_frames):
+#         expected_transpose[:3, 3, frame] = -expected_transpose[:3, :3, frame].dot(
+#             rt[:3, 3, frame]
+#         )
+#
+#     # tranpose with motion
+#     computed_transpose = rt.transpose()
+#
+#     #############
+#     array = rt.copy()
+#     rt_t = Rototrans(np.zeros((4, 4, array.time_frame.size)))
+#     rt_t[3, 3, :] = 1
+#
+#     # The rotation part is just the transposed of the rotation
+#     rt_t[:3, :3, :] = array[:3, :3, :].transpose("col", "row", "time_frame")
+#     rt_t[0:3, 0:3, :] = np.transpose(array[0:3, 0:3, :].values, (1, 0, 2))
+#
+#     # Transpose the translation part is "-rt_transposed * Translation"
+#     rt_t[0:3, 2:3, :] = np.einsum(
+#         "ijk,jlk->ilk", -rt_t[0:3, 0:3, :], array[0:3, 2:3, :]
+#     )
+#     #############
+#
+#     np.testing.assert_almost_equal(expected_transpose, rt_t, decimal=10)
+#
+#     np.testing.assert_almost_equal(expected_transpose, rt_t_expected, decimal=10)
 
 
 def test_proc_rms():
