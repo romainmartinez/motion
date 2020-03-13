@@ -42,7 +42,7 @@ def test_docstring_example(method):
     exec(
         code_block, {}, {},
     )
-    with open('test.py', 'w') as f:
+    with open("test.py", "w") as f:
         f.write(code_block)
 
 
