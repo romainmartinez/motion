@@ -23,7 +23,7 @@ def fft(
     if "axis" in array.dims:
         coords["axis"] = array.axis
     coords["channel"] = array.channel
-    coords["freqs"] = freqs
+    coords["freq"] = freqs
 
     return xr.DataArray(data=amp, dims=coords.keys(), coords=coords)
 
@@ -76,4 +76,6 @@ def detect_onset(
 def detect_outliers(array: xr.DataArray, threshold: int = 3) -> xr.DataArray:
     mu = array.mean(dim="time_frame")
     sigma = array.std(dim="time_frame")
-    return array.meca.abs() > mu + (sigma * threshold)
+    return xr.DataArray(
+        (array < mu - threshold * sigma) | (array > mu + threshold * sigma)
+    )

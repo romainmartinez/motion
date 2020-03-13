@@ -520,15 +520,52 @@ class MecaDataArrayAccessor(object):
         """
        Performs a discrete Fourier Transform and return a DataArray with the corresponding amplitudes and frequencies.
 
-       todo: example
+      Let's compare the resulting fft on a raw and low-passed signal:
 
-       Arguments:
-            freq: Sampling frequency (usually in array.attrs['rate'])
-            only_positive: Returns only the positives frequencies if true
+      ```python
+      import matplotlib.pyplot as plt
+      import numpy as np
 
-        Returns:
-            A `xarray.DataArray` with the corresponding amplitudes and frequencies
-       """
+      from motion import Analogs
+
+      # generate fake data
+      freq = 100
+      time = np.arange(0, 1, 0.01)
+      w = 2 * np.pi
+      y = np.sin(w * time) + 0.1 * np.sin(10 * w * time)
+
+      analogs = Analogs(y.reshape(1, -1))
+      analogs_low_passed = analogs.meca.low_pass(freq=freq, order=2, cutoff=5)
+
+      # compute fft on raw and low-passed signal
+      fft_raw = analogs.meca.fft(freq=freq)
+      fft_low_passed = analogs_low_passed.meca.fft(freq=freq)
+
+      fig, ax = plt.subplots(ncols=2, figsize=(10, 4))
+
+      # plot signal vs. time
+      analogs.plot.line(x="time_frame", ax=ax[0], color="black", add_legend=False)
+      analogs_low_passed.plot.line(x="time_frame", ax=ax[0], color="red", add_legend=False)
+      ax[0].set_title("Signal vs. Time")
+
+      # plot amplitudes vs. frequencies
+      fft_raw.plot.line(x="freq", ax=ax[1], color="black", label="raw")
+      fft_low_passed.plot.line(x="freq", ax=ax[1], color="red", label="low-pass @ 5Hz")
+      ax[1].set_title("Amplitudes vs. Freq")
+
+      plt.legend()
+      plt.show()
+      ```
+
+      ![band_pass](../../images/api/fft.svg)
+
+      Parameters:
+           freq: Sampling frequency (usually in array.attrs['rate'])
+           only_positive: Returns only the positives frequencies if true
+
+      Returns:
+           A `xarray.DataArray` with the corresponding amplitudes and frequencies
+      """
         return misc.fft(self._obj, freq, only_positive)
 
     def detect_onset(
@@ -575,7 +612,7 @@ class MecaDataArrayAccessor(object):
         ![detect_onset](../../images/api/detect_onset.svg)
 
         !!! warning
-            `detect_onset` work only for 1-dimensional data.
+            `detect_onset` works only for 1-dimensional data.
             For example, you can select a dimension using `analogs.sel(channel='EMG1') or `analogs.isel(channel=0)``
 
         Arguments:
@@ -601,7 +638,51 @@ class MecaDataArrayAccessor(object):
         """
         Detects data points that are `threshold` times the standard deviation from the mean.
 
-        todo: example
+        To get a boolean `xr.DataArray` containing the data that are 3 times the mean +/- standard deviation:
+
+        ```python
+        from motion import Analogs
+
+        analogs = Analogs.from_random_data()
+        outliers = analogs.meca.detect_outliers(threshold=1)
+        ```
+
+        Let's plot the data that are 1 time the mean +/- standard deviation on an analog vector:
+
+        ```python
+        import matplotlib.pyplot as plt
+
+        analogs = Analogs.from_random_data(size=(1, 100))
+
+        threshold = 1
+        outliers = analogs.meca.detect_outliers(threshold=threshold)
+
+        analogs.plot.line(x="time_frame", color="black", add_legend=False)
+        analogs.where(outliers).plot.line(
+            x="time_frame", color="red", add_legend=False, marker="o", label="outliers"
+        )
+
+        mu = analogs.mean()
+        sigma = analogs.std()
+
+        plt.axhline(mu, color="grey")
+        plt.axhspan(
+            mu - threshold * sigma,
+            mu + threshold * sigma,
+            color="grey",
+            alpha=0.3,
+            label=f"mean +/- {threshold} std",
+        )
+
+        plt.legend()
+        plt.show()
+        ```
+
+        ![detect_outliers](../../images/api/detect_outliers.svg)
+
+        Note:
+            `detect_outliers` is not limited on one-dimensional data and
+            can detect outliers for any number of dimensions.
 
         Arguments:
             threshold: Multiple of standard deviation from which data is considered outlier
