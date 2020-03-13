@@ -37,7 +37,10 @@ def is_expected_array(
         x=array.mean(), y=mean_val, decimal=decimal, err_msg="Mean does not match"
     )
     np.testing.assert_array_almost_equal(
-        x=array.median(skipna=True), y=median_val, decimal=decimal, err_msg="Median does not match"
+        x=array.median(skipna=True),
+        y=median_val,
+        decimal=decimal,
+        err_msg="Median does not match",
     )
     np.testing.assert_allclose(
         actual=array.sum(), desired=sum_val, rtol=0.05, err_msg="Sum does not match"

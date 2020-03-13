@@ -559,7 +559,7 @@ class MecaDataArrayAccessor(object):
 
       ![band_pass](../../images/api/fft.svg)
 
-      Parameters:
+      Arguments:
            freq: Sampling frequency (usually in array.attrs['rate'])
            only_positive: Returns only the positives frequencies if true
 
