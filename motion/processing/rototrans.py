@@ -1,13 +1,14 @@
-from typing import Optional
+from typing import Optional, Callable
 
 import numpy as np
 import xarray as xr
+from scipy.optimize import least_squares
 
 from motion import Angles
 
 
 def rototrans_from_euler_angles(
-    caller,
+    caller: Callable,
     angles: Optional[xr.DataArray] = None,
     angle_sequence: Optional[str] = None,
     translations: Optional[xr.DataArray] = None,
@@ -87,3 +88,116 @@ def rototrans_from_euler_angles(
     # Put the translations
     rt[:-1, -1:, :] = translations[:3, ...]
     return caller(rt)
+
+
+def rototrans_from_markers(
+    caller: Callable,
+    origin: xr.DataArray,
+    axis_1: xr.DataArray,
+    axis_2: xr.DataArray,
+    axes_name: str,
+    axis_to_recalculate: str,
+) -> xr.DataArray:
+    if origin.channel.size != 1:
+        raise ValueError(
+            f"`origin` must be only one marker. You have provided {origin.channel.size} markers."
+        )
+    if axis_1.channel.size != 2:
+        raise ValueError(
+            f"`axis_1` must be two markers. You have provided {axis_1.channel.size} markers."
+        )
+    if axis_2.channel.size != 2:
+        raise ValueError(
+            f"`axis_2` must be two markers. You have provided {axis_2.channel.size} markers."
+        )
+
+    # sort the axes name - If we inverse axes_names, inverse axes as well
+    sorted_axes_name = "".join(sorted(axes_name))
+    if axes_name != sorted_axes_name:
+        axes_name = sorted_axes_name
+        axis_1, axis_2 = axis_2, axis_1
+
+    # compute vectors from markers
+    vector_1 = axis_1[:3, 1, :] - axis_1[:3, 0, :]
+    vector_2 = axis_2[:3, 1, :] - axis_2[:3, 0, :]
+
+    if (
+        origin.time_frame.size != vector_1.time_frame.size
+        or origin.time_frame.size != vector_2.time_frame.size
+    ):
+        raise ValueError("Number of frame(s) for origin and axes must be the same")
+
+    error_msg = "Axes names should be 2 values of `x`, `y` and `z` permutations"
+
+    if axes_name[0] == "x":
+        x = vector_1
+        if axes_name[1] == "y":
+            y = vector_2
+            z = np.cross(x, y, axis=0)
+        elif axes_name[1] == "z":
+            z = vector_2
+            y = np.cross(z, x, axis=0)
+        else:
+            raise ValueError(error_msg)
+    elif axes_name[0] == "y":
+        y = vector_1
+        if axes_name[1] == "z":
+            z = vector_2
+            x = np.cross(y, z, axis=0)
+        else:
+            raise ValueError(error_msg)
+    else:
+        raise ValueError(error_msg)
+
+    if axis_to_recalculate == "x":
+        x = np.cross(y, z, axis=0)
+    elif axis_to_recalculate == "y":
+        y = np.cross(z, x, axis=0)
+    elif axis_to_recalculate == "z":
+        z = np.cross(x, y, axis=0)
+    else:
+        raise ValueError("`axis_to_recalculate must be `x`, `y` or `z`")
+
+    rt = caller(np.zeros((4, 4, origin.time_frame.size)))
+    rt[:3, 0, :] = x / np.linalg.norm(x, axis=0)
+    rt[:3, 1, :] = y / np.linalg.norm(y, axis=0)
+    rt[:3, 2, :] = z / np.linalg.norm(z, axis=0)
+    rt.meca.translation = origin
+    return rt
+
+
+def rototrans_from_transposed_rototrans(
+    caller: Callable, rt: xr.DataArray
+) -> xr.DataArray:
+    rt_t = caller(np.zeros((4, 4, rt.time_frame.size)))
+
+    # the rotation part is just the transposed of the rotation
+    rt_t.meca.rotation = rt.meca.rotation.transpose("col", "row", "time_frame")
+
+    # the translation part is "- rt_t * translation"
+    rt_t.meca.translation = np.einsum(
+        "ijk,jlk->ilk", -rt_t.meca.rotation, rt.meca.translation
+    )
+
+    return rt_t
+
+
+def rototrans_from_averaged_rototrans(
+    caller: Callable, rt: xr.DataArray
+) -> xr.DataArray:
+    # arbitrary angle sequence
+    seq = "xyz"
+
+    target = rt.mean(dim="time_frame").expand_dims("time_frame", axis=-1)
+
+    angles = Angles(np.ndarray((3, 1, 1)))
+
+    def objective_function(x):
+        angles[:3, 0, 0] = x
+        rt = caller.from_euler_angles(angles, seq)
+        return (rt[:3, :3] - target[:3, :3]).values.reshape(9)
+        # return np.ravel(rt.meca.rotation - target.meca.rotation)
+
+    initia_guess = Angles.from_rototrans(target, seq).squeeze()
+    angles[:3, 0, 0] = least_squares(objective_function, initia_guess).x
+    return caller.from_euler_angles(angles, seq, translations=target.meca.translation)

@@ -19,7 +19,9 @@ def square(array: xr.DataArray, *args, **kwargs) -> xr.DataArray:
 def norm(array: xr.DataArray, dim: Union[str, list], ord: int = None) -> xr.DataArray:
     return xr.apply_ufunc(
         np.linalg.norm,
-        array.drop_sel(axis="ones") if hasattr(array, "axis") else array,
+        array.drop_sel(axis="ones")
+        if hasattr(array, "axis") and "ones" in array.axis
+        else array,
         input_core_dims=[[dim]] if isinstance(dim, str) else dim,
         kwargs={"ord": ord, "axis": -1},
     )

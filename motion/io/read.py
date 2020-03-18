@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Union, Optional, List
+from typing import Union, Optional, List, Callable
 
 import ezc3d
 import numpy as np
@@ -10,7 +10,7 @@ from motion.io.utils import col_spliter, find_end_header_in_opensim_file
 
 
 def read_c3d(
-    caller,
+    caller: Callable,
     filename: Union[str, Path],
     usecols: Optional[List[Union[str, int]]] = None,
     prefix_delimiter: Optional[str] = None,
@@ -65,7 +65,7 @@ def read_c3d(
 
 
 def read_csv_or_excel(
-    caller,
+    caller: Callable,
     extension: str,
     filename: Union[str, Path],
     usecols: Optional[List[Union[str, int]]] = None,
@@ -132,7 +132,10 @@ def read_csv_or_excel(
 
 
 def read_sto_or_mot(
-    caller, filename: Union[str, Path], end_header: Optional[int] = None, **kwargs
+    caller: Callable,
+    filename: Union[str, Path],
+    end_header: Optional[int] = None,
+    **kwargs,
 ):
     if end_header is None:
         end_header = find_end_header_in_opensim_file(filename)
@@ -144,7 +147,7 @@ def read_sto_or_mot(
     return data
 
 
-def read_trc(caller, filename: Union[str, Path], **kwargs):
+def read_trc(caller: Callable, filename: Union[str, Path], **kwargs):
     data = caller.from_csv(
         filename, header=3, first_row=6, first_column=1, time_column=1, **kwargs,
     )

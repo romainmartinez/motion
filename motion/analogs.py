@@ -19,36 +19,7 @@ class Analogs:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Analogs DataArray with `axis`, `channel` and `time_frame` dimensions
-
-        To instantiate an `Analogs` with 4 channels and 100 frames filled with some random data:
-
-        ```python
-        import numpy as np
-        from motion import Analogs
-
-        n_channels = 4
-        n_frames = 100
-        data = np.random.random(size=(n_channels, n_frames))
-        analogs = Analogs(data)
-        ```
-
-        You can add the channel names:
-
-        ```python
-        names = ["A", "B", "C", "D"]
-        analogs = Analogs(data, channels=names)
-        ```
-
-        And an associate time vector:
-
-        ```python
-        rate = 100  # Hz
-        time_frames = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
-        analogs = Analogs(data, channels=names, time_frames=time_frames)
-        ```
-
-        Calling `Analogs()` generate an empty array.
+        Analogs DataArray with `axis`, `channel` and `time_frame` dimensions.
 
         Arguments:
             data: Array to be passed to xarray.DataArray
@@ -59,6 +30,37 @@ class Analogs:
 
         Returns:
             Analogs `xarray.DataArray` with the specified data and coordinates
+
+        !!! example
+            To instantiate an `Analogs` with 4 channels and 100 frames filled with some random data:
+
+            ```python
+            import numpy as np
+            from motion import Analogs
+
+            n_channels = 4
+            n_frames = 100
+            data = np.random.random(size=(n_channels, n_frames))
+            analogs = Analogs(data)
+            ```
+
+            You can add the channel names:
+
+            ```python
+            names = ["A", "B", "C", "D"]
+            analogs = Analogs(data, channels=names)
+            ```
+
+            And an associate time vector:
+
+            ```python
+            rate = 100  # Hz
+            time_frames = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
+            analogs = Analogs(data, channels=names, time_frames=time_frames)
+            ```
+
+        !!! note
+            Calling `Analogs()` generate an empty array.
         """
         coords = {}
         if data is None:
@@ -81,25 +83,7 @@ class Analogs:
         cls, distribution: str = "normal", size: tuple = (10, 100), *args, **kwargs
     ) -> xr.DataArray:
         """
-        Create random data from a specified distribution (normal by default) using random walk
-
-        To instantiate an `Analogs` with some random data sampled from a normal distribution:
-
-        ```python
-        from motion import Analogs
-
-        n_channels = 10
-        n_frames = 100
-        size = n_channels, n_frames
-        analogs = Analogs.from_random_data(size=size)
-        ```
-
-        You can choose any distribution available in
-            [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions):
-
-        ```python
-        analogs = Analogs.from_random_data(distribution="uniform", size=size, low=1, high=10)
-        ```
+        Create random data from a specified distribution (normal by default) using random walk.
 
         Arguments:
             distribution: Distribution available in
@@ -110,6 +94,25 @@ class Analogs:
 
         Returns:
             Random Analogs `xarray.DataArray` sampled from a given distribution
+
+        !!! example
+            To instantiate an `Analogs` with some random data sampled from a normal distribution:
+
+            ```python
+            from motion import Analogs
+
+            n_channels = 10
+            n_frames = 100
+            size = n_channels, n_frames
+            analogs = Analogs.from_random_data(size=size)
+            ```
+
+            You can choose any distribution available in
+                [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions):
+
+            ```python
+            analogs = Analogs.from_random_data(distribution="uniform", size=size, low=1, high=10)
+            ```
         """
         return Analogs(
             getattr(np.random, distribution)(size=size, *args, **kwargs).cumsum(-1)
@@ -132,60 +135,7 @@ class Analogs:
         attrs: Optional[dict] = None,
     ) -> xr.DataArray:
         """
-        Analogs DataArray from a csv file
-
-        To read [this csv file](https://github.com/romainmartinez/motion/blob/master/tests/data/analogs.csv),
-        type:
-
-        ```python
-        from motion import Analogs
-
-        data_path = "./tests/data/analogs.csv"
-        analogs = Analogs.from_csv(data_path, header=3, first_row=5, first_column=2)
-        ```
-
-        If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
-
-        ```python
-        channels = ["IM EMG1", "IM EMG2", "IM EMG3"]
-        analogs = Analogs.from_csv(
-            data_path, header=3, first_row=5, first_column=2, usecols=channels
-        )
-        ```
-
-        Or by position:
-
-        ```python
-        channels = [5, 6, 7]
-        analogs = Analogs.from_csv(
-            data_path, header=3, first_row=5, first_column=2, usecols=channels
-        )
-        ```
-
-        Sometimes the channel name is delimited by a suffix or prefix.
-        To access the prefix, you can specify `prefix_delimiter` and `suffix_delimiter` for the suffix.
-        For example, if the name is `"IM EMG1"` and you specify `suffix_delimiter=" "`, you will select "IM".
-        Similarly, if you specify `prefix_delimiter=" ":
-
-        ```python
-        channels = ["EMG1", "EMG2", "EMG3"]
-        analogs = Analogs.from_csv(
-            data_path,
-            header=3,
-            first_row=5,
-            first_column=2,
-            usecols=channels,
-            suffix_delimiter=" ",
-        )
-        ```
-
-        It is also possible to specify a column containing the time vector:
-
-        ```python
-        analogs = Analogs.from_csv(
-            data_path, header=3, first_row=5, first_column=1, time_column=0
-        )
-        ```
+        Analogs DataArray from a csv file.
 
         Arguments:
             filename: Any valid string path
@@ -204,6 +154,60 @@ class Analogs:
 
         Returns:
             Analogs `xarray.DataArray` with the specified data and coordinates
+
+        !!! example
+            To read [this csv file](https://github.com/romainmartinez/motion/blob/master/tests/data/analogs.csv),
+            type:
+
+            ```python
+            from motion import Analogs
+
+            data_path = "./tests/data/analogs.csv"
+            analogs = Analogs.from_csv(data_path, header=3, first_row=5, first_column=2)
+            ```
+
+            If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
+
+            ```python
+            channels = ["IM EMG1", "IM EMG2", "IM EMG3"]
+            analogs = Analogs.from_csv(
+                data_path, header=3, first_row=5, first_column=2, usecols=channels
+            )
+            ```
+
+            Or by position:
+
+            ```python
+            channels = [5, 6, 7]
+            analogs = Analogs.from_csv(
+                data_path, header=3, first_row=5, first_column=2, usecols=channels
+            )
+            ```
+
+            Sometimes the channel name is delimited by a suffix or prefix.
+            To access the prefix, you can specify `prefix_delimiter` and `suffix_delimiter` for the suffix.
+            For example, if the name is `"IM EMG1"` and you specify `suffix_delimiter=" "`, you will select "IM".
+            Similarly, if you specify `prefix_delimiter=" ":
+
+            ```python
+            channels = ["EMG1", "EMG2", "EMG3"]
+            analogs = Analogs.from_csv(
+                data_path,
+                header=3,
+                first_row=5,
+                first_column=2,
+                usecols=channels,
+                suffix_delimiter=" ",
+            )
+            ```
+
+            It is also possible to specify a column containing the time vector:
+
+            ```python
+            analogs = Analogs.from_csv(
+                data_path, header=3, first_row=5, first_column=1, time_column=0
+            )
+            ```
         """
         return read_csv_or_excel(
             cls,
@@ -240,43 +244,7 @@ class Analogs:
         attrs: Optional[dict] = None,
     ) -> xr.DataArray:
         """
-        Analogs DataArray from a excel file
-
-        To read [this excel file](https://github.com/romainmartinez/motion/blob/master/tests/data/analogs.xlsx),
-        type:
-
-        ```python
-        from motion import Analogs
-
-        data_path = "./tests/data/analogs.xlsx"
-        analogs = Analogs.from_excel(data_path, header=3, first_row=5, first_column=2)
-        ```
-
-        If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
-
-        ```python
-        channels = ["A"]
-        analogs = Analogs.from_excel(
-            data_path, header=3, first_row=5, first_column=2, usecols=channels
-        )
-        ```
-
-        Or by position:
-
-        ```python
-        channels = [1]
-        analogs = Analogs.from_excel(
-            data_path, header=3, first_row=5, first_column=2, usecols=channels
-        )
-        ```
-
-        It is also possible to specify a column containing the time vector:
-
-        ```python
-        analogs = Analogs.from_excel(
-            data_path, header=3, first_row=5, first_column=1, time_column=0
-        )
-        ```
+        Analogs DataArray from a excel file.
 
         Arguments:
             filename: Any valid string path
@@ -296,6 +264,44 @@ class Analogs:
 
         Returns:
             Analogs `xarray.DataArray` with the specified data and coordinates
+
+        !!! example
+            To read [this excel file](https://github.com/romainmartinez/motion/blob/master/tests/data/analogs.xlsx),
+            type:
+
+            ```python
+            from motion import Analogs
+
+            data_path = "./tests/data/analogs.xlsx"
+            analogs = Analogs.from_excel(data_path, header=3, first_row=5, first_column=2)
+            ```
+
+            If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
+
+            ```python
+            channels = ["A"]
+            analogs = Analogs.from_excel(
+                data_path, header=3, first_row=5, first_column=2, usecols=channels
+            )
+            ```
+
+            Or by position:
+
+            ```python
+            channels = [1]
+            analogs = Analogs.from_excel(
+                data_path, header=3, first_row=5, first_column=2, usecols=channels
+            )
+            ```
+
+            It is also possible to specify a column containing the time vector:
+
+            ```python
+            analogs = Analogs.from_excel(
+                data_path, header=3, first_row=5, first_column=1, time_column=0
+            )
+            ```
+
         """
         return read_csv_or_excel(
             cls,
@@ -320,31 +326,7 @@ class Analogs:
         cls, filename: Union[str, Path], end_header: Optional[bool] = None, **kwargs
     ) -> xr.DataArray:
         """
-        Analogs DataArray from a sto file
-
-        To read [this sto file](https://github.com/romainmartinez/motion/blob/master/tests/data/inverse_dyn.sto),
-        type:
-
-        ```python
-        from motion import Analogs
-
-        data_path = "./tests/data/inverse_dyn.sto"
-        analogs = Analogs.from_sto(data_path)
-        ```
-
-        If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
-
-        ```python
-        channels = ["shoulder_plane_moment", "shoulder_ele_moment"]
-        analogs = Analogs.from_sto(data_path, usecols=channels)
-        ```
-
-        Or by position:
-
-        ```python
-        channels = [3, 4]
-        analogs = Analogs.from_sto(data_path, usecols=channels)
-        ```
+        Analogs DataArray from a sto file.
 
         Arguments:
             filename: Any valid string path
@@ -354,6 +336,31 @@ class Analogs:
 
         Returns:
             Analogs `xarray.DataArray` with the specified data and coordinates
+
+        !!! example
+            To read [this sto file](https://github.com/romainmartinez/motion/blob/master/tests/data/inverse_dyn.sto),
+            type:
+
+            ```python
+            from motion import Analogs
+
+            data_path = "./tests/data/inverse_dyn.sto"
+            analogs = Analogs.from_sto(data_path)
+            ```
+
+            If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
+
+            ```python
+            channels = ["shoulder_plane_moment", "shoulder_ele_moment"]
+            analogs = Analogs.from_sto(data_path, usecols=channels)
+            ```
+
+            Or by position:
+
+            ```python
+            channels = [3, 4]
+            analogs = Analogs.from_sto(data_path, usecols=channels)
+            ```
         """
         return read_sto_or_mot(cls, filename, end_header, **kwargs)
 
@@ -362,31 +369,7 @@ class Analogs:
         cls, filename: Union[str, Path], end_header: Optional[bool] = None, **kwargs
     ) -> xr.DataArray:
         """
-        Analogs DataArray from a mot file
-
-        To read [this mot file](https://github.com/romainmartinez/motion/blob/master/tests/data/inverse_kin.mot),
-        type:
-
-        ```python
-        from motion import Analogs
-
-        data_path = "./tests/data/inverse_kin.mot"
-        analogs = Analogs.from_mot(data_path)
-        ```
-
-        If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
-
-        ```python
-        channels = ["elbow_flexion", "pro_sup"]
-        analogs = Analogs.from_mot(data_path, usecols=channels)
-        ```
-
-        Or by position:
-
-        ```python
-        channels = [3, 4]
-        analogs = Analogs.from_mot(data_path, usecols=channels)
-        ```
+        Analogs DataArray from a mot file.
 
         Arguments:
             filename: Any valid string path
@@ -395,6 +378,31 @@ class Analogs:
 
         Returns:
             Analogs `xarray.DataArray` with the specified data and coordinates
+
+        !!! example
+            To read [this mot file](https://github.com/romainmartinez/motion/blob/master/tests/data/inverse_kin.mot),
+            type:
+
+            ```python
+            from motion import Analogs
+
+            data_path = "./tests/data/inverse_kin.mot"
+            analogs = Analogs.from_mot(data_path)
+            ```
+
+            If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
+
+            ```python
+            channels = ["elbow_flexion", "pro_sup"]
+            analogs = Analogs.from_mot(data_path, usecols=channels)
+            ```
+
+            Or by position:
+
+            ```python
+            channels = [3, 4]
+            analogs = Analogs.from_mot(data_path, usecols=channels)
+            ```
         """
         return read_sto_or_mot(cls, filename, end_header, **kwargs)
 
@@ -408,34 +416,7 @@ class Analogs:
         attrs: Optional[dict] = None,
     ) -> xr.DataArray:
         """
-        Analogs DataArray from a c3d file
-
-        To read [this c3d file](https://github.com/romainmartinez/motion/blob/master/tests/data/markers_analogs.c3d),
-        type:
-
-        ```python
-        from motion import Analogs
-
-        data_path = "./tests/data/markers_analogs.c3d"
-        analogs = Analogs.from_c3d(data_path)
-        ```
-
-        If you know the channel names, you can retrieve only the ones you are interested in:
-
-        ```python
-        channels = ["Voltage.1", "Voltage.2", "Voltage.3"]
-        analogs = Analogs.from_c3d(data_path, usecols=channels)
-        ```
-
-        Sometimes the channel name is delimited by a suffix or prefix.
-        To access the prefix, you can specify `prefix_delimiter` and `suffix_delimiter` for the suffix.
-        For example, if the name is `"Voltage.1"` and you specify `suffix_delimiter="."`, you will select "Voltage".
-        Similarly, if you specify `prefix_delimiter=".":
-
-        ```python
-        channels = ["1", "2", "3"]
-        analogs = Analogs.from_c3d(data_path, usecols=channels, prefix_delimiter=".")
-        ```
+        Analogs DataArray from a c3d file.
 
         Arguments:
             filename: Any valid string path
@@ -447,6 +428,34 @@ class Analogs:
 
         Returns:
             Analogs `xarray.DataArray` with the specified data and coordinates
+
+        !!! example
+            To read [this c3d file](https://github.com/romainmartinez/motion/blob/master/tests/data/markers_analogs.c3d),
+            type:
+
+            ```python
+            from motion import Analogs
+
+            data_path = "./tests/data/markers_analogs.c3d"
+            analogs = Analogs.from_c3d(data_path)
+            ```
+
+            If you know the channel names, you can retrieve only the ones you are interested in:
+
+            ```python
+            channels = ["Voltage.1", "Voltage.2", "Voltage.3"]
+            analogs = Analogs.from_c3d(data_path, usecols=channels)
+            ```
+
+            Sometimes the channel name is delimited by a suffix or prefix.
+            To access the prefix, you can specify `prefix_delimiter` and `suffix_delimiter` for the suffix.
+            For example, if the name is `"Voltage.1"` and you specify `suffix_delimiter="."`, you will select "Voltage".
+            Similarly, if you specify `prefix_delimiter=".":
+
+            ```python
+            channels = ["1", "2", "3"]
+            analogs = Analogs.from_c3d(data_path, usecols=channels, prefix_delimiter=".")
+            ```
         """
         return read_c3d(
             cls, filename, usecols, prefix_delimiter, suffix_delimiter, attrs

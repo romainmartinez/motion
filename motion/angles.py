@@ -16,30 +16,7 @@ class Angles:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Angles DataArray with `row`, `col` and `time_frame` dimensions
-
-        To instantiate an `Angles` 4 by 4 and 100 frames filled with some random data:
-
-        ```python
-        import numpy as np
-        from motion import Angles
-
-        n_row = 4
-        n_col = 4
-        n_frames = 100
-        data = np.random.random(size=(n_row, n_col, n_frames))
-        angles = Angles(data)
-        ```
-
-        You can an associate time vector:
-
-        ```python
-        rate = 100  # Hz
-        time_frames = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
-        angles = Angles(data, time_frames=time_frames)
-        ```
-
-        Calling `Angles()` generate an empty array.
+        Angles DataArray with `row`, `col` and `time_frame` dimensions.
 
         Arguments:
             data: Array to be passed to xarray.DataArray
@@ -49,6 +26,31 @@ class Angles:
 
         Returns:
             Angles `xarray.DataArray` with the specified data and coordinates
+
+        !!! example
+            To instantiate an `Angles` 4 by 4 and 100 frames filled with some random data:
+
+            ```python
+            import numpy as np
+            from motion import Angles
+
+            n_row = 4
+            n_col = 4
+            n_frames = 100
+            data = np.random.random(size=(n_row, n_col, n_frames))
+            angles = Angles(data)
+            ```
+
+            You can an associate time vector:
+
+            ```python
+            rate = 100  # Hz
+            time_frames = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
+            angles = Angles(data, time_frames=time_frames)
+            ```
+
+        !!! note
+            Calling `Angles()` generate an empty array.
         """
         coords = {}
         if data is None:
@@ -69,24 +71,7 @@ class Angles:
         cls, distribution: str = "normal", size: tuple = (10, 10, 100), *args, **kwargs
     ) -> xr.DataArray:
         """
-        Create random data from a specified distribution (normal by default) using random walk
-
-        To instantiate an `Angles` with some random data sampled from a normal distribution:
-
-        ```python
-        from motion import Angles
-
-        n_frames = 100
-        size = 10, 10, n_frames
-        angles = Angles.from_random_data(size=size)
-        ```
-
-        You can choose any distribution available in
-            [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions):
-
-        ```python
-        angles = Angles.from_random_data(distribution="uniform", size=size, low=1, high=10)
-        ```
+        Create random data from a specified distribution (normal by default) using random walk.
 
         Arguments:
             distribution: Distribution available in
@@ -97,6 +82,24 @@ class Angles:
 
         Returns:
             Random angles `xarray.DataArray` sampled from a given distribution
+
+        !!! example
+            To instantiate an `Angles` with some random data sampled from a normal distribution:
+
+            ```python
+            from motion import Angles
+
+            n_frames = 100
+            size = 10, 10, n_frames
+            angles = Angles.from_random_data(size=size)
+            ```
+
+            You can choose any distribution available in
+                [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions):
+
+            ```python
+            angles = Angles.from_random_data(distribution="uniform", size=size, low=1, high=10)
+            ```
         """
         return Angles(
             getattr(np.random, distribution)(size=size, *args, **kwargs).cumsum(-1)
@@ -107,19 +110,7 @@ class Angles:
         cls, rototrans: xr.DataArray, angle_sequence: str
     ) -> xr.DataArray:
         """
-        Angles DataArray from a rototranslation matrix and specified angle sequence
-
-        To get the euler angles from a random rototranslation matrix with a given angle sequence type:
-
-        ```python
-        from motion import Angles, Rototrans
-
-        size = (4, 4, 100)
-        rt = Rototrans.from_random_data(size=size)
-        angles_sequence = "xyz"
-
-        angles = Angles.from_rototrans(rototrans=rt, angle_sequence=angles_sequence)
-        ```
+        Angles DataArray from a rototranslation matrix and specified angle sequence.
 
         Arguments:
             rototrans: Rototranslation matrix created with motion.Rototrans()
@@ -127,5 +118,18 @@ class Angles:
 
         Returns:
             Angles `xarray.DataArray` from the specified rototrans and angles sequence
+
+        !!! example
+            To get the euler angles from a random rototranslation matrix with a given angle sequence type:
+
+            ```python
+            from motion import Angles, Rototrans
+
+            size = (4, 4, 100)
+            rt = Rototrans.from_random_data(size=size)
+            angles_sequence = "xyz"
+
+            angles = Angles.from_rototrans(rototrans=rt, angle_sequence=angles_sequence)
+            ```
         """
         return angles_from_rototrans(cls, rototrans, angle_sequence)

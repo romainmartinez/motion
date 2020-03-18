@@ -68,7 +68,7 @@ def test_rototrans_creation():
     assert array.dims == dims
 
     array = Rototrans(MARKERS_DATA.values, time_frames=MARKERS_DATA.time_frame)
-    is_expected_array(array, **EXPECTED_VALUES[57])
+    is_expected_array(array, **EXPECTED_VALUES[67])
 
     size = 4, 4, 100
     array = Rototrans.from_random_data(size=size)

@@ -53,45 +53,25 @@ def test_proc_norm():
     is_expected_array(ANALOGS_DATA.meca.norm(dim="time_frame"), **EXPECTED_VALUES[48])
 
 
-# def test_proc_transpose():
-#     print("debug")
-#     n_frames = 10
-#     random_angles = Angles(np.random.rand(3, 1, n_frames))
-#     rt = Rototrans.from_euler_angles(random_angles, angle_sequence="xyz")
-#
-#     # expected values
-#     expected_transpose = np.zeros((4, 4, n_frames))
-#     expected_transpose[3, 3, :] = 1
-#     for row in range(4):
-#         for col in range(4):
-#             for frame in range(n_frames):
-#                 expected_transpose[row, col, frame] = rt[col, row, frame]
-#     for frame in range(n_frames):
-#         expected_transpose[:3, 3, frame] = -expected_transpose[:3, :3, frame].dot(
-#             rt[:3, 3, frame]
-#         )
-#
-#     # tranpose with motion
-#     computed_transpose = rt.transpose()
-#
-#     #############
-#     array = rt.copy()
-#     rt_t = Rototrans(np.zeros((4, 4, array.time_frame.size)))
-#     rt_t[3, 3, :] = 1
-#
-#     # The rotation part is just the transposed of the rotation
-#     rt_t[:3, :3, :] = array[:3, :3, :].transpose("col", "row", "time_frame")
-#     rt_t[0:3, 0:3, :] = np.transpose(array[0:3, 0:3, :].values, (1, 0, 2))
-#
-#     # Transpose the translation part is "-rt_transposed * Translation"
-#     rt_t[0:3, 2:3, :] = np.einsum(
-#         "ijk,jlk->ilk", -rt_t[0:3, 0:3, :], array[0:3, 2:3, :]
-#     )
-#     #############
-#
-#     np.testing.assert_almost_equal(expected_transpose, rt_t, decimal=10)
-#
-#     np.testing.assert_almost_equal(expected_transpose, rt_t_expected, decimal=10)
+def test_proc_norm_marker():
+    n_frames = 100
+    n_markers = 10
+    random_marker = Markers.from_random_data(size=(3, n_markers, n_frames))
+
+    norm = random_marker.meca.norm(dim="axis")
+
+    norm_without_ones = random_marker.drop_sel(axis="ones").meca.norm(dim="axis")
+
+    np.testing.assert_array_equal(norm, norm_without_ones)
+
+    expected_norm = np.ndarray((n_markers, n_frames))
+    for marker in range(n_markers):
+        for frame in range(n_frames):
+            expected_norm[marker, frame] = np.sqrt(
+                random_marker[0:3, marker, frame].dot(random_marker[0:3, marker, frame])
+            )
+
+    np.testing.assert_array_equal(norm, expected_norm)
 
 
 def test_proc_rms():

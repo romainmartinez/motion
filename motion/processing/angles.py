@@ -1,22 +1,12 @@
+from typing import Callable
+
 import numpy as np
 import xarray as xr
 
 
 def angles_from_rototrans(
-    caller, rototrans: xr.DataArray, angle_sequence: str
+    caller: Callable, rototrans: xr.DataArray, angle_sequence: str
 ) -> xr.DataArray:
-    """
-    Get euler angles with specified angle sequence
-    Parameters
-    ----------
-    rototrans
-        Rototrans created with motion.create_rototrans()
-    angle_sequence
-        Euler sequence of angles. Valid values are all permutations of "xyz"
-    Returns
-    -------
-    DataArray with the euler angles associated
-    """
     if angle_sequence == "zyzz":
         angles = caller(np.ndarray(shape=(3, 1, rototrans.time_frame.size)))
     else:
