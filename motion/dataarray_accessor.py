@@ -5,8 +5,8 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from motion.io.write import write_matlab, write_csv, to_wide_dataframe
-from motion.processing import algebra, filter, interp, misc
+from motion.io import write
+from motion.processing import algebra, filter, interp, misc, rototrans, markers
 
 
 @xr.register_dataarray_accessor("meca")
@@ -32,7 +32,7 @@ class MecaDataArrayAccessor(object):
             analogs.meca.to_matlab(filename="temp.mat")
             ```
         """
-        write_matlab(self._obj, filename)
+        write.write_matlab(self._obj, filename)
 
     def to_csv(self, filename: Union[str, Path], wide: Optional[bool] = True):
         """
@@ -59,7 +59,7 @@ class MecaDataArrayAccessor(object):
             analogs.meca.to_csv(filename="temp.csv", wide=False)
             ```
         """
-        write_csv(self._obj, filename, wide)
+        write.write_csv(self._obj, filename, wide)
 
     def to_wide_dataframe(self) -> pd.DataFrame:
         """
@@ -80,7 +80,7 @@ class MecaDataArrayAccessor(object):
             analogs.meca.to_wide_dataframe()
             ```
         """
-        return to_wide_dataframe(self._obj)
+        return write.to_wide_dataframe(self._obj)
 
         # algebra -----------------------------------
 
@@ -722,18 +722,48 @@ class MecaDataArrayAccessor(object):
         """
         return misc.detect_outliers(self._obj, threshold)
 
+    def rotate(self, rt: xr.DataArray) -> xr.DataArray:
+        """
+        Rotates markers data from a rototrans matrix.
+
+        Arguments:
+            rt: Rototrans to rotate about
+
+        Returns:
+            A rotated `xarray.DataArray`
+
+        !!! example
+            To rotate a random markers set from random angles:
+            
+            ```python
+            from motion import Angles, Rototrans, Markers
+
+            n_frames = 100
+            n_markers = 10
+
+            angles = Angles.from_random_data(size=(3, 1, n_frames))
+            rt = Rototrans.from_euler_angles(angles, "xyz")
+            markers = Markers.from_random_data(size=(3, n_markers, n_frames))
+
+            rotated_markers = markers.meca.rotate(rt)
+            ```
+        Note:
+            `rotate` works only for markers (created with `motion.Markers`).
+        """
+        return markers.rotate_markers(self._obj, rt)
+
     @property
     def rotation(self) -> xr.DataArray:
-        return self._obj[:3, :3, :]
+        return rototrans.rotation_getter(self._obj)
 
     @rotation.setter
     def rotation(self, value) -> None:
-        self._obj[:3, :3, :] = value[:3, :, :]
+        rototrans.rotation_setter(self._obj, value)
 
     @property
     def translation(self) -> xr.DataArray:
-        return self._obj[:3, 3:4, :]
+        return rototrans.translation_getter(self._obj)
 
     @translation.setter
     def translation(self, value) -> None:
-        self._obj[:3, 3:4, :] = value[:3, :, :]
+        rototrans.translation_setter(self._obj, value)

@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 import xarray as xr
 
+from motion.processing import misc
 from tests._constants import MARKERS_DATA, ANALOGS_DATA, EXPECTED_VALUES
 from tests.utils import is_expected_array
 
@@ -59,3 +60,10 @@ def test_proc_detect_outliers():
     is_expected_array(
         ANALOGS_DATA.meca.detect_outliers(threshold=1), **EXPECTED_VALUES[54]
     )
+
+
+def test_has_correct_name():
+    misc.has_correct_name(MARKERS_DATA, "markers")
+
+    with pytest.raises(ValueError):
+        misc.has_correct_name(MARKERS_DATA, "rototrans")
