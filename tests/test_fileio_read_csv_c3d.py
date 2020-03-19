@@ -86,16 +86,16 @@ def test_read_catch_error(
 
     if extension == "csv":
         with pytest.raises(ValueError):
-            assert Analogs.from_csv(**analogs_csv_kwargs, usecols=usecols)
+            Analogs.from_csv(**analogs_csv_kwargs, usecols=usecols)
         with pytest.raises(ValueError):
-            assert Markers.from_csv(**markers_csv_kwargs, usecols=usecols)
+            Markers.from_csv(**markers_csv_kwargs, usecols=usecols)
     elif extension == "c3d":
         with pytest.raises(ValueError):
-            assert Analogs.from_c3d(MARKERS_ANALOGS_C3D, usecols=usecols)
+            Analogs.from_c3d(MARKERS_ANALOGS_C3D, usecols=usecols)
 
     reader = getattr(Markers, f"from_{extension}")
     with pytest.raises(ValueError):
-        assert reader(MARKERS_ANALOGS_C3D, usecols=usecols)
+        reader(MARKERS_ANALOGS_C3D, usecols=usecols)
 
 
 def test_csv_last_column_to_remove():

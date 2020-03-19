@@ -65,20 +65,20 @@ def test_construct_rt():
     assert rt_with_time_frame.time_frame[-1] == 0.09
 
     with pytest.raises(IndexError):
-        assert Rototrans(data=np.zeros(1))
+        Rototrans(data=np.zeros(1))
 
     with pytest.raises(IndexError):
-        assert Rototrans.from_euler_angles(
+        Rototrans.from_euler_angles(
             angles=random_vector[..., :5],
             translations=random_vector,
             angle_sequence="x",
         )
 
     with pytest.raises(IndexError):
-        assert Rototrans.from_euler_angles(angles=random_vector, angle_sequence="x")
+        Rototrans.from_euler_angles(angles=random_vector, angle_sequence="x")
 
     with pytest.raises(ValueError):
-        assert Rototrans.from_euler_angles(angles=random_vector, angle_sequence="nop")
+        Rototrans.from_euler_angles(angles=random_vector, angle_sequence="nop")
 
 
 def test_rt_from_markers():
@@ -174,6 +174,50 @@ def test_rt_from_markers():
     )
 
     np.testing.assert_array_equal(rt_xy_from_known_m, rt_xy_expected)
+
+    exception_default_params = dict(
+        origin=all_m.isel(channel=[0]),
+        axis_1=all_m.isel(channel=[0, 1]),
+        axis_2=all_m.isel(channel=[0, 2]),
+        axes_name="xy",
+        axis_to_recalculate="y",
+    )
+    with pytest.raises(ValueError):
+        Rototrans.from_markers(
+            **{**exception_default_params, **dict(origin=all_m.isel(channel=[0, 1]))}
+        )
+
+    with pytest.raises(ValueError):
+        Rototrans.from_markers(
+            **{**exception_default_params, **dict(axis_1=all_m.isel(channel=[0]))}
+        )
+
+    with pytest.raises(ValueError):
+        Rototrans.from_markers(
+            **{**exception_default_params, **dict(axis_2=all_m.isel(channel=[0]))}
+        )
+
+    with pytest.raises(ValueError):
+        Rototrans.from_markers(
+            **{
+                **exception_default_params,
+                **dict(axis_1=all_m.isel(channel=[0, 1], time_frame=slice(None, 50))),
+            }
+        )
+
+    with pytest.raises(ValueError):
+        Rototrans.from_markers(**{**exception_default_params, **dict(axes_name="yyz")})
+
+    with pytest.raises(ValueError):
+        Rototrans.from_markers(**{**exception_default_params, **dict(axes_name="xxz")})
+
+    with pytest.raises(ValueError):
+        Rototrans.from_markers(**{**exception_default_params, **dict(axes_name="zzz")})
+
+    with pytest.raises(ValueError):
+        Rototrans.from_markers(
+            **{**exception_default_params, **dict(axis_to_recalculate="h")}
+        )
 
 
 def test_rt_transpose():

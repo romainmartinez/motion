@@ -14,7 +14,7 @@ from .utils import is_expected_array
 def test_read_sto():
     is_expected_array(Analogs.from_sto(ANALOGS_STO), **EXPECTED_VALUES[62])
     with pytest.raises(IndexError):
-        assert Analogs.from_sto(ANALOGS_CSV)
+        Analogs.from_sto(ANALOGS_CSV)
 
 
 def test_read_mot():

@@ -22,7 +22,7 @@ def test_analogs_creation():
     assert array.dims == dims
 
     with pytest.raises(ValueError):
-        assert Analogs(MARKERS_DATA)
+        Analogs(MARKERS_DATA)
 
 
 def test_markers_creation():
@@ -40,7 +40,7 @@ def test_markers_creation():
     assert array.dims == dims
 
     with pytest.raises(ValueError):
-        assert Markers(ANALOGS_DATA)
+        Markers(ANALOGS_DATA)
 
 
 def test_angles_creation():
@@ -58,7 +58,7 @@ def test_angles_creation():
     assert array.dims == dims
 
     with pytest.raises(ValueError):
-        assert Angles(ANALOGS_DATA)
+        Angles(ANALOGS_DATA)
 
 
 def test_rototrans_creation():
@@ -76,4 +76,4 @@ def test_rototrans_creation():
     assert array.dims == dims
 
     with pytest.raises(ValueError):
-        assert Angles(ANALOGS_DATA)
+        Angles(ANALOGS_DATA)

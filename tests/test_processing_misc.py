@@ -39,10 +39,10 @@ def test_proc_detect_onset():
     np.testing.assert_array_equal(x=m.meca.detect_onset(threshold=m.mean() * 10), y=0)
 
     with pytest.raises(ValueError):
-        assert MARKERS_DATA[0, :, :].meca.detect_onset(threshold=0)
+        MARKERS_DATA[0, :, :].meca.detect_onset(threshold=0)
 
     with pytest.raises(ValueError):
-        assert MARKERS_DATA[:, :, :].meca.detect_onset(threshold=0)
+        MARKERS_DATA[:, :, :].meca.detect_onset(threshold=0)
 
 
 def test_proc_detect_outliers():
