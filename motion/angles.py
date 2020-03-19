@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from motion.processing.angles import angles_from_rototrans
+from motion.processing import angles
 
 
 class Angles:
@@ -132,4 +132,4 @@ class Angles:
             angles = Angles.from_rototrans(rototrans=rt, angle_sequence=angles_sequence)
             ```
         """
-        return angles_from_rototrans(cls, rototrans, angle_sequence)
+        return angles.angles_from_rototrans(cls, rototrans, angle_sequence)

@@ -5,6 +5,11 @@ import xarray as xr
 from scipy import fftpack
 
 
+def has_correct_name(array: xr.DataArray, name: str):
+    if array.name != name:
+        raise ValueError(f"The provided array is not a {name}; It is a {array.name}.")
+
+
 def fft(
     array: xr.DataArray, freq: Union[int, float], only_positive=True
 ) -> xr.DataArray:

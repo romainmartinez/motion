@@ -5,6 +5,7 @@ import xarray as xr
 from scipy.optimize import least_squares
 
 from motion import Angles
+from motion.processing import misc
 
 
 def rototrans_from_euler_angles(
@@ -201,3 +202,23 @@ def rototrans_from_averaged_rototrans(
     initia_guess = Angles.from_rototrans(target, seq).squeeze()
     angles[:3, 0, 0] = least_squares(objective_function, initia_guess).x
     return caller.from_euler_angles(angles, seq, translations=target.meca.translation)
+
+
+def rotation_getter(array: xr.DataArray) -> xr.DataArray:
+    misc.has_correct_name(array, "rototrans")
+    return array[:3, :3, :]
+
+
+def rotation_setter(array: xr.DataArray, value: xr.DataArray) -> None:
+    misc.has_correct_name(array, "rototrans")
+    array[:3, :3, :] = value[:3, :, :]
+
+
+def translation_getter(array: xr.DataArray) -> xr.DataArray:
+    misc.has_correct_name(array, "rototrans")
+    return array[:3, 3:4, :]
+
+
+def translation_setter(array: xr.DataArray, value: xr.DataArray) -> None:
+    misc.has_correct_name(array, "rototrans")
+    array[:3, 3:4, :] = value[:3, :, :]

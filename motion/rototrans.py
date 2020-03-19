@@ -4,12 +4,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from motion.processing.rototrans import (
-    rototrans_from_euler_angles,
-    rototrans_from_markers,
-    rototrans_from_transposed_rototrans,
-    rototrans_from_averaged_rototrans,
-)
+from motion.processing import rototrans
 
 
 class Rototrans:
@@ -167,7 +162,9 @@ class Rototrans:
             )
             ```
         """
-        return rototrans_from_euler_angles(cls, angles, angle_sequence, translations)
+        return rototrans.rototrans_from_euler_angles(
+            cls, angles, angle_sequence, translations
+        )
 
     @classmethod
     def from_markers(
@@ -211,7 +208,7 @@ class Rototrans:
             )
             ```
         """
-        return rototrans_from_markers(
+        return rototrans.rototrans_from_markers(
             cls, origin, axis_1, axis_2, axes_name, axis_to_recalculate
         )
 
@@ -238,7 +235,7 @@ class Rototrans:
         !!! notes
             The inverse Rototrans is, by definition, equivalent to the tranposed Rototrans.
         """
-        return rototrans_from_transposed_rototrans(cls, rt)
+        return rototrans.rototrans_from_transposed_rototrans(cls, rt)
 
     @classmethod
     def from_averaged_rototrans(cls, rt: xr.DataArray) -> xr.DataArray:
@@ -276,4 +273,4 @@ class Rototrans:
             print(error)
             ```
         """
-        return rototrans_from_averaged_rototrans(cls, rt)
+        return rototrans.rototrans_from_averaged_rototrans(cls, rt)

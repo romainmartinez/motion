@@ -5,8 +5,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from motion.io.read import read_csv_or_excel, read_c3d, read_sto_or_mot
-from motion.io.utils import col_spliter
+from motion.io import read, utils
 
 
 class Analogs:
@@ -209,7 +208,7 @@ class Analogs:
             )
             ```
         """
-        return read_csv_or_excel(
+        return read.read_csv_or_excel(
             cls,
             "csv",
             filename,
@@ -303,7 +302,7 @@ class Analogs:
             ```
 
         """
-        return read_csv_or_excel(
+        return read.read_csv_or_excel(
             cls,
             "excel",
             filename,
@@ -362,7 +361,7 @@ class Analogs:
             analogs = Analogs.from_sto(data_path, usecols=channels)
             ```
         """
-        return read_sto_or_mot(cls, filename, end_header, **kwargs)
+        return read.read_sto_or_mot(cls, filename, end_header, **kwargs)
 
     @classmethod
     def from_mot(
@@ -404,7 +403,7 @@ class Analogs:
             analogs = Analogs.from_mot(data_path, usecols=channels)
             ```
         """
-        return read_sto_or_mot(cls, filename, end_header, **kwargs)
+        return read.read_sto_or_mot(cls, filename, end_header, **kwargs)
 
     @classmethod
     def from_c3d(
@@ -457,7 +456,7 @@ class Analogs:
             analogs = Analogs.from_c3d(data_path, usecols=channels, prefix_delimiter=".")
             ```
         """
-        return read_c3d(
+        return read.read_c3d(
             cls, filename, usecols, prefix_delimiter, suffix_delimiter, attrs
         )
 
@@ -484,11 +483,13 @@ class Analogs:
                 for i in usecols:
                     idx.append(i)
                     channels.append(
-                        col_spliter(columns[i], prefix_delimiter, suffix_delimiter)
+                        utils.col_spliter(
+                            columns[i], prefix_delimiter, suffix_delimiter
+                        )
                     )
             elif isinstance(usecols[0], str):
                 columns_split = [
-                    col_spliter(col, prefix_delimiter, suffix_delimiter)
+                    utils.col_spliter(col, prefix_delimiter, suffix_delimiter)
                     for col in columns
                 ]
                 for col in usecols:
@@ -505,6 +506,7 @@ class Analogs:
             return None, None
 
         channels = [
-            col_spliter(col, prefix_delimiter, suffix_delimiter) for col in columns
+            utils.col_spliter(col, prefix_delimiter, suffix_delimiter)
+            for col in columns
         ]
         return channels, None

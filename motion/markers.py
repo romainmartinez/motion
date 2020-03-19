@@ -5,8 +5,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from motion.io.read import read_csv_or_excel, read_c3d, read_trc
-from motion.io.utils import col_spliter
+from motion.io import read, utils
 
 
 class Markers:
@@ -215,7 +214,7 @@ class Markers:
             )
             ```
         """
-        return read_csv_or_excel(
+        return read.read_csv_or_excel(
             cls,
             "csv",
             filename,
@@ -325,7 +324,7 @@ class Markers:
             )
             ```
         """
-        return read_csv_or_excel(
+        return read.read_csv_or_excel(
             cls,
             "excel",
             filename,
@@ -394,7 +393,7 @@ class Markers:
             markers = Markers.from_c3d(data_path, prefix_delimiter=":")
             ```
         """
-        return read_c3d(
+        return read.read_c3d(
             cls, filename, usecols, prefix_delimiter, suffix_delimiter, attrs
         )
 
@@ -435,7 +434,7 @@ class Markers:
             markers = Markers.from_trc(data_path, usecols=channels)
             ```
         """
-        return read_trc(cls, filename, **kwargs)
+        return read.read_trc(cls, filename, **kwargs)
 
     @staticmethod
     def _reshape_flat_array(array: Union[np.array, np.ndarray]) -> xr.DataArray:
@@ -457,13 +456,13 @@ class Markers:
                     real_idx = i * 3
                     idx.extend([real_idx, real_idx + 1, real_idx + 2])
                     channels.append(
-                        col_spliter(
+                        utils.col_spliter(
                             columns[real_idx], prefix_delimiter, suffix_delimiter
                         )
                     )
             elif isinstance(usecols[0], str):
                 columns_split = [
-                    col_spliter(col, prefix_delimiter, suffix_delimiter)
+                    utils.col_spliter(col, prefix_delimiter, suffix_delimiter)
                     for col in columns
                 ]
                 for col in usecols:
@@ -481,7 +480,7 @@ class Markers:
             return None, None
 
         channels = [
-            col_spliter(col, prefix_delimiter, suffix_delimiter)
+            utils.col_spliter(col, prefix_delimiter, suffix_delimiter)
             for col in columns
             if "Unnamed" not in col
         ]
