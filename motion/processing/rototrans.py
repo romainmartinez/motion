@@ -42,10 +42,10 @@ def rototrans_from_euler_angles(
             "Angles and translations must have the same number of frames. "
             f"You have translation = {translations.shape} and angles = {angles.shape}"
         )
-    if angles.row.size != len(angle_sequence):
+    if angles.axis.size != len(angle_sequence):
         raise IndexError(
             "Angles and angles_sequence must be the same size. "
-            f"You have angles rows = {angles.row.size} and angle_sequence length = {len(angle_sequence)}"
+            f"You have angles axis = {angles.axis.size} and angle_sequence length = {len(angle_sequence)}"
         )
     if angles.time_frame.size == 0:
         return caller()
@@ -54,8 +54,8 @@ def rototrans_from_euler_angles(
         np.eye(4)[..., np.newaxis], repeats=angles.time_frame.size, axis=2
     )
     rt = empty_rt.copy()
-    for i in range(angles.row.size):
-        a = angles.isel(row=i)
+    for i in range(angles.axis.size):
+        a = angles[i, ...]
         matrix_to_prod = empty_rt.copy()
         if angle_sequence[i] == "x":
             # [[1, 0     ,  0     ],

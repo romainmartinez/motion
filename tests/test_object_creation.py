@@ -44,7 +44,7 @@ def test_markers_creation():
 
 
 def test_angles_creation():
-    dims = ("row", "col", "time_frame")
+    dims = ("axis", "channel", "time_frame")
     array = Angles()
     np.testing.assert_array_equal(x=array, y=xr.DataArray())
     assert array.dims == dims

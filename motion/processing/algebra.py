@@ -40,8 +40,7 @@ def center(
 ) -> xr.DataArray:
     if mu is None:
         return array - array.mean(dim="time_frame")
-    else:
-        return array - mu
+    return array - mu
 
 
 def normalize(

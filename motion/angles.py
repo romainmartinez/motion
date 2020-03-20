@@ -16,7 +16,7 @@ class Angles:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Angles DataArray with `row`, `col` and `time_frame` dimensions.
+        Angles DataArray with `axis`, `channel` and `time_frame` dimensions.
 
         Arguments:
             data: Array to be passed to xarray.DataArray
@@ -34,10 +34,10 @@ class Angles:
             import numpy as np
             from motion import Angles
 
-            n_row = 4
-            n_col = 4
+            n_axis = 3
+            n_channel = 3
             n_frames = 100
-            data = np.random.random(size=(n_row, n_col, n_frames))
+            data = np.random.random(size=(n_axis, n_channel, n_frames))
             angles = Angles(data)
             ```
 
@@ -59,7 +59,7 @@ class Angles:
             coords["time_frame"] = time_frames
         return xr.DataArray(
             data=data,
-            dims=("row", "col", "time_frame"),
+            dims=("axis", "channel", "time_frame"),
             coords=coords,
             name="angles",
             *args,
@@ -68,7 +68,7 @@ class Angles:
 
     @classmethod
     def from_random_data(
-        cls, distribution: str = "normal", size: tuple = (10, 10, 100), *args, **kwargs
+        cls, distribution: str = "normal", size: tuple = (3, 10, 100), *args, **kwargs
     ) -> xr.DataArray:
         """
         Create random data from a specified distribution (normal by default) using random walk.
