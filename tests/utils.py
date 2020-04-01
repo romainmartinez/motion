@@ -1,10 +1,15 @@
 import inspect
+import json
 import re
-import time
-from functools import wraps
 
 import numpy as np
 import xarray as xr
+
+mkdocs_server = "http://127.0.0.1:8000"
+
+
+class DocStringError(Exception):
+    pass
 
 
 def is_expected_array(
@@ -71,18 +76,31 @@ def print_expected_values(array: xr.DataArray):
     print(f"nans_val={nans_val}")
 
 
-def timing(f):
-    @wraps(f)
-    def wrapper(*args, **kwargs):
-        print(f.__name__)
+def is_function_or_method_or_new(method):
+    return (inspect.isfunction(method) or inspect.ismethod(method)) and (
+        method.__name__[0] != "_" or method.__name__ == "new"
+    )
 
-        start = time.time()
-        result = f(*args, **kwargs)
 
-        print(f"\t{f.__name__} succeed ({time.time() - start})")
-        return result
+def get_available_methods(module):
+    return [
+        method_obj
+        for class_name, class_obj in inspect.getmembers(module, inspect.isclass)
+        for method_name, method_obj in inspect.getmembers(class_obj)
+        if is_function_or_method_or_new(method_obj)
+    ]
 
-    return wrapper
+
+def do_we_generate_doc_files():
+    try:
+        import requests
+
+        try:
+            return requests.get(mkdocs_server).status_code == 200
+        except requests.exceptions.ConnectionError:
+            return False
+    except ModuleNotFoundError:
+        return False
 
 
 def function_has_return(func):
@@ -101,3 +119,57 @@ def extract_code_blocks_from_md(
             )
         )
     )
+
+
+def generate_api_json(module):
+    api_json = {
+        "name": "motion",
+        "description": "Base module",
+        "link": "/",
+        "children": [],
+    }
+    for class_name, class_obj in inspect.getmembers(module, inspect.isclass):
+        class_children = []
+        class_api_url = f"/api/{class_obj.__module__.split('.')[-1]}/#{class_obj.__module__}.{class_name}"
+        for method_name, method_obj in inspect.getmembers(class_obj):
+            if is_function_or_method_or_new(method_obj):
+                method_dict = {
+                    "name": method_name,
+                    "description": method_obj.__doc__.split("\n", 2)[1].lstrip(),
+                    "link": f"{class_api_url}.{method_name}",
+                    "value": 1,
+                }
+                method_dict["docstring"] = get_method_generated_docstring(method_dict)
+                class_children.append(method_dict)
+        api_json["children"].append(
+            {
+                "name": class_name,
+                "description": class_obj.__doc__,
+                "link": class_api_url,
+                "children": class_children,
+            }
+        )
+
+    with open("docs/api/api.json", "w") as api_file:
+        json.dump(api_json, api_file, indent=2)
+
+
+def get_method_generated_docstring(method_dict):
+    import requests
+    from bs4 import BeautifulSoup
+
+    to_delete = '<p class="admonition-title">Example</p>'
+    html = requests.get(f"{mkdocs_server}{method_dict['link']}")
+    html.raise_for_status()
+    soup = BeautifulSoup(html.text)
+    autodoc_bloc = (
+        soup.find("h3", {"id": method_dict["link"].split("#")[-1]})
+        .find_next_sibling()
+        .find("div", {"class": "admonition example"})
+    )
+    generated_docstring = "".join([f"{i}" for i in autodoc_bloc.children]).replace(
+        to_delete, ""
+    )
+    if generated_docstring:
+        return generated_docstring
+    raise ValueError(f"could not process {method_dict['name']}")

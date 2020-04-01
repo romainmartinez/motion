@@ -11,7 +11,9 @@ theme:
   favicon: 'images/favicon.ico'
 nav:
   - Getting Started: getting-started.md
-  - User Guide: user-guide.md
+  - User Guide:
+    - Object creation: object-creation.md
+    - Data processing: data-processing.md
   - Case Studies: case-studies.md
   - About: about.md
   - API reference:

@@ -9,6 +9,8 @@ from motion.io import read, utils
 
 
 class Markers:
+    """Skin marker positions."""
+
     def __new__(
         cls,
         data: Optional[Union[np.array, np.ndarray, xr.DataArray, list]] = None,

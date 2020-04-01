@@ -1,29 +1,96 @@
-# Getting Started
+## Working with labelled multi-dimensional arrays
+
+Motion introduces a concise interface to read, analyse, visualize and plot biomechanical data.
+
+Such data are typically *multi-dimensional*, such as joint angles with associated axes, degrees of freedom and time frames.
+
+<div id="angles-chart"></div>
+
+[NumPy](https:numpy.org) is the fundamental package for multi-dimensional computing with Python.
+While NumPy provides an efficient data structure and an intuitive interface, biomechanical datasets are usually more than just raw numbers and have labels which encode how the array values map to different dimensions such as axes, degrees of freedom, channels or time frames.
+
+Motion is build upon and extend the core strengths of [xarray](http://xarray.pydata.org/en/stable/index.html), which keeps tracks of labels and provides a powerful and concise interface which makes it easy to:
+
+-   Apply any operations over dimensions by name (`array.sum(dim="time_frame")`) instead of arbitrary axis (`array.sum(axis=2)`).
+-   Select values by labels (`array.sel(axis="x")` or `emg.sel(channel="biceps")`)
+-   Vectorize computation across multiple dimensions.
+-   Use the [split-apply-combine](https://vita.had.co.nz/papers/plyr.pdf) paradigm, for example: `emg.groupby("channel").mean()` or any custom function: `emg.groupby('channel').map(lambda x: x - x.mean())`).
+-   Keep track of metadata in the `array.attrs` Python dictionary (`array.attrs["rate"]`).
+-   Extent the xarray interface with domain specific functionalities with custom accessors on xarray objects. In motion, the biomechanics specific functions are registered under the `meca` name space (`array.meca`).
+
+Working with labels makes it much easier to work with multi-dimensional arrays as you do not have to keep track of the order of the dimensions or insert dummy dimensions to align arrays.
+This allows for a more intuitive, more concise, and less error-prone developer experience.
+
+!!! note
+    As the underlying data-structure is still a NumPy array, NumPy functions (`np.abs(array)`) and indexing (`array[:, 0, 1]`) work out of the box.
+
+By leveraging xarray data structures, Motion inherit their features such as built-in [interpolation](http://xarray.pydata.org/en/stable/interpolation.html), [computation](http://xarray.pydata.org/en/stable/computation.html), [GroupBy](http://xarray.pydata.org/en/stable/groupby.html), [data wrangling](http://xarray.pydata.org/en/stable/combining.html), [parallel computing](http://xarray.pydata.org/en/stable/dask.html) and [plotting](http://xarray.pydata.org/en/stable/plotting.html).
+
+!!! info "Extending xarray"
+    Xarray is designed as a general purpose library and tries to avoid including domain specific functionalities.
+    But inevitably, the need for more domain specific domain specific logic arises.
+    That's why motion and [dozens of other scientific packages](http://xarray.pydata.org/en/stable/related-projects.html) extend xarray.
+
+    Extending data structure in Python is usually achieved with class inheritance.
+    However inheritance is not very robust for large class such as `xarray.DataArray`.
+    To add domain specific functionality, motion follows xarray developpers' recommendations and use a custom "accessor".
+    To read why, you can check out the [xarray documentation](http://xarray.pydata.org/en/stable/internals.html#extending-xarray).
+
+## Core functionalities
+
+Motion has four data structures build upon [xarray](http://xarray.pydata.org/en/stable/index.html).
+Each structure is associated with a specific biomechanical data type and have specialized functionalities:
+
+| Class | Dimensions | Description |
+|-------------------------|-------------------------------------|------------------------------------------------------------------------|
+| `Analogs` [TODO link] | `("channel", "time_frame")` | Generic signals such as EMGs, force signals or any other analog signal |
+| `Angles` [TODO link] | `("axis", "channel", "time_frame")` | Joint angles |
+| `Markers` [TODO link] | `("axis", "channel", "time_frame")` | Skin marker positions |
+| `Rototrans` [Todo link] | `("row", "col", "time_frame")` | Rototranslation matrix |
+
+There is technically hundred of functions in motion, but you can actually bucket then into two specific categories:
+
+1.  Object creation [TODO link] with the `from_*` methods. For example, if you want to define a markers array from a csv file: `markers = Markers.from_csv(...)`.
+2.  Data processing [TODO link] with the `meca` array accessor. To low-pass filter our previous markers: `markers.meca.low_pass(...)`.
+
+!!! note
+    Check out the API reference to see the parameters, use cases and examples associated with each function.
+    
+Check out this interactive visualization to explore all of motion's public API.
+[TODO: hover to see example]
+[TODO: click to open api tab]
+
+<div id="api-exploration">
+    <div id="tooltip" class="admonition info tooltip">
+        <p id="tooltip-title" class="admonition-title"></p>
+        <p id="tooltip-description"></p>
+        <p id="tooltip-docstring"></p>
+    </div>
+</div>
 
 ## Installation
 
-motion itself is a pure Python package, but its dependencies are not.
+Motion itself is a pure Python package, but its dependencies are not.
 The easiest way to get everything installed is to use [conda](https://conda.io/en/latest/miniconda.html).
+
 To install motion with its recommended dependencies using the conda command line tool:
 
 ```bash
 conda install -c conda-forge motion
 ```
-
 Now that motion is installed, you should be able to import it:
-
 
 ```python
 import motion
 ```
 
-## Core data structures
+## Quick overview
 
-Motion have several data structures, which build upon and extend the core strengths of [xarray](http://xarray.pydata.org/en/stable/index.html).
+Here is a quick example of w
 
-- Analogs
-- Markers
-- Angles
-- Rototrans
-
-
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="../js/charts.js"></script>
+<script>
+drawMatrix("angles-chart", [3, 2, 5], ["axes", "degrees of freedom", "time frames"], "Joint angles");
+drawApi("api-exploration");
+</script>

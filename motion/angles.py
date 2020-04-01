@@ -8,6 +8,8 @@ from motion.processing import angles
 
 
 class Angles:
+    """Joint angles."""
+
     def __new__(
         cls,
         data: Optional[Union[np.array, np.ndarray, xr.DataArray, list]] = None,

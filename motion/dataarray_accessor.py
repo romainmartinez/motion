@@ -10,7 +10,9 @@ from motion.processing import algebra, filter, interp, misc, rototrans, markers
 
 
 @xr.register_dataarray_accessor("meca")
-class MecaDataArrayAccessor(object):
+class DataArrayAccessor(object):
+    """Meca DataArray accessor."""
+
     def __init__(self, xarray_obj: xr.DataArray):
         self._obj = xarray_obj
 

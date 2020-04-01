@@ -8,6 +8,8 @@ from motion.processing import rototrans
 
 
 class Rototrans:
+    """Rototranslation matrix."""
+
     def __new__(
         cls,
         data: Optional[Union[np.array, np.ndarray, xr.DataArray, list]] = None,

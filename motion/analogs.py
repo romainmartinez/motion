@@ -9,6 +9,8 @@ from motion.io import read, utils
 
 
 class Analogs:
+    """Generic signals such as EMGs, force signals or any other analog signal."""
+
     def __new__(
         cls,
         data: Optional[Union[np.array, np.ndarray, xr.DataArray, list]] = None,

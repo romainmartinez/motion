@@ -4,21 +4,19 @@ import black
 import pytest
 
 import motion
-from tests.utils import extract_code_blocks_from_md, function_has_return
+from tests.utils import (
+    extract_code_blocks_from_md,
+    function_has_return,
+    DocStringError,
+    get_available_methods,
+    do_we_generate_doc_files,
+    generate_api_json,
+)
 
-
-class DocStringError(Exception):
-    pass
-
-
-methods = [
-    method_obj
-    for class_name, class_obj in inspect.getmembers(motion, inspect.isclass)
-    for method_name, method_obj in inspect.getmembers(class_obj)
-    if (inspect.isfunction(method_obj) or inspect.ismethod(method_obj))
-    and method_name[0] != "_"
-]
-ignored_args = ["cls", "self"]
+generate_doc_files = do_we_generate_doc_files()
+methods = get_available_methods(motion)
+if generate_doc_files:
+    generate_api_json(motion)
 
 
 @pytest.mark.parametrize("method", methods)
@@ -35,13 +33,15 @@ def test_docstring_has_example(method):
 
 @pytest.mark.parametrize("method", methods)
 def test_docstring_example(method):
+    plt_show_replacer = (
+        f'plt.savefig("docs/images/api/{method.__name__}.svg", bbox_inches="tight")\nplt.figure()'
+        if generate_doc_files
+        else ""
+    )
     code_block = extract_code_blocks_from_md(method.__doc__).replace(
-        "plt.show()",
-        f'plt.savefig("docs/images/api/{method.__name__}.svg", bbox_inches="tight")\nplt.figure()',
+        "plt.show()", plt_show_replacer,
     )
-    exec(
-        code_block, {}, {},
-    )
+    exec(code_block, {}, {})
 
 
 @pytest.mark.parametrize("method", methods)
@@ -65,12 +65,13 @@ def test_docstring_return(method):
 
 @pytest.mark.parametrize("method", methods)
 def test_docstring_parameters(method):
+    funct_with_ignored_args = "cls", "self"
     argspec = inspect.getfullargspec(method)
-    args = [a for a in argspec.args if a not in ignored_args]
+    args = [a for a in argspec.args if a not in funct_with_ignored_args]
     if args and "Arguments:" not in method.__doc__:
         raise DocStringError(f"`Arguments` block missing in `{method}` docstring")
     for arg in args:
-        if arg in ignored_args:
+        if arg in funct_with_ignored_args:
             continue
         if arg not in method.__doc__:
             raise DocStringError(f"{arg} not described in {method} docstring")

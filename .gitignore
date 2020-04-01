@@ -134,3 +134,7 @@ site/
 todo.txt
 
 temp.*
+
+docs/api/api.json
+
+/docs/images/api/*.svg
