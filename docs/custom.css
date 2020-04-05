@@ -1,4 +1,4 @@
-div.autodoc {
+div.doc-contents {
   border-bottom: 2px solid rgb(230, 230, 230);
 }
 
@@ -15,7 +15,7 @@ div.autodoc {
 
 .chart-text {
   font-size: 16px;
-  fill: #263238;
+  fill: #263238 !important;
 }
 
 .cell:hover rect {

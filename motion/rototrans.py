@@ -8,8 +8,6 @@ from motion.processing import rototrans
 
 
 class Rototrans:
-    """Rototranslation matrix."""
-
     def __new__(
         cls,
         data: Optional[Union[np.array, np.ndarray, xr.DataArray, list]] = None,
@@ -18,7 +16,8 @@ class Rototrans:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Rototrans DataArray with `axis`, `channel` and `time_frame` dimensions.
+        Rototrans DataArray with `row`, `col` and `time_frame` dimensions
+         used for rototranslation matrix.
 
         Arguments:
             data: Array to be passed to xarray.DataArray

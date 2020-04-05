@@ -9,8 +9,6 @@ from motion.io import read, utils
 
 
 class Markers:
-    """Skin marker positions."""
-
     def __new__(
         cls,
         data: Optional[Union[np.array, np.ndarray, xr.DataArray, list]] = None,
@@ -20,7 +18,8 @@ class Markers:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Markers DataArray with `axis`, `channel` and `time_frame` dimensions.
+        Markers DataArray with `axis`, `channel` and `time_frame` dimensions
+         used for skin marker positions.
 
         Arguments:
             data: Array to be passed to xarray.DataArray

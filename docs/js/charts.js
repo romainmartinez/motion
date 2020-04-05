@@ -180,7 +180,7 @@ async function drawApi(id) {
     .sort((a, b) => b.height - a.height || b.value - a.value);
 
   const spacing = 7.5;
-  const fontSize = 16;
+  const fontSize = 12;
   let dimensions = {
     width: document.getElementById(id).clientWidth,
     margin: { left: 0, bottom: spacing, right: 0, top: spacing },
@@ -265,7 +265,6 @@ async function drawApi(id) {
 
   const onMouseEnter = (datum) => {
     tooltip.select("#tooltip-title").text(datum.data.name);
-    tooltip.select("#tooltip-description").html(datum.data.description);
     tooltip.select("#tooltip-docstring").html(datum.data.docstring);
 
     const x = dimensions.innerWidth / 2;

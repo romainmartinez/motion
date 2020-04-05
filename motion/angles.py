@@ -8,8 +8,6 @@ from motion.processing import angles
 
 
 class Angles:
-    """Joint angles."""
-
     def __new__(
         cls,
         data: Optional[Union[np.array, np.ndarray, xr.DataArray, list]] = None,
@@ -18,7 +16,10 @@ class Angles:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Angles DataArray with `axis`, `channel` and `time_frame` dimensions.
+        Angles DataArray with `axis`, `channel` and `time_frame` dimensions
+         used for joint angles.
+
+        ![angles](../../images/matrix/angles.svg)
 
         Arguments:
             data: Array to be passed to xarray.DataArray

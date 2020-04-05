@@ -9,8 +9,6 @@ from motion.io import read, utils
 
 
 class Analogs:
-    """Generic signals such as EMGs, force signals or any other analog signal."""
-
     def __new__(
         cls,
         data: Optional[Union[np.array, np.ndarray, xr.DataArray, list]] = None,
@@ -20,7 +18,8 @@ class Analogs:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Analogs DataArray with `axis`, `channel` and `time_frame` dimensions.
+        Analogs DataArray with `channel` and `time_frame` dimensions
+         used for generic signals such as EMGs, force signals or any other analog signal.
 
         Arguments:
             data: Array to be passed to xarray.DataArray

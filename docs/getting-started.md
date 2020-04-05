@@ -4,7 +4,7 @@ Motion introduces a concise interface to read, analyse, visualize and plot biome
 
 Such data are typically *multi-dimensional*, such as joint angles with associated axes, degrees of freedom and time frames.
 
-<div id="angles-chart"></div>
+<div id="angles-matrix"></div>
 
 [NumPy](https:numpy.org) is the fundamental package for multi-dimensional computing with Python.
 While NumPy provides an efficient data structure and an intuitive interface, biomechanical datasets are usually more than just raw numbers and have labels which encode how the array values map to different dimensions such as axes, degrees of freedom, channels or time frames.
@@ -63,7 +63,6 @@ Check out this interactive visualization to explore all of motion's public API.
 <div id="api-exploration">
     <div id="tooltip" class="admonition info tooltip">
         <p id="tooltip-title" class="admonition-title"></p>
-        <p id="tooltip-description"></p>
         <p id="tooltip-docstring"></p>
     </div>
 </div>
@@ -91,6 +90,6 @@ Here is a quick example of w
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="../js/charts.js"></script>
 <script>
-drawMatrix("angles-chart", [3, 2, 5], ["axes", "degrees of freedom", "time frames"], "Joint angles");
+drawMatrix("angles-matrix", [3, 2, 5], ["axes", "degrees of freedom", "time frames"], "Joint angles");
 drawApi("api-exploration");
 </script>
