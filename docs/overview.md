@@ -28,7 +28,7 @@ By leveraging xarray data structures, Motion inherit their features such as buil
 
 !!! info "Extending xarray"
     Xarray is designed as a general purpose library and tries to avoid including domain specific functionalities.
-    But inevitably, the need for more domain specific domain specific logic arises.
+    But inevitably, the need for more domain specific logic arises.
     That's why motion and [dozens of other scientific packages](http://xarray.pydata.org/en/stable/related-projects.html) extend xarray.
 
     Extending data structure in Python is usually achieved with class inheritance.
@@ -43,22 +43,22 @@ Each structure is associated with a specific biomechanical data type and have sp
 
 | Class | Dimensions | Description |
 |-------------------------|-------------------------------------|------------------------------------------------------------------------|
-| `Analogs` [TODO link] | `("channel", "time_frame")` | Generic signals such as EMGs, force signals or any other analog signal |
-| `Angles` [TODO link] | `("axis", "channel", "time_frame")` | Joint angles |
-| `Markers` [TODO link] | `("axis", "channel", "time_frame")` | Skin marker positions |
-| `Rototrans` [Todo link] | `("row", "col", "time_frame")` | Rototranslation matrix |
+| [`Analogs`](/api/analogs/#motion.analogs.Analogs) | `("channel", "time_frame")` | Generic signals such as EMGs, force signals or any other analog signal |
+| [`Angles`](/api/angles/#motion.angles.Angles) | `("axis", "channel", "time_frame")` | Joint angles |
+| [`Markers`](/api/markers/#motion.markers.Markers) | `("axis", "channel", "time_frame")` | Skin marker positions |
+| [`Rototrans`](/api/rototrans/#motion.rototrans.Rototrans) | `("row", "col", "time_frame")` | Rototranslation matrix |
 
-There is technically hundred of functions in motion, but you can actually bucket then into two specific categories:
+There is technically dozens of functions in motion, but you can actually bucket then into two specific categories:
 
-1.  Object creation [TODO link] with the `from_*` methods. For example, if you want to define a markers array from a csv file: `markers = Markers.from_csv(...)`.
-2.  Data processing [TODO link] with the `meca` array accessor. To low-pass filter our previous markers: `markers.meca.low_pass(...)`.
+1.  [Object creation](/object-creation/) with the `from_*` methods. For example, if you want to define a marker array from a csv file: `markers = Markers.from_csv(...)`.
+2.  [Data processing](/data-processing/) with the `meca` array accessor. To low-pass filter our previous markers: `markers.meca.low_pass(...)`.
 
 !!! note
     Check out the API reference to see the parameters, use cases and examples associated with each function.
     
-Check out this interactive visualization to explore all of motion's public API.
-[TODO: hover to see example]
-[TODO: click to open api tab]
+You can explore all of motion's public API on the following interactive visualization. 
+Hover the mouse over any bloc to display a short description with some examples
+ and click to jump to the corresponding API reference. 
 
 <div id="api-exploration">
     <div id="tooltip" class="admonition info tooltip">
@@ -67,29 +67,9 @@ Check out this interactive visualization to explore all of motion's public API.
     </div>
 </div>
 
-## Installation
-
-Motion itself is a pure Python package, but its dependencies are not.
-The easiest way to get everything installed is to use [conda](https://conda.io/en/latest/miniconda.html).
-
-To install motion with its recommended dependencies using the conda command line tool:
-
-```bash
-conda install -c conda-forge motion
-```
-Now that motion is installed, you should be able to import it:
-
-```python
-import motion
-```
-
-## Quick overview
-
-Here is a quick example of w
-
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="../js/charts.js"></script>
 <script>
-drawMatrix("angles-matrix", [3, 2, 5], ["axes", "degrees of freedom", "time frames"], "Joint angles");
-drawApi("api-exploration");
+    drawMatrix("angles-matrix", [3, 2, 5], ["axes", "degrees of freedom", "time frames"], "Joint angles");
+    drawApi("api-exploration");
 </script>

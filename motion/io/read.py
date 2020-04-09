@@ -52,7 +52,7 @@ def read_c3d(
     attrs["first_frame"] = reader.header().firstFrame() * data_by_frame
     attrs["last_frame"] = reader.header().lastFrame() * data_by_frame
     attrs["rate"] = reader.header().frameRate() * data_by_frame
-    attrs["unit"] = (
+    attrs["units"] = (
         reader.parameters().group(group).parameter("UNITS").valuesAsString()[0]
     )
 

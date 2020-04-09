@@ -30,3 +30,29 @@ div.doc-contents {
   padding: 0 0.6rem;
   overflow: auto;
 }
+
+.nb-output {
+  margin-left: 30px !important;
+  margin-right: 30px !important;
+  opacity: 0.8 !important;
+}
+
+.nb-output button {
+  display: none;
+}
+
+.xr-attrs dd {
+  margin: 0 !important;
+}
+
+.xr-dim-list:before {
+  content: none !important;
+}
+
+.xr-dim-list:after {
+  content: none !important;
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: none !important;
+}

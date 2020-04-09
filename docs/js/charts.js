@@ -179,7 +179,7 @@ async function drawApi(id) {
     .sum((d) => d.value)
     .sort((a, b) => b.height - a.height || b.value - a.value);
 
-  const spacing = 7.5;
+  const spacing = 10;
   const fontSize = 12;
   let dimensions = {
     width: document.getElementById(id).clientWidth,

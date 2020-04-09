@@ -19,8 +19,6 @@ class Angles:
         Angles DataArray with `axis`, `channel` and `time_frame` dimensions
          used for joint angles.
 
-        ![angles](../../images/matrix/angles.svg)
-
         Arguments:
             data: Array to be passed to xarray.DataArray
             time_frames: Time vector in seconds associated with the `data` parameter

@@ -7,7 +7,7 @@ test:
 	pytest --cov-report term-missing --color=yes --cov=motion tests -rxXs
 
 nb_to_md:
-	jupyter nbconvert --to markdown notebooks/*.ipynb --output-dir='./docs'
+	jupyter nbconvert --to markdown notebooks/*.ipynb --output-dir='./docs' --template=docs/nbconvert.tpl
 
 doc:
 	cp README.md docs/index.md; \
