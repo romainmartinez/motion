@@ -48,7 +48,6 @@ Here is an example of a complete EMG pipeline in just one command:
 
 ```python
 from motion import Analogs
-
 ```
 
 ## Features

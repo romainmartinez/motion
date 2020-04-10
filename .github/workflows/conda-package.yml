@@ -44,7 +44,9 @@ jobs:
         run: black --check .
 
       - name: Test
-        run: python -m pytest --cov-report term-missing --color=yes --cov=motion tests
+        run: |
+          cp README.md docs/index.md
+          python -m pytest --cov-report term-missing --color=yes --cov=motion tests
 
       - name: Coverage (ubuntu only)
         if: startsWith(matrix.os, 'ubuntu')
