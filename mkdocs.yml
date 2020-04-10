@@ -1,15 +1,15 @@
-site_name: 'Pyomeca'
-site_description: 'An Open-Source Framework for Biomechanical Analysis'
-site_author: 'Romain Martinez'
-site_url: "https://romainmartinez.github.io/pyomeca/"
+site_name: Pyomeca
+site_description: An Open-Source Framework for Biomechanical Analysis
+site_author: Romain Martinez
+site_url: https://romainmartinez.github.io/pyomeca/
 
 theme:
-  name: 'material'
+  name: material
   palette:
-    primary: 'blue grey'
-    accent: 'teal'
-  logo: 'images/logo.svg'
-  favicon: 'images/favicon.ico'
+    primary: blue grey
+    accent: teal
+  logo: images/logo.svg
+  favicon: images/favicon.ico
 nav:
   - Overview: overview.md
   - Getting Started: getting-started.md
@@ -37,15 +37,15 @@ plugins:
       watch:
         - pyomeca
 
-repo_name: 'pyomeca/pyomeca'
-repo_url: 'https://github.com/pyomeca/pyomeca'
+repo_name: pyomeca/pyomeca
+repo_url: https://github.com/pyomeca/pyomeca
 
-copyright: 'Copyright &copy; 2019 Romain Martinez'
+copyright: Copyright &copy; 2019 Romain Martinez
 
 extra:
   social:
-    - type: 'github'
-      link: 'https://github.com/romainmartinez'
+    - icon: fontawesome/brands/github
+      link: https://github.com/romainmartinez
 
 extra_css:
   - custom.css

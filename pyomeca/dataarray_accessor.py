@@ -139,12 +139,11 @@ class DataArrayAccessor(object):
         """
         Return the element-wise square of the input.
 
-
         Arguments:
             args: For other positional arguments,
-              see the [numpy docs](https://docs.scipy.org/doc/numpy/reference/generated/numpy.square.html)
+                see the [numpy docs](https://docs.scipy.org/doc/numpy/reference/generated/numpy.square.html)
             kwargs: For other keyword-only arguments,
-              see the [numpy docs](https://docs.scipy.org/doc/numpy/reference/generated/numpy.square.html)
+                see the [numpy docs](https://docs.scipy.org/doc/numpy/reference/generated/numpy.square.html)
 
         Returns:
             A `xarray.DataArray` containing the matrix squared.
@@ -167,9 +166,9 @@ class DataArrayAccessor(object):
 
         Arguments:
             args: For other positional arguments,
-              see the [numpy docs](https://docs.scipy.org/doc/numpy/reference/generated/numpy.sqrt.html)
+                see the [numpy docs](https://docs.scipy.org/doc/numpy/reference/generated/numpy.sqrt.html)
             kwargs: For other keyword-only arguments,
-              see the [numpy docs](https://docs.scipy.org/doc/numpy/reference/generated/numpy.sqrt.html)
+                see the [numpy docs](https://docs.scipy.org/doc/numpy/reference/generated/numpy.sqrt.html)
 
         Returns:
             A `xarray.DataArray` containing the square root of the matrix.
@@ -287,7 +286,7 @@ class DataArrayAccessor(object):
 
         Arguments:
             ref: Reference value. Could have multiple dimensions.
-              If not provided, takes the mean along the time axis
+                If not provided, takes the mean along the time axis
             scale: Scale on which to express array (e.g. if 100, the signal is normalized from 0 to 100)
         Returns:
             A `xarray.DataArray` containing the normalized signal
@@ -612,7 +611,7 @@ class DataArrayAccessor(object):
             threshold: minimum amplitude to detect
             n_above: minimum number of continuous samples >= `threshold` to detect
             n_below: minimum number of continuous samples below `threshold`
-              that will be ignored in the detection of `x` >= `threshold`
+                that will be ignored in the detection of `x` >= `threshold`
             threshold2: minimum amplitude of `n_above2` values in `x` to detect
             n_above2: minimum number of samples >= `threshold2` to detect
 

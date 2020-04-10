@@ -93,7 +93,7 @@ class Rototrans:
 
         Arguments:
             distribution: Distribution available in
-              [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions)
+                [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions)
             size: Shape of the desired array
             args: Positional argument(s) to be passed to numpy.random.`distribution`
             kwargs: Keyword argument(s) to be passed to numpy.random.`distribution`
@@ -181,11 +181,11 @@ class Rototrans:
 
         Arguments:
             origin: A marker constructed with `pyomeca.Markers()` corresponding
-              to the origin in the global reference frame
+                to the origin in the global reference frame
             axis_1: Two markers that describe the first axis.
-              The first markers being the beginning of the vector and the second being the end.
+                The first markers being the beginning of the vector and the second being the end.
             axis_2: Two markers that describe the second axis.
-              The first markers being the beginning of the vector and the second being the end.
+                The first markers being the beginning of the vector and the second being the end.
             axes_name: Any combination of `x`, `y` and `z` describing the first and second axes.
             axis_to_recalculate: Which of the two axes to recalculate
 
