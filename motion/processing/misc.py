@@ -13,7 +13,7 @@ def has_correct_name(array: xr.DataArray, name: str):
 def fft(
     array: xr.DataArray, freq: Union[int, float], only_positive=True
 ) -> xr.DataArray:
-    n = array.time_frame.shape[0]
+    n = array.time.shape[0]
     yfft = fftpack.fft(array.values, n)
     freqs = fftpack.fftfreq(n, 1 / freq)
     if only_positive:
@@ -79,8 +79,8 @@ def detect_onset(
 
 
 def detect_outliers(array: xr.DataArray, threshold: int = 3) -> xr.DataArray:
-    mu = array.mean(dim="time_frame")
-    sigma = array.std(dim="time_frame")
+    mu = array.mean(dim="time")
+    sigma = array.std(dim="time")
     return xr.DataArray(
         (array < mu - threshold * sigma) | (array > mu + threshold * sigma)
     )

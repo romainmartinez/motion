@@ -8,10 +8,10 @@ def angles_from_rototrans(
     caller: Callable, rototrans: xr.DataArray, angle_sequence: str
 ) -> xr.DataArray:
     if angle_sequence == "zyzz":
-        angles = caller(np.ndarray(shape=(3, 1, rototrans.time_frame.size)))
+        angles = caller(np.ndarray(shape=(3, 1, rototrans.time.size)))
     else:
         angles = caller(
-            np.ndarray(shape=(len(angle_sequence), 1, rototrans.time_frame.size))
+            np.ndarray(shape=(len(angle_sequence), 1, rototrans.time.size))
         )
 
     if angle_sequence == "x":

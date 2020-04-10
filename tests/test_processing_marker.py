@@ -18,30 +18,30 @@ def test_rotate():
     for marker in range(n_markers):
         for frame in range(n_frames):
             expected_rotated_marker[:, marker, frame] = np.dot(
-                rt.isel(time_frame=frame),
-                markers.isel(channel=marker, time_frame=frame),
+                rt.isel(time=frame),
+                markers.isel(channel=marker, time=frame),
             )
 
     np.testing.assert_array_almost_equal(
         rotated_markers, expected_rotated_marker, decimal=10
     )
 
-    rotated_markers = markers.isel(time_frame=0).meca.rotate(rt.isel(time_frame=0))
+    rotated_markers = markers.isel(time=0).meca.rotate(rt.isel(time=0))
     expected_rotated_marker = np.ndarray(rotated_markers.shape)
     for marker in range(n_markers):
         expected_rotated_marker[:, marker] = np.dot(
-            rt.isel(time_frame=0), markers.isel(channel=marker, time_frame=0)
+            rt.isel(time=0), markers.isel(channel=marker, time=0)
         )
 
     np.testing.assert_array_almost_equal(
         rotated_markers, expected_rotated_marker, decimal=10
     )
 
-    rotated_markers = markers.meca.rotate(rt.isel(time_frame=0))
+    rotated_markers = markers.meca.rotate(rt.isel(time=0))
     expected_rotated_marker = np.ndarray(rotated_markers.shape)
     for marker in range(n_markers):
         expected_rotated_marker[:, marker] = np.dot(
-            rt.isel(time_frame=0), markers.isel(channel=marker)
+            rt.isel(time=0), markers.isel(channel=marker)
         )
 
     np.testing.assert_array_almost_equal(
@@ -49,4 +49,4 @@ def test_rotate():
     )
 
     with pytest.raises(ValueError):
-        markers.isel(time_frame=0).meca.rotate(rt)
+        markers.isel(time=0).meca.rotate(rt)

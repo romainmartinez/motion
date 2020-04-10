@@ -11,7 +11,7 @@ While NumPy provides an efficient data structure and an intuitive interface, bio
 
 Motion is build upon and extend the core strengths of [xarray](http://xarray.pydata.org/en/stable/index.html), which keeps tracks of labels and provides a powerful and concise interface which makes it easy to:
 
--   Apply any operations over dimensions by name (`array.sum(dim="time_frame")`) instead of arbitrary axis (`array.sum(axis=2)`).
+-   Apply any operations over dimensions by name (`array.sum(dim="time")`) instead of arbitrary axis (`array.sum(axis=2)`).
 -   Select values by labels (`array.sel(axis="x")` or `emg.sel(channel="biceps")`)
 -   Vectorize computation across multiple dimensions.
 -   Use the [split-apply-combine](https://vita.had.co.nz/papers/plyr.pdf) paradigm, for example: `emg.groupby("channel").mean()` or any custom function: `emg.groupby('channel').map(lambda x: x - x.mean())`).
@@ -43,10 +43,10 @@ Each structure is associated with a specific biomechanical data type and have sp
 
 | Class | Dimensions | Description |
 |-------------------------|-------------------------------------|------------------------------------------------------------------------|
-| [`Analogs`](/api/analogs/#motion.analogs.Analogs) | `("channel", "time_frame")` | Generic signals such as EMGs, force signals or any other analog signal |
-| [`Angles`](/api/angles/#motion.angles.Angles) | `("axis", "channel", "time_frame")` | Joint angles |
-| [`Markers`](/api/markers/#motion.markers.Markers) | `("axis", "channel", "time_frame")` | Skin marker positions |
-| [`Rototrans`](/api/rototrans/#motion.rototrans.Rototrans) | `("row", "col", "time_frame")` | Rototranslation matrix |
+| [`Analogs`](/api/analogs/#motion.analogs.Analogs) | `("channel", "time")` | Generic signals such as EMGs, force signals or any other analog signal |
+| [`Angles`](/api/angles/#motion.angles.Angles) | `("axis", "channel", "time")` | Joint angles |
+| [`Markers`](/api/markers/#motion.markers.Markers) | `("axis", "channel", "time")` | Skin marker positions |
+| [`Rototrans`](/api/rototrans/#motion.rototrans.Rototrans) | `("row", "col", "time")` | Rototranslation matrix |
 
 There is technically dozens of functions in motion, but you can actually bucket then into two specific categories:
 
@@ -70,6 +70,6 @@ Hover the mouse over any bloc to display a short description with some examples
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="../js/charts.js"></script>
 <script>
-    drawMatrix("angles-matrix", [3, 2, 5], ["axes", "degrees of freedom", "time frames"], "Joint angles");
+    drawMatrix("angles-matrix", [3, 2, 5], ["axes", "degrees of freedom", "time"], "Joint angles");
     drawApi("api-exploration");
 </script>

@@ -13,18 +13,18 @@ class Markers:
         cls,
         data: Optional[Union[np.array, np.ndarray, xr.DataArray, list]] = None,
         channels: Optional[list] = None,
-        time_frames: Optional[Union[np.array, list, pd.Series]] = None,
+        time: Optional[Union[np.array, list, pd.Series]] = None,
         *args,
         **kwargs,
     ) -> xr.DataArray:
         """
-        Markers DataArray with `axis`, `channel` and `time_frame` dimensions
+        Markers DataArray with `axis`, `channel` and `time` dimensions
          used for skin marker positions.
 
         Arguments:
             data: Array to be passed to xarray.DataArray
             channels: Channel names
-            time_frames: Time vector in seconds associated with the `data` parameter
+            time: Time vector in seconds associated with the `data` parameter
             args: Positional argument(s) to be passed to xarray.DataArray
             kwargs: Keyword argument(s) to be passed to xarray.DataArray
 
@@ -56,8 +56,8 @@ class Markers:
 
             ```python
             rate = 100  # Hz
-            time_frames = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
-            markers = Markers(data, channels=names, time_frames=time_frames)
+            time = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
+            markers = Markers(data, channels=names, time=time)
             ```
 
         !!! note
@@ -72,11 +72,11 @@ class Markers:
             data = np.insert(data, obj=3, values=1, axis=0)
         if channels:
             coords["channel"] = channels
-        if time_frames is not None:
-            coords["time_frame"] = time_frames
+        if time is not None:
+            coords["time"] = time
         return xr.DataArray(
             data=data,
-            dims=("axis", "channel", "time_frame"),
+            dims=("axis", "channel", "time"),
             coords=coords,
             name="markers",
             *args,
@@ -156,7 +156,7 @@ class Markers:
             suffix_delimiter: Delimiter that split each column name by its suffix (we keep only the column name)
             skiprows: Line numbers to skip (0-indexed)
             pandas_kwargs: Keyword arguments to be passed to `pandas.read_csv`
-            attrs: attrs to be passed to `xr.DataArray`. If attrs['rate'] is provided, compute the time_frame accordingly
+            attrs: attrs to be passed to `xr.DataArray`. If attrs['rate'] is provided, compute the time accordingly
 
         Returns:
             Markers `xarray.DataArray` with the specified data and coordinates
@@ -266,7 +266,7 @@ class Markers:
             suffix_delimiter: Delimiter that split each column name by its suffix (we keep only the column name)
             skiprows: Line numbers to skip (0-indexed)
             pandas_kwargs: Keyword arguments to be passed to `pandas.read_excel`
-            attrs: attrs to be passed to `xr.DataArray`. If attrs['rate'] is provided, compute the time_frame accordingly
+            attrs: attrs to be passed to `xr.DataArray`. If attrs['rate'] is provided, compute the time accordingly
 
         Returns:
             Markers `xarray.DataArray` with the specified data and coordinates

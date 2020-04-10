@@ -19,7 +19,7 @@ def test_write_csv(data: xr.DataArray, wide: bool):
         if data.ndim > 2:
             return
         newly_created_file = (
-            pd.read_csv(temp_filename, index_col="time_frame")
+            pd.read_csv(temp_filename, index_col="time")
             .stack()
             .to_xarray()
             .rename({"level_1": "channel"})

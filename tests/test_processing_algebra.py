@@ -47,10 +47,10 @@ def test_proc_norm():
 
     is_expected_array(MARKERS_DATA.meca.norm(dim="axis"), **EXPECTED_VALUES[44])
     is_expected_array(MARKERS_DATA.meca.norm(dim="channel"), **EXPECTED_VALUES[45])
-    is_expected_array(MARKERS_DATA.meca.norm(dim="time_frame"), **EXPECTED_VALUES[46])
+    is_expected_array(MARKERS_DATA.meca.norm(dim="time"), **EXPECTED_VALUES[46])
 
     is_expected_array(ANALOGS_DATA.meca.norm(dim="channel"), **EXPECTED_VALUES[47])
-    is_expected_array(ANALOGS_DATA.meca.norm(dim="time_frame"), **EXPECTED_VALUES[48])
+    is_expected_array(ANALOGS_DATA.meca.norm(dim="time"), **EXPECTED_VALUES[48])
 
 
 def test_proc_norm_marker():
@@ -85,13 +85,13 @@ def test_proc_rms():
 def test_proc_center():
     is_expected_array(MARKERS_DATA.meca.center(), **EXPECTED_VALUES[5])
     is_expected_array(
-        MARKERS_DATA.meca.center(MARKERS_DATA.isel(time_frame=0)), **EXPECTED_VALUES[6]
+        MARKERS_DATA.meca.center(MARKERS_DATA.isel(time=0)), **EXPECTED_VALUES[6]
     )
 
     is_expected_array(ANALOGS_DATA.meca.center(), **EXPECTED_VALUES[7])
     is_expected_array(ANALOGS_DATA.meca.center(mu=2), **EXPECTED_VALUES[8])
     is_expected_array(
-        ANALOGS_DATA.meca.center(ANALOGS_DATA.isel(time_frame=0)), **EXPECTED_VALUES[9]
+        ANALOGS_DATA.meca.center(ANALOGS_DATA.isel(time=0)), **EXPECTED_VALUES[9]
     )
 
 
@@ -99,13 +99,13 @@ def test_proc_normalize():
     is_expected_array(MARKERS_DATA.meca.normalize(), **EXPECTED_VALUES[20])
     is_expected_array(MARKERS_DATA.meca.normalize(scale=1), **EXPECTED_VALUES[21])
     is_expected_array(
-        MARKERS_DATA.meca.normalize(ref=MARKERS_DATA.sel(time_frame=5.76)),
+        MARKERS_DATA.meca.normalize(ref=MARKERS_DATA.sel(time=5.76)),
         **EXPECTED_VALUES[22]
     )
 
     is_expected_array(ANALOGS_DATA.meca.normalize(), **EXPECTED_VALUES[23])
     is_expected_array(ANALOGS_DATA.meca.normalize(scale=1), **EXPECTED_VALUES[24])
     is_expected_array(
-        ANALOGS_DATA.meca.normalize(ref=ANALOGS_DATA.sel(time_frame=5.76)),
+        ANALOGS_DATA.meca.normalize(ref=ANALOGS_DATA.sel(time=5.76)),
         **EXPECTED_VALUES[25]
     )

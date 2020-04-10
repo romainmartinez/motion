@@ -29,12 +29,12 @@ def test_euler2rot_rot2euleur(seq, angles=ANGLES, epsilon=EPSILON):
 
 def test_construct_rt():
     eye = Rototrans()
-    np.testing.assert_equal(eye.time_frame.size, 1)
-    np.testing.assert_equal(eye.sel(time_frame=0), np.eye(4))
+    np.testing.assert_equal(eye.time.size, 1)
+    np.testing.assert_equal(eye.sel(time=0), np.eye(4))
 
     eye = Rototrans.from_euler_angles()
-    np.testing.assert_equal(eye.time_frame.size, 1)
-    np.testing.assert_equal(eye.sel(time_frame=0), np.eye(4))
+    np.testing.assert_equal(eye.time.size, 1)
+    np.testing.assert_equal(eye.sel(time=0), np.eye(4))
 
     # Test the way to create a rt, but not when providing bot angles and sequence
     nb_frames = 10
@@ -44,25 +44,25 @@ def test_construct_rt():
     rt_random_angles = Rototrans.from_euler_angles(
         angles=random_vector, angle_sequence="xyz"
     )
-    np.testing.assert_equal(rt_random_angles.time_frame.size, nb_frames)
+    np.testing.assert_equal(rt_random_angles.time.size, nb_frames)
     np.testing.assert_equal(
         rt_random_angles[:-1, -1:, :], np.zeros((3, 1, nb_frames))
     )  # Translation is 0
 
     # with translation
     rt_random_translation = Rototrans.from_euler_angles(translations=random_vector)
-    np.testing.assert_equal(rt_random_translation.time_frame.size, nb_frames)
+    np.testing.assert_equal(rt_random_translation.time.size, nb_frames)
     np.testing.assert_equal(
         rt_random_translation[:3, :3, :],
         np.repeat(np.eye(3)[:, :, np.newaxis], nb_frames, axis=2),
     )  # rotation is eye3
-    np.arange(0, rt_random_angles.time_frame.size / 0.5, 1 / 0.5)
+    np.arange(0, rt_random_angles.time.size / 0.5, 1 / 0.5)
 
-    rt_with_time_frame = Rototrans(
+    rt_with_time = Rototrans(
         rt_random_angles,
-        time_frames=np.arange(0, rt_random_angles.time_frame.size / 100, 1 / 100),
+        time=np.arange(0, rt_random_angles.time.size / 100, 1 / 100),
     )
-    assert rt_with_time_frame.time_frame[-1] == 0.09
+    assert rt_with_time.time[-1] == 0.09
 
     with pytest.raises(IndexError):
         Rototrans(data=np.zeros(1))
@@ -201,7 +201,7 @@ def test_rt_from_markers():
         Rototrans.from_markers(
             **{
                 **exception_default_params,
-                **dict(axis_1=all_m.isel(channel=[0, 1], time_frame=slice(None, 50))),
+                **dict(axis_1=all_m.isel(channel=[0, 1], time=slice(None, 50))),
             }
         )
 
@@ -231,10 +231,10 @@ def test_rt_transpose():
     rt_t_expected[3, 3, :] = 1
     for row in range(rt.row.size):
         for col in range(rt.col.size):
-            for frame in range(rt.time_frame.size):
+            for frame in range(rt.time.size):
                 rt_t_expected[col, row, frame] = rt[row, col, frame]
 
-    for frame in range(rt.time_frame.size):
+    for frame in range(rt.time.size):
         rt_t_expected[:3, 3, frame] = -rt_t_expected[:3, :3, frame].dot(
             rt[:3, 3, frame]
         )
@@ -252,8 +252,8 @@ def test_average_rt():
 
     rt = Rototrans.from_euler_angles(angles, seq)
     rt_mean = Rototrans.from_averaged_rototrans(rt)
-    angles_mean = Angles.from_rototrans(rt_mean, seq).isel(time_frame=0)
+    angles_mean = Angles.from_rototrans(rt_mean, seq).isel(time=0)
 
-    angles_mean_ref = Angles.from_rototrans(rt, seq).mean(dim="time_frame")
+    angles_mean_ref = Angles.from_rototrans(rt, seq).mean(dim="time")
 
     np.testing.assert_array_almost_equal(angles_mean, angles_mean_ref, decimal=2)

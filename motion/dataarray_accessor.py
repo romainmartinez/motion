@@ -242,7 +242,7 @@ class DataArrayAccessor(object):
         Center an array (i.e., subtract the mean).
 
         Arguments:
-            mu: mean of the signal to subtract. If not provided, takes the mean along the time_frame axis
+            mu: mean of the signal to subtract. If not provided, takes the mean along the time axis
 
         Returns:
             a `xarray.DataArray` containing the root-mean-square of the matrix
@@ -273,7 +273,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![center](../../images/api/center.svg)
+            ![center](../images/api/center.svg)
         """
         return algebra.center(self._obj, mu)
 
@@ -287,7 +287,7 @@ class DataArrayAccessor(object):
 
         Arguments:
             ref: Reference value. Could have multiple dimensions.
-              If not provided, takes the mean along the time_frame axis
+              If not provided, takes the mean along the time axis
             scale: Scale on which to express array (e.g. if 100, the signal is normalized from 0 to 100)
         Returns:
             A `xarray.DataArray` containing the normalized signal
@@ -307,7 +307,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![normalize](../../images/api/normalize.svg)
+            ![normalize](../images/api/normalize.svg)
 
             By default, this function normalize against the signal's max.
             To specify any other value, use the `ref` parameter:
@@ -323,15 +323,15 @@ class DataArrayAccessor(object):
         self,
         time_vector: Union[xr.DataArray, np.array] = None,
         n_frames: int = 100,
-        norm_time_frame: bool = False,
+        norm_time: bool = False,
     ) -> xr.DataArray:
         """
         Time normalization used for temporal alignment of data.
 
         Arguments:
-            time_vector: desired time vector (first to last time_frame with n_frames points by default)
+            time_vector: desired time vector (first to last time with n_frames points by default)
             n_frames: if time_vector is not specified, the length of the desired time vector
-            norm_time_frame: Normalize the time_frame dimension from 0 to 100 if True
+            norm_time: Normalize the time dimension from 0 to 100 if True
 
         Returns:
             A time-normalized `xarray.DataArray`
@@ -346,25 +346,25 @@ class DataArrayAccessor(object):
 
             analogs = Analogs.from_random_data(size=(1, 847))
             time_normalized = analogs.meca.time_normalize()
-            print(time_normalized.time_frame.size)  # 100
+            print(time_normalized.time.size)  # 100
             ```
 
-            To normalize the corresponding time_frame dimension from 0 to 100%, specify `norm_time_frame=True`:
+            To normalize the corresponding time dimension from 0 to 100%, specify `norm_time=True`:
 
             ```python
-            time_normalized = analogs.meca.time_normalize(norm_time_frame=True)
+            time_normalized = analogs.meca.time_normalize(norm_time=True)
             time_normalized.plot()
             plt.show()
             ```
 
-            ![time_normalize](../../images/api/time_normalize.svg)
+            ![time_normalize](../images/api/time_normalize.svg)
 
             By default, `time_normalize` use a time vector with 100 frames from 0 to 100.
             However, you can specify the desired number of frames:
 
             ```python
             time_normalized = analogs.meca.time_normalize(n_frames=500)
-            print(time_normalized.time_frame.size)  # 500
+            print(time_normalized.time.size)  # 500
             ```
 
             You can also specify the desired time_vector directly in the `time_vector` parameter:
@@ -376,7 +376,7 @@ class DataArrayAccessor(object):
             ```
         """
         return interp.time_normalize(
-            self._obj, time_vector, n_frames, norm_time_frame=norm_time_frame
+            self._obj, time_vector, n_frames, norm_time=norm_time
         )
 
     # filter ------------------------------------
@@ -425,7 +425,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![low_pass](../../images/api/low_pass.svg)
+            ![low_pass](../images/api/low_pass.svg)
         """
         return filter.low_pass(self._obj, freq, order, cutoff)
 
@@ -463,7 +463,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![high_pass](../../images/api/high_pass.svg)
+            ![high_pass](../images/api/high_pass.svg)
         """
         return filter.high_pass(self._obj, freq, order, cutoff)
 
@@ -501,7 +501,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![band_stop](../../images/api/band_stop.svg)
+            ![band_stop](../images/api/band_stop.svg)
         """
         return filter.band_stop(self._obj, freq, order, cutoff)
 
@@ -539,7 +539,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![band_pass](../../images/api/band_pass.svg)
+            ![band_pass](../images/api/band_pass.svg)
         """
         return filter.band_pass(self._obj, freq, order, cutoff)
 
@@ -580,8 +580,8 @@ class DataArrayAccessor(object):
             fig, ax = plt.subplots(ncols=2, figsize=(10, 4))
 
             # plot signal vs. time
-            analogs.plot.line(x="time_frame", ax=ax[0], color="black", add_legend=False)
-            analogs_low_passed.plot.line(x="time_frame", ax=ax[0], color="red", add_legend=False)
+            analogs.plot.line(x="time", ax=ax[0], color="black", add_legend=False)
+            analogs_low_passed.plot.line(x="time", ax=ax[0], color="red", add_legend=False)
             ax[0].set_title("Signal vs. Time")
 
             # plot amplitudes vs. frequencies
@@ -593,7 +593,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![band_pass](../../images/api/fft.svg)
+            ![fft](../images/api/fft.svg)
         """
         return misc.fft(self._obj, freq, only_positive)
 
@@ -655,7 +655,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![detect_onset](../../images/api/detect_onset.svg)
+            ![detect_onset](../images/api/detect_onset.svg)
 
         !!! warning
             `detect_onset` works only for 1-dimensional data.
@@ -695,9 +695,9 @@ class DataArrayAccessor(object):
             threshold = 1
             outliers = analogs.meca.detect_outliers(threshold=threshold)
 
-            analogs.plot.line(x="time_frame", color="black", add_legend=False)
+            analogs.plot.line(x="time", color="black", add_legend=False)
             analogs.where(outliers).plot.line(
-                x="time_frame", color="red", add_legend=False, marker="o", label="outliers"
+                x="time", color="red", add_legend=False, marker="o", label="outliers"
             )
 
             mu = analogs.mean()
@@ -716,7 +716,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![detect_outliers](../../images/api/detect_outliers.svg)
+            ![detect_outliers](../images/api/detect_outliers.svg)
 
         Note:
             `detect_outliers` is not limited on one-dimensional data and

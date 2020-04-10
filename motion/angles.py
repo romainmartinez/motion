@@ -11,17 +11,17 @@ class Angles:
     def __new__(
         cls,
         data: Optional[Union[np.array, np.ndarray, xr.DataArray, list]] = None,
-        time_frames: Optional[Union[np.array, list, pd.Series]] = None,
+        time: Optional[Union[np.array, list, pd.Series]] = None,
         *args,
         **kwargs,
     ) -> xr.DataArray:
         """
-        Angles DataArray with `axis`, `channel` and `time_frame` dimensions
+        Angles DataArray with `axis`, `channel` and `time` dimensions
          used for joint angles.
 
         Arguments:
             data: Array to be passed to xarray.DataArray
-            time_frames: Time vector in seconds associated with the `data` parameter
+            time: Time vector in seconds associated with the `data` parameter
             args: Positional argument(s) to be passed to xarray.DataArray
             kwargs: Keyword argument(s) to be passed to xarray.DataArray
 
@@ -46,8 +46,8 @@ class Angles:
 
             ```python
             rate = 100  # Hz
-            time_frames = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
-            angles = Angles(data, time_frames=time_frames)
+            time = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
+            angles = Angles(data, time=time)
             ```
 
         !!! note
@@ -56,11 +56,11 @@ class Angles:
         coords = {}
         if data is None:
             data = np.ndarray((0, 0, 0))
-        if time_frames is not None:
-            coords["time_frame"] = time_frames
+        if time is not None:
+            coords["time"] = time
         return xr.DataArray(
             data=data,
-            dims=("axis", "channel", "time_frame"),
+            dims=("axis", "channel", "time"),
             coords=coords,
             name="angles",
             *args,

@@ -39,7 +39,7 @@ def center(
     array: xr.DataArray, mu: Union[xr.DataArray, np.array, float, int] = None
 ) -> xr.DataArray:
     if mu is None:
-        return array - array.mean(dim="time_frame")
+        return array - array.mean(dim="time")
     return array - mu
 
 
@@ -49,5 +49,5 @@ def normalize(
     scale: Union[int, float] = 100,
 ) -> xr.DataArray:
     if ref is None:
-        ref = array.max(dim="time_frame")
+        ref = array.max(dim="time")
     return array / (ref / scale)

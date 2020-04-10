@@ -11,17 +11,17 @@ class Rototrans:
     def __new__(
         cls,
         data: Optional[Union[np.array, np.ndarray, xr.DataArray, list]] = None,
-        time_frames: Optional[Union[np.array, list, pd.Series]] = None,
+        time: Optional[Union[np.array, list, pd.Series]] = None,
         *args,
         **kwargs,
     ) -> xr.DataArray:
         """
-        Rototrans DataArray with `row`, `col` and `time_frame` dimensions
+        Rototrans DataArray with `row`, `col` and `time` dimensions
          used for rototranslation matrix.
 
         Arguments:
             data: Array to be passed to xarray.DataArray
-            time_frames: Time vector in seconds associated with the `data` parameter
+            time: Time vector in seconds associated with the `data` parameter
             args: Positional argument(s) to be passed to xarray.DataArray
             kwargs: Keyword argument(s) to be passed to xarray.DataArray
 
@@ -46,8 +46,8 @@ class Rototrans:
 
             ```python
             rate = 100  # Hz
-            time_frames = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
-            rt = Rototrans(data, time_frames=time_frames)
+            time = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
+            rt = Rototrans(data, time=time)
             ```
 
         !!! notes
@@ -68,8 +68,8 @@ class Rototrans:
         if data.ndim == 2:
             data = data[..., np.newaxis]
 
-        if time_frames is not None:
-            coords["time_frame"] = time_frames
+        if time is not None:
+            coords["time"] = time
 
         # Make sure last line reads [0, 0, 0, 1]
         data[3, :3, :] = 0
@@ -77,7 +77,7 @@ class Rototrans:
 
         return xr.DataArray(
             data=data,
-            dims=("row", "col", "time_frame"),
+            dims=("row", "col", "time"),
             coords=coords,
             name="rototrans",
             *args,
@@ -267,8 +267,8 @@ class Rototrans:
             to the averaged angles:
 
             ```python
-            angles_mean = Angles.from_rototrans(rt_mean, seq).isel(time_frame=0)
-            angles_mean_ref = Angles.from_rototrans(rt, seq).mean(dim="time_frame")
+            angles_mean = Angles.from_rototrans(rt_mean, seq).isel(time=0)
+            angles_mean_ref = Angles.from_rototrans(rt, seq).mean(dim="time")
 
             error = (angles_mean - angles_mean_ref).meca.abs().sum()
             print(error)

@@ -29,15 +29,15 @@ def rototrans_from_euler_angles(
         angle_sequence = "zyz"
 
     # If the user asked for a pure rotation
-    if angles.time_frame.size != 0 and translations.time_frame.size == 0:
-        translations = Angles(np.zeros((3, 1, angles.time_frame.size)))
+    if angles.time.size != 0 and translations.time.size == 0:
+        translations = Angles(np.zeros((3, 1, angles.time.size)))
 
     # If the user asked for a pure translation
-    if angles.time_frame.size == 0 and translations.time_frame.size != 0:
-        angles = Angles(np.zeros((0, 1, translations.time_frame.size)))
+    if angles.time.size == 0 and translations.time.size != 0:
+        angles = Angles(np.zeros((0, 1, translations.time.size)))
 
     # Sanity checks
-    if angles.time_frame.size != translations.time_frame.size:
+    if angles.time.size != translations.time.size:
         raise IndexError(
             "Angles and translations must have the same number of frames. "
             f"You have translation = {translations.shape} and angles = {angles.shape}"
@@ -47,11 +47,11 @@ def rototrans_from_euler_angles(
             "Angles and angles_sequence must be the same size. "
             f"You have angles axis = {angles.axis.size} and angle_sequence length = {len(angle_sequence)}"
         )
-    if angles.time_frame.size == 0:
+    if angles.time.size == 0:
         return caller()
 
     empty_rt = np.repeat(
-        np.eye(4)[..., np.newaxis], repeats=angles.time_frame.size, axis=2
+        np.eye(4)[..., np.newaxis], repeats=angles.time.size, axis=2
     )
     rt = empty_rt.copy()
     for i in range(angles.axis.size):
@@ -123,8 +123,8 @@ def rototrans_from_markers(
     vector_2 = axis_2[:3, 1, :] - axis_2[:3, 0, :]
 
     if (
-        origin.time_frame.size != vector_1.time_frame.size
-        or origin.time_frame.size != vector_2.time_frame.size
+        origin.time.size != vector_1.time.size
+        or origin.time.size != vector_2.time.size
     ):
         raise ValueError("Number of frame(s) for origin and axes must be the same")
 
@@ -159,7 +159,7 @@ def rototrans_from_markers(
     else:
         raise ValueError("`axis_to_recalculate must be `x`, `y` or `z`")
 
-    rt = caller(np.zeros((4, 4, origin.time_frame.size)))
+    rt = caller(np.zeros((4, 4, origin.time.size)))
     rt[:3, 0, :] = x / np.linalg.norm(x, axis=0)
     rt[:3, 1, :] = y / np.linalg.norm(y, axis=0)
     rt[:3, 2, :] = z / np.linalg.norm(z, axis=0)
@@ -170,10 +170,10 @@ def rototrans_from_markers(
 def rototrans_from_transposed_rototrans(
     caller: Callable, rt: xr.DataArray
 ) -> xr.DataArray:
-    rt_t = caller(np.zeros((4, 4, rt.time_frame.size)))
+    rt_t = caller(np.zeros((4, 4, rt.time.size)))
 
     # the rotation part is just the transposed of the rotation
-    rt_t.meca.rotation = rt.meca.rotation.transpose("col", "row", "time_frame")
+    rt_t.meca.rotation = rt.meca.rotation.transpose("col", "row", "time")
 
     # the translation part is "- rt_t * translation"
     rt_t.meca.translation = np.einsum(
@@ -189,7 +189,7 @@ def rototrans_from_averaged_rototrans(
     # arbitrary angle sequence
     seq = "xyz"
 
-    target = rt.mean(dim="time_frame").expand_dims("time_frame", axis=-1)
+    target = rt.mean(dim="time").expand_dims("time", axis=-1)
 
     angles = Angles(np.ndarray((3, 1, 1)))
 

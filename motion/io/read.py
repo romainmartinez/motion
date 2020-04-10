@@ -56,11 +56,11 @@ def read_c3d(
         reader.parameters().group(group).parameter("UNITS").valuesAsString()[0]
     )
 
-    time_frames = np.arange(
+    time = np.arange(
         start=0, stop=data.shape[-1] / attrs["rate"], step=1 / attrs["rate"]
     )
     return caller(
-        data[0, ...] if group == "ANALOG" else data, channels, time_frames, attrs=attrs
+        data[0, ...] if group == "ANALOG" else data, channels, time, attrs=attrs
     )
 
 
@@ -100,17 +100,17 @@ def read_csv_or_excel(
 
     if time_column is not None:
         if isinstance(time_column, int):
-            time_frames = data.iloc[:, time_column]
+            time = data.iloc[:, time_column]
             data = data.drop(data.columns[time_column], axis=1)
         elif isinstance(time_column, str):
-            time_frames = data[time_column]
+            time = data[time_column]
             data = data.drop(time_column, axis=1)
         else:
             raise ValueError(
                 f"time_column should be str or int. It is {type(time_column)}"
             )
     else:
-        time_frames = None
+        time = None
 
     if first_column:
         data = data.drop(data.columns[:first_column], axis=1)
@@ -124,11 +124,11 @@ def read_csv_or_excel(
     data = caller._reshape_flat_array(data.values[:, idx] if idx else data.values)
 
     attrs = attrs if attrs else {}
-    if "rate" in attrs and time_frames is None:
-        time_frames = np.arange(
+    if "rate" in attrs and time is None:
+        time = np.arange(
             start=0, stop=data.shape[-1] / attrs["rate"], step=1 / attrs["rate"]
         )
-    return caller(data, channels, time_frames, attrs=attrs)
+    return caller(data, channels, time, attrs=attrs)
 
 
 def read_sto_or_mot(
@@ -143,7 +143,7 @@ def read_sto_or_mot(
     data = caller.from_csv(
         filename, header=end_header + 1, first_column=0, time_column=0, **kwargs,
     )
-    data.attrs["rate"] = (1 / (data.time_frame[1] - data.time_frame[0])).round().item()
+    data.attrs["rate"] = (1 / (data.time[1] - data.time[0])).round().item()
     return data
 
 
@@ -151,5 +151,5 @@ def read_trc(caller: Callable, filename: Union[str, Path], **kwargs):
     data = caller.from_csv(
         filename, header=3, first_row=6, first_column=1, time_column=1, **kwargs,
     )
-    data.attrs["rate"] = (1 / (data.time_frame[1] - data.time_frame[0])).round().item()
+    data.attrs["rate"] = (1 / (data.time[1] - data.time[0])).round().item()
     return data
