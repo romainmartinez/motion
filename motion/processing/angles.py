@@ -10,9 +10,7 @@ def angles_from_rototrans(
     if angle_sequence == "zyzz":
         angles = caller(np.ndarray(shape=(3, 1, rototrans.time.size)))
     else:
-        angles = caller(
-            np.ndarray(shape=(len(angle_sequence), 1, rototrans.time.size))
-        )
+        angles = caller(np.ndarray(shape=(len(angle_sequence), 1, rototrans.time.size)))
 
     if angle_sequence == "x":
         angles[0, :, :] = np.arcsin(rototrans[2, 1, :])

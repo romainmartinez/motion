@@ -50,9 +50,7 @@ def rototrans_from_euler_angles(
     if angles.time.size == 0:
         return caller()
 
-    empty_rt = np.repeat(
-        np.eye(4)[..., np.newaxis], repeats=angles.time.size, axis=2
-    )
+    empty_rt = np.repeat(np.eye(4)[..., np.newaxis], repeats=angles.time.size, axis=2)
     rt = empty_rt.copy()
     for i in range(angles.axis.size):
         a = angles[i, ...]
@@ -122,10 +120,7 @@ def rototrans_from_markers(
     vector_1 = axis_1[:3, 1, :] - axis_1[:3, 0, :]
     vector_2 = axis_2[:3, 1, :] - axis_2[:3, 0, :]
 
-    if (
-        origin.time.size != vector_1.time.size
-        or origin.time.size != vector_2.time.size
-    ):
+    if origin.time.size != vector_1.time.size or origin.time.size != vector_2.time.size:
         raise ValueError("Number of frame(s) for origin and axes must be the same")
 
     error_msg = "Axes names should be 2 values of `x`, `y` and `z` permutations"

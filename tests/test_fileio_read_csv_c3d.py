@@ -108,18 +108,14 @@ def test_csv_last_column_to_remove():
 
 
 def test_csv_edge_cases():
-    time_with_rate = Analogs.from_csv(
-        **analogs_csv_kwargs, attrs={"rate": 2000}
-    ).time
+    time_with_rate = Analogs.from_csv(**analogs_csv_kwargs, attrs={"rate": 2000}).time
     assert time_with_rate[-1] == 5.7995
 
     time_column_with_id = Analogs.from_csv(**analogs_csv_kwargs, time_column="Frame")
 
     time_column_with_name = Analogs.from_csv(**analogs_csv_kwargs, time_column=0)
 
-    np.testing.assert_array_equal(
-        time_column_with_id.time, time_column_with_name.time
-    )
+    np.testing.assert_array_equal(time_column_with_id.time, time_column_with_name.time)
     np.testing.assert_array_equal(time_column_with_id, time_column_with_name)
 
     with pytest.raises(ValueError):
