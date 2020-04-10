@@ -11,7 +11,7 @@ doc_files = [f"{file}" for file in docs_path.glob("*.md")]
 doc_files_string = []
 for file in doc_files:
     with open(f"{file}", "r") as f:
-        doc_files_string.append(f.read())
+        doc_files_string.append(f.read().replace("../tests/data", "tests/data"))
 
 
 @pytest.mark.parametrize("doc_file_string", doc_files_string, ids=doc_files)
