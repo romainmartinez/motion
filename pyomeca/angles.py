@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from motion.processing import angles
+from pyomeca.processing import angles
 
 
 class Angles:
@@ -33,7 +33,7 @@ class Angles:
 
             ```python
             import numpy as np
-            from motion import Angles
+            from pyomeca import Angles
 
             n_axis = 3
             n_channel = 3
@@ -88,7 +88,7 @@ class Angles:
             To instantiate an `Angles` with some random data sampled from a normal distribution:
 
             ```python
-            from motion import Angles
+            from pyomeca import Angles
 
             n_frames = 100
             size = 10, 10, n_frames
@@ -114,7 +114,7 @@ class Angles:
         Angles DataArray from a rototranslation matrix and specified angle sequence.
 
         Arguments:
-            rototrans: Rototranslation matrix created with motion.Rototrans()
+            rototrans: Rototranslation matrix created with pyomeca.Rototrans()
             angle_sequence: Euler sequence of angles. Valid values are all permutations of "xyz"
 
         Returns:
@@ -124,7 +124,7 @@ class Angles:
             To get the euler angles from a random rototranslation matrix with a given angle sequence type:
 
             ```python
-            from motion import Angles, Rototrans
+            from pyomeca import Angles, Rototrans
 
             size = (4, 4, 100)
             rt = Rototrans.from_random_data(size=size)

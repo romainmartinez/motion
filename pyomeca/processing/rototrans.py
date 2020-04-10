@@ -4,8 +4,8 @@ import numpy as np
 import xarray as xr
 from scipy.optimize import least_squares
 
-from motion import Angles
-from motion.processing import misc
+from pyomeca import Angles
+from pyomeca.processing import misc
 
 
 def rototrans_from_euler_angles(

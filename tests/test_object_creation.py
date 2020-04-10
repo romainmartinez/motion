@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from motion import Analogs, Markers, Angles, Rototrans
+from pyomeca import Analogs, Markers, Angles, Rototrans
 from ._constants import ANALOGS_DATA, MARKERS_DATA, EXPECTED_VALUES
 from .utils import is_expected_array
 

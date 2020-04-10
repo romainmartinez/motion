@@ -1,3 +1,3 @@
-# [`angles.py`](https://github.com/romainmartinez/motion/blob/master/motion/angles.py)
+# [`angles.py`](https://github.com/romainmartinez/pyomeca/blob/master/pyomeca/angles.py)
 
-::: motion.angles
+::: pyomeca.angles

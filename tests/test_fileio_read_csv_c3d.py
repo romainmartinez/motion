@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from motion import Analogs, Markers
+from pyomeca import Analogs, Markers
 from tests._constants import (
     MARKERS_ANALOGS_C3D,
     ANALOGS_CSV,

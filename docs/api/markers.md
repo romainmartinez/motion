@@ -1,3 +1,3 @@
-# [`markers.py`](https://github.com/romainmartinez/motion/blob/master/motion/markers.py)
+# [`markers.py`](https://github.com/romainmartinez/pyomeca/blob/master/pyomeca/markers.py)
 
-::: motion.markers
+::: pyomeca.markers

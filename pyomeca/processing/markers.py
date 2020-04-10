@@ -1,7 +1,7 @@
 import numpy as np
 import xarray as xr
 
-from motion.processing import misc
+from pyomeca.processing import misc
 
 
 def rotate_markers(markers: xr.DataArray, rt: xr.DataArray) -> xr.DataArray:

@@ -4,15 +4,15 @@
 />
 
 <p align="center">
-  <a href="https://github.com/romainmartinez/motion/actions"
+  <a href="https://github.com/romainmartinez/pyomeca/actions"
     ><img
       alt="Actions Status"
-      src="https://github.com/romainmartinez/motion/workflows/CI/badge.svg"
+      src="https://github.com/romainmartinez/pyomeca/workflows/CI/badge.svg"
   /></a>
-  <a href="https://coveralls.io/github/romainmartinez/motion?branch=master"
+  <a href="https://coveralls.io/github/romainmartinez/pyomeca?branch=master"
     ><img
       alt="Coverage Status"
-      src="https://coveralls.io/repos/github/romainmartinez/motion/badge.svg?branch=master"
+      src="https://coveralls.io/repos/github/romainmartinez/pyomeca/badge.svg?branch=master"
   /></a>
   <a href="https://anaconda.org/conda-forge/pyomeca"
     ><img
@@ -40,14 +40,14 @@ Pyomeca is a python library allowing you to carry out a complete biomechanical a
 
 ## Pyomeca documentation
 
-See Pyomeca's [documentation site](https://romainmartinez.github.io/motion).
+See Pyomeca's [documentation site](https://romainmartinez.github.io/pyomeca).
 
 ## Example
 
 Here is an example of a complete EMG pipeline in just one command:
 
 ```python
-from motion import Analogs
+from pyomeca import Analogs
 ```
 
 ## Features

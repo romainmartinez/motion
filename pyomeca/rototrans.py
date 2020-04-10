@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from motion.processing import rototrans
+from pyomeca.processing import rototrans
 
 
 class Rototrans:
@@ -33,7 +33,7 @@ class Rototrans:
 
             ```python
             import numpy as np
-            from motion import Rototrans
+            from pyomeca import Rototrans
 
             n_row = 4
             n_col = 4
@@ -105,7 +105,7 @@ class Rototrans:
             To instantiate a `Rototrans` with some random data sampled from a normal distribution:
 
             ```python
-            from motion import Rototrans
+            from pyomeca import Rototrans
 
             n_frames = 100
             size = 4, 4, n_frames
@@ -145,7 +145,7 @@ class Rototrans:
             To get the rototranslation matrix from random euler angles with a given angle sequence type:
 
             ```python
-            from motion import Angles, Rototrans
+            from pyomeca import Angles, Rototrans
 
             size = (3, 1, 100)
             angles = Angles.from_random_data(size=size)
@@ -180,7 +180,7 @@ class Rototrans:
         Rototrans DataArray from a specified set of markers.
 
         Arguments:
-            origin: A marker constructed with `motion.Markers()` corresponding
+            origin: A marker constructed with `pyomeca.Markers()` corresponding
               to the origin in the global reference frame
             axis_1: Two markers that describe the first axis.
               The first markers being the beginning of the vector and the second being the end.
@@ -196,7 +196,7 @@ class Rototrans:
             To create a system of axes from random markers:
 
             ```python
-            from motion import Markers, Rototrans
+            from pyomeca import Markers, Rototrans
 
             markers = Markers.from_random_data()
 
@@ -226,7 +226,7 @@ class Rototrans:
 
         !!! example
             ```python
-            from motion import Rototrans
+            from pyomeca import Rototrans
 
             rt = Rototrans.from_random_data()
 
@@ -254,7 +254,7 @@ class Rototrans:
 
             ```python
             import numpy as np
-            from motion import Angles, Rototrans
+            from pyomeca import Angles, Rototrans
 
             angles = Angles(np.random.rand(3, 1, 100))
             seq = "xyz"

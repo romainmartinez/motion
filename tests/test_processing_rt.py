@@ -3,7 +3,7 @@ from itertools import permutations
 import numpy as np
 import pytest
 
-from motion import Angles, Rototrans, Markers
+from pyomeca import Angles, Rototrans, Markers
 
 SEQ = (
     ["".join(p) for i in range(1, 4) for p in permutations("xyz", i)]

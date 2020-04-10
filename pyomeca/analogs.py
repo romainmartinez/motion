@@ -5,10 +5,10 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from motion.io import read, utils
+from pyomeca.io import read, utils
 
 
-class Markers:
+class Analogs:
     def __new__(
         cls,
         data: Optional[Union[np.array, np.ndarray, xr.DataArray, list]] = None,
@@ -18,8 +18,8 @@ class Markers:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Markers DataArray with `axis`, `channel` and `time` dimensions
-         used for skin marker positions.
+        Analogs DataArray with `channel` and `time` dimensions
+         used for generic signals such as EMGs, force signals or any other analog signal.
 
         Arguments:
             data: Array to be passed to xarray.DataArray
@@ -29,27 +29,26 @@ class Markers:
             kwargs: Keyword argument(s) to be passed to xarray.DataArray
 
         Returns:
-            Markers `xarray.DataArray` with the specified data and coordinates
+            Analogs `xarray.DataArray` with the specified data and coordinates
 
         !!! example
-            To instantiate a `Markers` with 4 channels and 100 frames filled with some random data:
+            To instantiate an `Analogs` with 4 channels and 100 frames filled with some random data:
 
             ```python
             import numpy as np
-            from motion import Markers
+            from pyomeca import Analogs
 
-            n_axis = 3
             n_channels = 4
             n_frames = 100
-            data = np.random.random(size=(n_axis, n_channels, n_frames))
-            markers = Markers(data)
+            data = np.random.random(size=(n_channels, n_frames))
+            analogs = Analogs(data)
             ```
 
             You can add the channel names:
 
             ```python
             names = ["A", "B", "C", "D"]
-            markers = Markers(data, channels=names)
+            analogs = Analogs(data, channels=names)
             ```
 
             And an associate time vector:
@@ -57,35 +56,31 @@ class Markers:
             ```python
             rate = 100  # Hz
             time = np.arange(start=0, stop=n_frames / rate, step=1 / rate)
-            markers = Markers(data, channels=names, time=time)
+            analogs = Analogs(data, channels=names, time=time)
             ```
 
         !!! note
-            Calling `Markers()` generate an empty array.
+            Calling `Analogs()` generate an empty array.
         """
         coords = {}
         if data is None:
-            data = np.ndarray((0, 0, 0))
-        else:
-            coords["axis"] = ["x", "y", "z", "ones"]
-        if data.shape[0] == 3:
-            data = np.insert(data, obj=3, values=1, axis=0)
-        if channels:
+            data = np.ndarray((0, 0))
+        if channels is not None:
             coords["channel"] = channels
         if time is not None:
             coords["time"] = time
         return xr.DataArray(
             data=data,
-            dims=("axis", "channel", "time"),
+            dims=("channel", "time"),
             coords=coords,
-            name="markers",
+            name="analogs",
             *args,
             **kwargs,
         )
 
     @classmethod
     def from_random_data(
-        cls, distribution: str = "normal", size: tuple = (3, 10, 100), *args, **kwargs
+        cls, distribution: str = "normal", size: tuple = (10, 100), *args, **kwargs
     ) -> xr.DataArray:
         """
         Create random data from a specified distribution (normal by default) using random walk.
@@ -98,29 +93,28 @@ class Markers:
             kwargs: Keyword argument(s) to be passed to numpy.random.`distribution`
 
         Returns:
-            Random markers `xarray.DataArray` sampled from a given distribution
+            Random Analogs `xarray.DataArray` sampled from a given distribution
 
         !!! example
-            To instantiate a `Markers` with some random data sampled from a normal distribution:
+            To instantiate an `Analogs` with some random data sampled from a normal distribution:
 
             ```python
-            from motion import Markers
+            from pyomeca import Analogs
 
-            n_axis = 3
             n_channels = 10
             n_frames = 100
-            size = n_axis, n_channels, n_frames
-            markers = Markers.from_random_data(size=size)
+            size = n_channels, n_frames
+            analogs = Analogs.from_random_data(size=size)
             ```
 
             You can choose any distribution available in
                 [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions):
 
             ```python
-            markers = Markers.from_random_data(distribution="uniform", size=size, low=1, high=10)
+            analogs = Analogs.from_random_data(distribution="uniform", size=size, low=1, high=10)
             ```
         """
-        return Markers(
+        return Analogs(
             getattr(np.random, distribution)(size=size, *args, **kwargs).cumsum(-1)
         )
 
@@ -141,12 +135,12 @@ class Markers:
         attrs: Optional[dict] = None,
     ) -> xr.DataArray:
         """
-        Markers DataArray from a csv file.
+        Analogs DataArray from a csv file.
 
         Arguments:
             filename: Any valid string path
             usecols: All elements must either be positional or strings that correspond to column names.
-                For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
+                For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz']
             header: Row of the header (0-indexed)
             first_row: First row of the data (0-indexed)
             first_column: First column of the data (0-indexed)
@@ -159,25 +153,25 @@ class Markers:
             attrs: attrs to be passed to `xr.DataArray`. If attrs['rate'] is provided, compute the time accordingly
 
         Returns:
-            Markers `xarray.DataArray` with the specified data and coordinates
+            Analogs `xarray.DataArray` with the specified data and coordinates
 
         !!! example
-            To read [this csv file](https://github.com/romainmartinez/motion/blob/master/tests/data/markers.csv),
+            To read [this csv file](https://github.com/romainmartinez/pyomeca/blob/master/tests/data/analogs.csv),
             type:
 
             ```python
-            from motion import Markers
+            from pyomeca import Analogs
 
-            data_path = "./tests/data/markers.csv"
-            markers = Markers.from_csv(data_path, header=2, first_row=5, first_column=2)
+            data_path = "./tests/data/analogs.csv"
+            analogs = Analogs.from_csv(data_path, header=3, first_row=5, first_column=2)
             ```
 
             If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
 
             ```python
-            channels = ["Daphnee:ASISr", "Daphnee:ASISl", "Daphnee:PSISr"]
-            markers = Markers.from_csv(
-                data_path, header=2, first_row=5, first_column=2, usecols=channels
+            channels = ["IM EMG1", "IM EMG2", "IM EMG3"]
+            analogs = Analogs.from_csv(
+                data_path, header=3, first_row=5, first_column=2, usecols=channels
             )
             ```
 
@@ -185,33 +179,33 @@ class Markers:
 
             ```python
             channels = [5, 6, 7]
-            markers = Markers.from_csv(
-                data_path, header=2, first_row=5, first_column=2, usecols=channels
+            analogs = Analogs.from_csv(
+                data_path, header=3, first_row=5, first_column=2, usecols=channels
             )
             ```
 
             Sometimes the channel name is delimited by a suffix or prefix.
             To access the prefix, you can specify `prefix_delimiter` and `suffix_delimiter` for the suffix.
-            For example, if the name is `"Daphnee:ASISr"` and you specify `suffix_delimiter=":"`, you will select "Daphnee".
-            Similarly, if you specify `prefix_delimiter=":":
+            For example, if the name is `"IM EMG1"` and you specify `suffix_delimiter=" "`, you will select "IM".
+            Similarly, if you specify `prefix_delimiter=" ":
 
             ```python
-            channels = ["ASISr", "ASISl", "PSISr"]
-            markers = Markers.from_csv(
+            channels = ["EMG1", "EMG2", "EMG3"]
+            analogs = Analogs.from_csv(
                 data_path,
-                header=2,
+                header=3,
                 first_row=5,
                 first_column=2,
                 usecols=channels,
-                prefix_delimiter=":",
+                suffix_delimiter=" ",
             )
             ```
 
             It is also possible to specify a column containing the time vector:
 
             ```python
-            markers = Markers.from_csv(
-                data_path, header=2, first_row=5, first_column=1, time_column=0
+            analogs = Analogs.from_csv(
+                data_path, header=3, first_row=5, first_column=1, time_column=0
             )
             ```
         """
@@ -250,13 +244,13 @@ class Markers:
         attrs: Optional[dict] = None,
     ) -> xr.DataArray:
         """
-        Markers DataArray from an Excel file.
+        Analogs DataArray from a excel file.
 
         Arguments:
             filename: Any valid string path
             sheet_name: Strings are used for sheet names. Integers are used in zero-indexed sheet positions
             usecols: All elements must either be positional or strings that correspond to column names.
-                For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz'].
+                For example, a valid list-like usecols parameter would be [0, 1, 2] or ['foo', 'bar', 'baz']
             header: Row of the header (0-indexed)
             first_row: First row of the data (0-indexed)
             first_column: First column of the data (0-indexed)
@@ -269,25 +263,25 @@ class Markers:
             attrs: attrs to be passed to `xr.DataArray`. If attrs['rate'] is provided, compute the time accordingly
 
         Returns:
-            Markers `xarray.DataArray` with the specified data and coordinates
+            Analogs `xarray.DataArray` with the specified data and coordinates
 
         !!! example
-            To read [this excel file](https://github.com/romainmartinez/motion/blob/master/tests/data/markers.xlsx),
+            To read [this excel file](https://github.com/romainmartinez/pyomeca/blob/master/tests/data/analogs.xlsx),
             type:
 
             ```python
-            from motion import Markers
+            from pyomeca import Analogs
 
-            data_path = "./tests/data/markers.xlsx"
-            markers = Markers.from_excel(data_path, header=2, first_row=5, first_column=2)
+            data_path = "./tests/data/analogs.xlsx"
+            analogs = Analogs.from_excel(data_path, header=3, first_row=5, first_column=2)
             ```
 
             If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
 
             ```python
-            channels = ["boite:gauche_ext"]
-            markers = Markers.from_excel(
-                data_path, header=2, first_row=5, first_column=2, usecols=channels
+            channels = ["A"]
+            analogs = Analogs.from_excel(
+                data_path, header=3, first_row=5, first_column=2, usecols=channels
             )
             ```
 
@@ -295,35 +289,19 @@ class Markers:
 
             ```python
             channels = [1]
-            markers = Markers.from_excel(
-                data_path, header=2, first_row=5, first_column=2, usecols=channels
-            )
-            ```
-
-            Sometimes the channel name is delimited by a suffix or prefix.
-            To access the prefix, you can specify `prefix_delimiter` and `suffix_delimiter` for the suffix.
-            For example, if the name is `"boite:gauche_ext"` and you specify `suffix_delimiter=":"`, you will select "boite".
-            Similarly, if you specify `prefix_delimiter=":":
-
-            ```python
-            channels = ["gauche_ext"]
-            markers = Markers.from_excel(
-                data_path,
-                header=2,
-                first_row=5,
-                first_column=2,
-                usecols=channels,
-                prefix_delimiter=":",
+            analogs = Analogs.from_excel(
+                data_path, header=3, first_row=5, first_column=2, usecols=channels
             )
             ```
 
             It is also possible to specify a column containing the time vector:
 
             ```python
-            markers = Markers.from_excel(
-                data_path, header=2, first_row=5, first_column=1, time_column=0
+            analogs = Analogs.from_excel(
+                data_path, header=3, first_row=5, first_column=1, time_column=0
             )
             ```
+
         """
         return read.read_csv_or_excel(
             cls,
@@ -344,6 +322,91 @@ class Markers:
         )
 
     @classmethod
+    def from_sto(
+        cls, filename: Union[str, Path], end_header: Optional[bool] = None, **kwargs
+    ) -> xr.DataArray:
+        """
+        Analogs DataArray from a sto file.
+
+        Arguments:
+            filename: Any valid string path
+            end_header: Index where `endheader` appears (0 indexed).
+                If not provided, the index is automatically determined
+            kwargs: Keyword arguments to be passed to `from_csv`
+
+        Returns:
+            Analogs `xarray.DataArray` with the specified data and coordinates
+
+        !!! example
+            To read [this sto file](https://github.com/romainmartinez/pyomeca/blob/master/tests/data/inverse_dyn.sto),
+            type:
+
+            ```python
+            from pyomeca import Analogs
+
+            data_path = "./tests/data/inverse_dyn.sto"
+            analogs = Analogs.from_sto(data_path)
+            ```
+
+            If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
+
+            ```python
+            channels = ["shoulder_plane_moment", "shoulder_ele_moment"]
+            analogs = Analogs.from_sto(data_path, usecols=channels)
+            ```
+
+            Or by position:
+
+            ```python
+            channels = [3, 4]
+            analogs = Analogs.from_sto(data_path, usecols=channels)
+            ```
+        """
+        return read.read_sto_or_mot(cls, filename, end_header, **kwargs)
+
+    @classmethod
+    def from_mot(
+        cls, filename: Union[str, Path], end_header: Optional[bool] = None, **kwargs
+    ) -> xr.DataArray:
+        """
+        Analogs DataArray from a mot file.
+
+        Arguments:
+            filename: Any valid string path
+            end_header: Index where `endheader` appears (0 indexed). If not provided, the index is automatically determined.
+            kwargs: Keyword arguments to be passed to `from_csv`
+
+        Returns:
+            Analogs `xarray.DataArray` with the specified data and coordinates
+
+        !!! example
+            To read [this mot file](https://github.com/romainmartinez/pyomeca/blob/master/tests/data/inverse_kin.mot),
+            type:
+
+            ```python
+            from pyomeca import Analogs
+
+            data_path = "./tests/data/inverse_kin.mot"
+            analogs = Analogs.from_mot(data_path)
+            ```
+
+            If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
+
+            ```python
+            channels = ["elbow_flexion", "pro_sup"]
+            analogs = Analogs.from_mot(data_path, usecols=channels)
+            ```
+
+            Or by position:
+
+            ```python
+            channels = [3, 4]
+            analogs = Analogs.from_mot(data_path, usecols=channels)
+            ```
+        """
+        return read.read_sto_or_mot(cls, filename, end_header, **kwargs)
+
+    @classmethod
     def from_c3d(
         cls,
         filename: Union[str, Path],
@@ -353,7 +416,7 @@ class Markers:
         attrs: Optional[dict] = None,
     ) -> xr.DataArray:
         """
-        Markers DataArray from a c3d file.
+        Analogs DataArray from a c3d file.
 
         Arguments:
             filename: Any valid string path
@@ -364,87 +427,52 @@ class Markers:
             attrs: attrs to be passed to xr.DataArray
 
         Returns:
-            Markers `xarray.DataArray` with the specified data and coordinates
+            Analogs `xarray.DataArray` with the specified data and coordinates
 
         !!! example
-            To read [this c3d file](https://github.com/romainmartinez/motion/blob/master/tests/data/markers_analogs.c3d),
+            To read [this c3d file](https://github.com/romainmartinez/pyomeca/blob/master/tests/data/markers_analogs.c3d),
             type:
 
             ```python
-            from motion import Markers
+            from pyomeca import Analogs
 
             data_path = "./tests/data/markers_analogs.c3d"
-            markers = Markers.from_c3d(data_path)
+            analogs = Analogs.from_c3d(data_path)
             ```
 
             If you know the channel names, you can retrieve only the ones you are interested in:
 
             ```python
-            channels = ["Daphnee:ASISl", "Daphnee:PSISr", "Daphnee:PSISl"]
-            markers = Markers.from_c3d(data_path, usecols=channels)
+            channels = ["Voltage.1", "Voltage.2", "Voltage.3"]
+            analogs = Analogs.from_c3d(data_path, usecols=channels)
             ```
 
             Sometimes the channel name is delimited by a suffix or prefix.
             To access the prefix, you can specify `prefix_delimiter` and `suffix_delimiter` for the suffix.
-            For example, if the name is `""Daphnee:ASISl"` and you specify `suffix_delimiter=":"`, you will select "Daphnee".
-            Similarly, if you specify `prefix_delimiter=":":
+            For example, if the name is `"Voltage.1"` and you specify `suffix_delimiter="."`, you will select "Voltage".
+            Similarly, if you specify `prefix_delimiter=".":
 
             ```python
-            channels = ["ASISl", "PSISr", "PSISl"]
-            markers = Markers.from_c3d(data_path, prefix_delimiter=":")
+            channels = ["1", "2", "3"]
+            analogs = Analogs.from_c3d(data_path, usecols=channels, prefix_delimiter=".")
             ```
         """
         return read.read_c3d(
             cls, filename, usecols, prefix_delimiter, suffix_delimiter, attrs
         )
 
-    @classmethod
-    def from_trc(cls, filename: Union[str, Path], **kwargs) -> xr.DataArray:
-        """
-        Markers DataArray from a trc file.
-
-        Arguments:
-            filename: Any valid string path
-            kwargs: Keyword arguments to be passed to `from_csv`
-
-        Returns:
-            Markers `xarray.DataArray` with the specified data and coordinates
-
-        !!! example
-            To read [this trc file](https://github.com/romainmartinez/motion/blob/master/tests/data/markers.trc),
-            type:
-
-            ```python
-            from motion import Markers
-
-            data_path = "./tests/data/markers.trc"
-            markers = Markers.from_trc(data_path)
-            ```
-
-            If you know the channel names, you can retrieve only the ones you are interested in by specifying strings:
-
-            ```python
-            channels = ["STER", "STERl"]
-            markers = Markers.from_trc(data_path, usecols=channels)
-            ```
-
-            Or by position:
-
-            ```python
-            channels = [3, 4]
-            markers = Markers.from_trc(data_path, usecols=channels)
-            ```
-        """
-        return read.read_trc(cls, filename, **kwargs)
-
     @staticmethod
     def _reshape_flat_array(array: Union[np.array, np.ndarray]) -> xr.DataArray:
-        if array.shape[1] % 3 != 0:
-            raise IndexError(
-                "Array second dimension should be divisible by 3. "
-                f"You provided an array with this shape {array.shape}"
-            )
-        return array.T.reshape((3, int(array.shape[1] / 3), array.shape[0]), order="F")
+        """
+        Takes a tabular numpy array (frames x N) and return a (N x frames) numpy array
+
+        Arguments:
+            array: A tabular array (frames x N) with N = 3 x marker
+
+        Returns:
+            Reshaped Analogs `xarray.DataArray`
+        """
+        return array.T
 
     @staticmethod
     def _get_requested_channels_from_pandas(
@@ -454,11 +482,10 @@ class Markers:
             idx, channels = [], []
             if isinstance(usecols[0], int):
                 for i in usecols:
-                    real_idx = i * 3
-                    idx.extend([real_idx, real_idx + 1, real_idx + 2])
+                    idx.append(i)
                     channels.append(
                         utils.col_spliter(
-                            columns[real_idx], prefix_delimiter, suffix_delimiter
+                            columns[i], prefix_delimiter, suffix_delimiter
                         )
                     )
             elif isinstance(usecols[0], str):
@@ -467,8 +494,7 @@ class Markers:
                     for col in columns
                 ]
                 for col in usecols:
-                    i = columns_split.index(col)
-                    idx.extend([i, i + 1, i + 2])
+                    idx.append(columns_split.index(col))
                     channels.append(col)
             else:
                 raise ValueError(
@@ -483,6 +509,5 @@ class Markers:
         channels = [
             utils.col_spliter(col, prefix_delimiter, suffix_delimiter)
             for col in columns
-            if "Unnamed" not in col
         ]
         return channels, None

@@ -1,3 +1,3 @@
-# [`analogs.py`](https://github.com/romainmartinez/motion/blob/master/motion/analogs.py)
+# [`analogs.py`](https://github.com/romainmartinez/pyomeca/blob/master/pyomeca/analogs.py)
 
-::: motion.analogs
+::: pyomeca.analogs

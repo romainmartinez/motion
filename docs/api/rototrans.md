@@ -1,3 +1,3 @@
-# [`rototrans.py`](https://github.com/romainmartinez/motion/blob/master/motion/rototrans.py)
+# [`rototrans.py`](https://github.com/romainmartinez/pyomeca/blob/master/pyomeca/rototrans.py)
 
-::: motion.rototrans
+::: pyomeca.rototrans

@@ -1,7 +1,7 @@
 ## Licence
 
-## Citing Motion
+## Citing Pyomeca
 
-## Papers citing Motion
+## Papers citing Pyomeca
 
 ## Support and sponsors

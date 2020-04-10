@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 # Path to data
-from motion import Analogs, Markers
+from pyomeca import Analogs, Markers
 
 mpl.rcParams["axes.spines.right"] = False
 mpl.rcParams["axes.spines.top"] = False

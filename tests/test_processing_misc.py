@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from motion.processing import misc
+from pyomeca.processing import misc
 from tests._constants import MARKERS_DATA, ANALOGS_DATA, EXPECTED_VALUES
 from tests.utils import is_expected_array
 

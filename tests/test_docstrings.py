@@ -3,7 +3,7 @@ import inspect
 import black
 import pytest
 
-import motion
+import pyomeca
 from tests.utils import (
     extract_code_blocks_from_md,
     function_has_return,
@@ -14,9 +14,9 @@ from tests.utils import (
 )
 
 generate_doc_files = do_we_generate_doc_files()
-methods = get_available_methods(motion)
+methods = get_available_methods(pyomeca)
 if generate_doc_files:
-    generate_api_json(motion)
+    generate_api_json(pyomeca)
 
 
 @pytest.mark.parametrize("method", methods)

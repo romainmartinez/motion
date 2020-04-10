@@ -47,7 +47,7 @@ jobs:
         run: |
           rm docs/index.md
           cp README.md docs/index.md
-          python -m pytest --cov-report term-missing --color=yes --cov=motion tests
+          python -m pytest --cov-report term-missing --color=yes --cov=pyomeca tests
 
       - name: Coverage (ubuntu only)
         if: startsWith(matrix.os, 'ubuntu')

@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from motion import Angles, Rototrans, Markers
+from pyomeca import Angles, Rototrans, Markers
 
 
 def test_rotate():

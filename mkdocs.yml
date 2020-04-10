@@ -1,7 +1,7 @@
-site_name: 'Motion'
+site_name: 'Pyomeca'
 site_description: 'An Open-Source Framework for Biomechanical Analysis'
 site_author: 'Romain Martinez'
-site_url: "https://romainmartinez.github.io/motion/"
+site_url: "https://romainmartinez.github.io/pyomeca/"
 
 theme:
   name: 'material'
@@ -35,7 +35,7 @@ plugins:
   - search
   - mkdocstrings:
       watch:
-        - motion
+        - pyomeca
 
 repo_name: 'pyomeca/pyomeca'
 repo_url: 'https://github.com/pyomeca/pyomeca'

@@ -1,6 +1,6 @@
 import numpy as np
 
-from motion import Markers
+from pyomeca import Markers
 from tests._constants import MARKERS_DATA, ANALOGS_DATA, EXPECTED_VALUES
 from tests.utils import is_expected_array
 
@@ -40,7 +40,7 @@ def test_proc_norm():
     # norm by hand
     expected_norm = np.linalg.norm(m[:3, ...], axis=0)
 
-    # norm with motion
+    # norm with pyomeca
     computed_norm = m.meca.norm(dim="axis")
 
     np.testing.assert_almost_equal(computed_norm, expected_norm, decimal=10)

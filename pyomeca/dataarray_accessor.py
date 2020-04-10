@@ -5,8 +5,8 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from motion.io import write
-from motion.processing import algebra, filter, interp, misc, rototrans, markers
+from pyomeca.io import write
+from pyomeca.processing import algebra, filter, interp, misc, rototrans, markers
 
 
 @xr.register_dataarray_accessor("meca")
@@ -28,7 +28,7 @@ class DataArrayAccessor(object):
             To write a matlab file from any `xarray.DataArray` (including Analogs, Angles, Markers or Rototrans):
 
             ```python
-            from motion import Analogs
+            from pyomeca import Analogs
 
             analogs = Analogs.from_random_data()
             analogs.meca.to_matlab(filename="temp.mat")
@@ -48,7 +48,7 @@ class DataArrayAccessor(object):
             To write a csv file from any `xarray.DataArray` (including Analogs, Angles, Markers or Rototrans):
 
             ```python
-            from motion import Analogs
+            from pyomeca import Analogs
 
             analogs = Analogs.from_random_data()
             analogs.meca.to_csv(filename="temp.csv")
@@ -76,7 +76,7 @@ class DataArrayAccessor(object):
             To return a dataframe from any `xarray.DataArray` (including Analogs, Angles, Markers or Rototrans):
 
             ```python
-            from motion import Analogs
+            from pyomeca import Analogs
 
             analogs = Analogs.from_random_data()
             analogs.meca.to_wide_dataframe()
@@ -97,7 +97,7 @@ class DataArrayAccessor(object):
             To compute the absolute value of any `xarray.DataArray` (including Analogs, Angles, Markers or Rototrans):
 
             ```python
-            from motion import Analogs
+            from pyomeca import Analogs
 
             analogs = Analogs.from_random_data()
             analogs.meca.abs()
@@ -119,7 +119,7 @@ class DataArrayAccessor(object):
             To compute the matrix product of two `xarray.DataArray` (including Analogs, Angles, Markers or Rototrans):
 
             ```python
-            from motion import Analogs
+            from pyomeca import Analogs
 
             first_analogs = Analogs.from_random_data()
             second_analogs = Analogs.from_random_data()
@@ -153,7 +153,7 @@ class DataArrayAccessor(object):
             To compute the element-wise square of any `xarray.DataArray` (including Analogs, Angles, Markers or Rototrans):
 
             ```python
-            from motion import Analogs
+            from pyomeca import Analogs
 
             analogs = Analogs.from_random_data()
             analogs.meca.square()
@@ -179,7 +179,7 @@ class DataArrayAccessor(object):
             (including Analogs, Angles, Markers or Rototrans):
 
             ```python
-            from motion import Analogs
+            from pyomeca import Analogs
 
             analogs = Analogs.from_random_data()
             analogs.meca.sqrt()
@@ -203,7 +203,7 @@ class DataArrayAccessor(object):
             along a given dimension:
 
             ```python
-            from motion import Markers
+            from pyomeca import Markers
 
             markers = Markers.from_random_data()
             markers.meca.norm(dim="axis")
@@ -211,7 +211,7 @@ class DataArrayAccessor(object):
 
         Note:
             If the array contains an `"axis"` dimension with a `"ones"` coordinate
-            (e.g., the object was created using `motion.Markers`), this coordinate is ignored.
+            (e.g., the object was created using `pyomeca.Markers`), this coordinate is ignored.
 
         """
         return algebra.norm(self._obj, dim, ord)
@@ -227,7 +227,7 @@ class DataArrayAccessor(object):
             To compute the root-mean-square of any `xarray.DataArray` (including Analogs, Angles, Markers or Rototrans):
 
             ```python
-            from motion import Analogs
+            from pyomeca import Analogs
 
             analogs = Analogs.from_random_data()
             analogs.meca.rms()
@@ -253,7 +253,7 @@ class DataArrayAccessor(object):
             ```python
             import numpy as np
 
-            from motion import Analogs
+            from pyomeca import Analogs
 
             random_data = np.random.uniform(low=2, high=4, size=(1, 100))
             analogs = Analogs(random_data)
@@ -298,7 +298,7 @@ class DataArrayAccessor(object):
             ```python
             import matplotlib.pyplot as plt
 
-            from motion import Analogs
+            from pyomeca import Analogs
 
             analogs = Analogs.from_random_data(size=(1, 100)).meca.abs()
             normalized = analogs.meca.normalize()
@@ -342,7 +342,7 @@ class DataArrayAccessor(object):
             ```python
             import matplotlib.pyplot as plt
 
-            from motion import Analogs
+            from pyomeca import Analogs
 
             analogs = Analogs.from_random_data(size=(1, 847))
             time_normalized = analogs.meca.time_normalize()
@@ -398,7 +398,7 @@ class DataArrayAccessor(object):
             To low-pass any `xarray.DataArray` (including Analogs, Angles, Markers or Rototrans) signal at 5Hz:
 
             ```python
-            from motion import Analogs
+            from pyomeca import Analogs
 
             analogs = Analogs.from_random_data()
             analogs.meca.low_pass(freq=100, order=2, cutoff=5)
@@ -450,7 +450,7 @@ class DataArrayAccessor(object):
             import matplotlib.pyplot as plt
             import numpy as np
 
-            from motion import Analogs
+            from pyomeca import Analogs
 
             fake_emg = np.random.uniform(low=-1, high=1, size=(1, 1000))
             analogs = Analogs(fake_emg)
@@ -488,7 +488,7 @@ class DataArrayAccessor(object):
             import matplotlib.pyplot as plt
             import numpy as np
 
-            from motion import Analogs
+            from pyomeca import Analogs
 
             fake_emg = np.random.uniform(low=-1, high=1, size=(1, 1000))
             analogs = Analogs(fake_emg)
@@ -526,7 +526,7 @@ class DataArrayAccessor(object):
             import matplotlib.pyplot as plt
             import numpy as np
 
-            from motion import Analogs
+            from pyomeca import Analogs
 
             fake_emg = np.random.uniform(low=-1, high=1, size=(1, 1000))
             analogs = Analogs(fake_emg)
@@ -562,7 +562,7 @@ class DataArrayAccessor(object):
             import matplotlib.pyplot as plt
             import numpy as np
 
-            from motion import Analogs
+            from pyomeca import Analogs
 
             # generate fake data
             freq = 100
@@ -632,7 +632,7 @@ class DataArrayAccessor(object):
             import numpy as np
             import scipy.signal as sig
 
-            from motion import Analogs
+            from pyomeca import Analogs
 
             # simulate fake ecg data
             rr = 2.5  # rr time in seconds
@@ -679,7 +679,7 @@ class DataArrayAccessor(object):
             To get a boolean `xr.DataArray` containing the data that are 3 times the mean +/- standard deviation:
 
             ```python
-            from motion import Analogs
+            from pyomeca import Analogs
 
             analogs = Analogs.from_random_data()
             outliers = analogs.meca.detect_outliers(threshold=1)
@@ -738,7 +738,7 @@ class DataArrayAccessor(object):
             To rotate a random markers set from random angles:
             
             ```python
-            from motion import Angles, Rototrans, Markers
+            from pyomeca import Angles, Rototrans, Markers
 
             n_frames = 100
             n_markers = 10
@@ -750,7 +750,7 @@ class DataArrayAccessor(object):
             rotated_markers = markers.meca.rotate(rt)
             ```
         Note:
-            `rotate` works only for markers (created with `motion.Markers`).
+            `rotate` works only for markers (created with `pyomeca.Markers`).
         """
         return markers.rotate_markers(self._obj, rt)
 

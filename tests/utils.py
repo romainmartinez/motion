@@ -123,7 +123,7 @@ def extract_code_blocks_from_md(
 
 def generate_api_json(module):
     api_json = {
-        "name": "motion",
+        "name": "pyomeca",
         "docstring": "<p>Base module</p>",
         "link": "/",
         "children": [],

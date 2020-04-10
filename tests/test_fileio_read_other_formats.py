@@ -1,6 +1,6 @@
 import pytest
 
-from motion import Analogs, Markers
+from pyomeca import Analogs, Markers
 from ._constants import (
     ANALOGS_STO,
     ANALOGS_MOT,
