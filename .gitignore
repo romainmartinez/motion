@@ -139,3 +139,4 @@ docs/api/api.json
 
 /docs/images/api/*.svg
 /docs/getting-started.md
+/docs/*_files

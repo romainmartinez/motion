@@ -11,6 +11,7 @@ theme:
   logo: 'images/logo.svg'
   favicon: 'images/favicon.ico'
 nav:
+  - Overview: overview.md
   - Getting Started: getting-started.md
   - User Guide:
     - Object creation: object-creation.md
