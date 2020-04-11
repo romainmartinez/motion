@@ -45,7 +45,6 @@ jobs:
 
       - name: Test
         run: |
-          rm docs/index.md
           cp README.md docs/index.md
           python -m pytest --cov-report term-missing --color=yes --cov=pyomeca tests
 
