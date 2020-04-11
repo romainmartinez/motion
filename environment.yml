@@ -9,6 +9,9 @@ dependencies:
   - matplotlib
   - bottleneck
   - xlrd
+  - pip
+  - pip:
+      - -e .
   # dev
   - black
   - pytest
