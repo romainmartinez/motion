@@ -140,7 +140,7 @@ docs/api/api.json
 /docs/images/api/*.svg
 /docs/getting-started.md
 /docs/*_files
-/docs/index.m
+/docs/index.md
 
 emg.*
 trials.nc
