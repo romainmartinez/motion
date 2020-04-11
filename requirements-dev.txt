@@ -1,0 +1,6 @@
+mkdocs
+mkdocs-material
+mkdocstrings
+black
+pytest
+pytest-cov
