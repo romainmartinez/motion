@@ -37,6 +37,7 @@ jobs:
       - name: Install Dependencies
         run: |
           conda env update -f environment.yml -q -n base
+          pip install -r requirements-dev.txt
           conda info -a
 
       - name: Lint (ubuntu only)
