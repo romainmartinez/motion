@@ -5,3 +5,5 @@ mkdocstrings
 black
 pytest
 pytest-cov
+requests
+bs4
