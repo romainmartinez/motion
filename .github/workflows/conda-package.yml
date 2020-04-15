@@ -52,7 +52,7 @@ jobs:
       - name: Coverage (ubuntu only)
         if: startsWith(matrix.os, 'ubuntu')
         env:
-          COVERALLS_REPO_TOKEN: m0Y1JKhhCecsIkye25oHlA8rmiPDhqocp
+          COVERALLS_REPO_TOKEN: PZM3oz4Z1NbKgI9rvS7Of89vA7KdHsDAE
         run: |
           pip install coveralls
           coveralls
