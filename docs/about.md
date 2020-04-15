@@ -36,6 +36,8 @@ journal    = {Journal of Open Research Software}
 
 - Martinez, Romain, Jason Bouffard, Benjamin Michaud, André Plamondon, Julie N. Côté, and Mickaël Begon. 2019. “[Sex Differences in Upper Limb 3D Joint Contributions during a Lifting Task.](https://www.tandfonline.com/doi/abs/10.1080/00140139.2019.1571245)” Ergonomics 62 (5): 682–693. doi:10.1080/00140139.2019.1571245.
 
+- Assila Najoua, Claudio Pizzolato, Romain Martinez, David Lloyd, Mickael Begon. 2020. “Toward a physiological model of the shoulder: EMG-assisted algorithm to account for the muscle co-contraction.” Annals of Biomedical Engineering.
+
 ## Contributors and support
 
 - [Romain Martinez](https://github.com/romainmartinez)
