@@ -94,7 +94,19 @@ axes[1].set_title("EMG activation distribution")
 
 ![svg](docs/images/readme-example_files/readme-example_5_1.svg)
 
+See [the documentation](https://romainmartinez.github.io/pyomeca/) for more details and examples.
+
 ## Features
+
+- Signal processing routine commonly used in biomechanics such as filters, normalization, onset detection, outliers detection, derivatives, etc.
+- Common linear algebra routine implemented such as getting Euler angles to/from a rototranslation matrix, creating a system of axes, setting a rotation or translation, transpose or inverse, etc.
+- Easy reading and writing interface to common files in biomechanics (`c3d`, `csv`, `xlsx`,`mat`, `trc`, `sto`, `mot`)
+- All of [xarray](http://xarray.pydata.org/en/stable/index.html)'s awesome features
+
+The following illustration shows all of pyomeca's public API.
+An interactive version is available in the [documentation](https://romainmartinez.github.io/pyomeca/overview/).
+
+![svg](docs/images/api.svg)
 
 ## Installation
 
