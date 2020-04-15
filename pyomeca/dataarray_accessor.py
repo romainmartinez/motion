@@ -735,7 +735,7 @@ class DataArrayAccessor(object):
 
         !!! example
             To rotate a random markers set from random angles:
-            
+
             ```python
             from pyomeca import Angles, Rototrans, Markers
 
@@ -748,6 +748,7 @@ class DataArrayAccessor(object):
 
             rotated_markers = markers.meca.rotate(rt)
             ```
+
         Note:
             `rotate` works only for markers (created with `pyomeca.Markers`).
         """
