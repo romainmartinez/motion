@@ -10,7 +10,7 @@ doc_files = [f"{file}" for file in docs_path.glob("*.md")]
 
 doc_files_string = []
 for file in doc_files:
-    with open(f"{file}", "r") as f:
+    with open(f"{file}", "r", encoding="utf8") as f:
         doc_files_string.append(f.read().replace("../tests/data", "tests/data"))
 
 

@@ -10,7 +10,7 @@ nb_to_md:
 	jupyter nbconvert --to markdown notebooks/getting-started.ipynb --output-dir='./docs' --template=docs/nbconvert.tpl
 
 doc:
-	sed 's/docs//g' README.md > docs/index.md; \
+	sed 's/docs\///g' README.md > docs/index.md; \
 	mkdocs gh-deploy
 
 clean:
