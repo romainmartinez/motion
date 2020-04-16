@@ -36,6 +36,8 @@ plugins:
   - mkdocstrings:
       watch:
         - pyomeca
+  - minify:
+      minify_html: true
 
 repo_name: pyomeca/pyomeca
 repo_url: https://github.com/pyomeca/pyomeca

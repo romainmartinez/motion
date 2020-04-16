@@ -1,9 +1,10 @@
 -e .
-mkdocs
-mkdocs-material
-mkdocstrings
 black
 pytest
 pytest-cov
 requests
 bs4
+mkdocs
+mkdocs-material
+mkdocstrings
+mkdocs-minify-plugin
