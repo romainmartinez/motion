@@ -11,7 +11,9 @@ nb_to_md:
 
 doc:
 	sed 's/docs\///g' README.md > docs/index.md; \
+	sed -i 's/\/api\//\/pyomeca\/api\//g' docs/api/api.json;\
 	mkdocs gh-deploy
+	sed -i 's/\/pyomeca\/api\//\/api\//g' docs/api/api.json;\
 
 clean:
 	rm -rf .pytest_cache .coverage site notebooks/.ipynb_checkpoints

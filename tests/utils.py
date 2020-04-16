@@ -131,7 +131,7 @@ def generate_api_json(module):
     for class_name, class_obj in inspect.getmembers(module, inspect.isclass):
         class_dict = {
             "name": class_name,
-            "link": f"../api/{class_obj.__module__.split('.')[-1]}/#{class_obj.__module__}.{class_name}",
+            "link": f"/api/{class_obj.__module__.split('.')[-1]}/#{class_obj.__module__}.{class_name}",
             "children": [],
         }
         if class_name == "DataArrayAccessor":
@@ -161,7 +161,7 @@ def get_method_generated_docstring(method_dict):
     from bs4 import BeautifulSoup
 
     to_delete = '<p class="admonition-title">Example</p>'
-    html = requests.get(f"{mkdocs_server}{method_dict['link'].replace('../', '/')}")
+    html = requests.get(f"{mkdocs_server}{method_dict['link']}")
     html.raise_for_status()
     soup = BeautifulSoup(html.text)
     doc_bloc = soup.find(
