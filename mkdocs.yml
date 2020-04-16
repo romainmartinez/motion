@@ -17,7 +17,6 @@ nav:
   - User Guide:
     - Object creation: object-creation.md
     - Data processing: data-processing.md
-  - Case Studies: case-studies.md
   - About: about.md
   - API reference:
       Analogs: api/analogs.md
