@@ -1,9 +1,8 @@
-<img
-  src="https://raw.githubusercontent.com/pyomeca/design/master/logo/logo_plain_doc.svg?sanitize=true"
-  alt="logo"
-/>
-
 <p align="center">
+    <img
+      src="https://raw.githubusercontent.com/pyomeca/design/master/logo/logo_plain_doc.svg?sanitize=true"
+      alt="logo"
+    />
   <a href="https://github.com/romainmartinez/pyomeca/actions"
     ><img
       alt="Actions Status"
@@ -106,7 +105,9 @@ See [the documentation](https://romainmartinez.github.io/pyomeca/) for more deta
 The following illustration shows all of pyomeca's public API.
 An interactive version is available in the [documentation](https://romainmartinez.github.io/pyomeca/overview/).
 
-![svg](docs/images/api.svg)
+<p align="center">
+    <img src="docs/images/api.svg" alt="api">
+</p>
 
 ## Installation
 
