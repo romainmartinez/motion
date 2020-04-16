@@ -12,7 +12,7 @@ def test_rotate():
     rt = Rototrans.from_euler_angles(angles, "xyz")
     markers = Markers.from_random_data(size=(3, n_markers, n_frames))
 
-    rotated_markers = markers.meca.rotate(rt)
+    rotated_markers = Markers.from_rototrans(markers, rt)
 
     expected_rotated_marker = np.ndarray((4, n_markers, n_frames))
     for marker in range(n_markers):
@@ -25,7 +25,7 @@ def test_rotate():
         rotated_markers, expected_rotated_marker, decimal=10
     )
 
-    rotated_markers = markers.isel(time=0).meca.rotate(rt.isel(time=0))
+    rotated_markers = Markers.from_rototrans(markers.isel(time=0), rt.isel(time=0))
     expected_rotated_marker = np.ndarray(rotated_markers.shape)
     for marker in range(n_markers):
         expected_rotated_marker[:, marker] = np.dot(
@@ -36,7 +36,7 @@ def test_rotate():
         rotated_markers, expected_rotated_marker, decimal=10
     )
 
-    rotated_markers = markers.meca.rotate(rt.isel(time=0))
+    rotated_markers = Markers.from_rototrans(markers, rt.isel(time=0))
     expected_rotated_marker = np.ndarray(rotated_markers.shape)
     for marker in range(n_markers):
         expected_rotated_marker[:, marker] = np.dot(
@@ -48,4 +48,4 @@ def test_rotate():
     )
 
     with pytest.raises(ValueError):
-        markers.isel(time=0).meca.rotate(rt)
+        Markers.from_rototrans(markers.isel(time=0), rt)

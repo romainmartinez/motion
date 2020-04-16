@@ -723,37 +723,6 @@ class DataArrayAccessor(object):
         """
         return misc.detect_outliers(self._obj, threshold)
 
-    def rotate(self, rt: xr.DataArray) -> xr.DataArray:
-        """
-        Rotates markers data from a rototrans matrix.
-
-        Arguments:
-            rt: Rototrans to rotate about
-
-        Returns:
-            A rotated `xarray.DataArray`
-
-        !!! example
-            To rotate a random markers set from random angles:
-
-            ```python
-            from pyomeca import Angles, Rototrans, Markers
-
-            n_frames = 100
-            n_markers = 10
-
-            angles = Angles.from_random_data(size=(3, 1, n_frames))
-            rt = Rototrans.from_euler_angles(angles, "xyz")
-            markers = Markers.from_random_data(size=(3, n_markers, n_frames))
-
-            rotated_markers = markers.meca.rotate(rt)
-            ```
-
-        Note:
-            `rotate` works only for markers (created with `pyomeca.Markers`).
-        """
-        return markers.rotate_markers(self._obj, rt)
-
     @property
     def rotation(self) -> xr.DataArray:
         return rototrans.rotation_getter(self._obj)

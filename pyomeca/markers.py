@@ -6,6 +6,7 @@ import pandas as pd
 import xarray as xr
 
 from pyomeca.io import read, utils
+from pyomeca.processing.markers import markers_from_rototrans
 
 
 class Markers:
@@ -436,6 +437,36 @@ class Markers:
             ```
         """
         return read.read_trc(cls, filename, **kwargs)
+
+    @classmethod
+    def from_rototrans(cls, markers: xr.DataArray, rt: xr.DataArray) -> xr.DataArray:
+        """
+        Rotates markers data from a rototrans matrix.
+
+        Arguments:
+            markers: markers array to rotate
+            rt: Rototrans to rotate about
+
+        Returns:
+            A rotated `xarray.DataArray`
+
+        !!! example
+            To rotate a random markers set from random angles:
+
+            ```python
+            from pyomeca import Angles, Rototrans, Markers
+
+            n_frames = 100
+            n_markers = 10
+
+            angles = Angles.from_random_data(size=(3, 1, n_frames))
+            rt = Rototrans.from_euler_angles(angles, "xyz")
+            markers = Markers.from_random_data(size=(3, n_markers, n_frames))
+
+            rotated_markers = Markers.from_rototrans(markers, rt)
+            ```
+        """
+        return markers_from_rototrans(markers, rt)
 
     @staticmethod
     def _reshape_flat_array(array: Union[np.array, np.ndarray]) -> xr.DataArray:

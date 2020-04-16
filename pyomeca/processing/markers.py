@@ -4,9 +4,7 @@ import xarray as xr
 from pyomeca.processing import misc
 
 
-def rotate_markers(markers: xr.DataArray, rt: xr.DataArray) -> xr.DataArray:
-    misc.has_correct_name(markers, "markers")
-
+def markers_from_rototrans(markers: xr.DataArray, rt: xr.DataArray) -> xr.DataArray:
     rotated_markers = markers.copy()
 
     if rt.ndim == 3 and markers.ndim == 3:
