@@ -44,6 +44,6 @@ journal    = {Journal of Open Research Software}
 - [Benjamin Michaud](https://github.com/pariterre)
 - [Mickaël Begon](https://github.com/mickaelbegon)
 - [Jenn Dowling-Medley](https://github.com/jdowlingmedley)
-- Ariane Dang
+- [Ariane Dang](https://github.com/Dangzilla)
 
 Pyomeca is an open-source project created and supported by the [S2M lab](https://www.facebook.com/s2mlab/).
