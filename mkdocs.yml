@@ -23,7 +23,7 @@ nav:
       Analogs: api/analogs.md
       Angles: api/angles.md
       Markers: api/markers.md
-      Dataarray_accessor: api/dataarray_accessor.md
+      DataArray_accessor: api/dataarray_accessor.md
       Rototrans: api/rototrans.md
 
 markdown_extensions:
