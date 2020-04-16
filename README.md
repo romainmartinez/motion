@@ -142,7 +142,7 @@ Pyomeca is Apache-licensed and the source code is available on [GitHub](https://
 - [Romain Martinez](https://github.com/romainmartinez)
 - [Benjamin Michaud](https://github.com/pariterre)
 - [Mickael Begon](https://github.com/mickaelbegon)
-- Jenn Dowling-Medley
-- Ariane Dang
+- [Jenn Dowling-Medley](https://github.com/jdowlingmedley)
+- [Ariane Dang](https://github.com/Dangzilla)
 
 Pyomeca is an open-source project created and supported by the [S2M lab](https://www.facebook.com/s2mlab/).
