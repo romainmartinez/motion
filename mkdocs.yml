@@ -11,6 +11,7 @@ theme:
   logo: images/logo.svg
   favicon: images/favicon.ico
 nav:
+  - Home: index.md
   - Overview: overview.md
   - Getting Started: getting-started.md
   - User Guide:
