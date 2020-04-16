@@ -21,7 +21,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -37,7 +37,7 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1920"
-     inkscape:window-height="1043"
+     inkscape:window-height="1016"
      id="namedview358"
      showgrid="false"
      units="pc"
@@ -46,10 +46,10 @@
      fit-margin-right="1"
      fit-margin-bottom="1"
      inkscape:zoom="0.77631579"
-     inkscape:cx="359.84443"
-     inkscape:cy="866.2758"
-     inkscape:window-x="1920"
-     inkscape:window-y="0"
+     inkscape:cx="129.91223"
+     inkscape:cy="709.12326"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg356" />
   <g
@@ -125,7 +125,7 @@
        id="text36"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">Analogs</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="567.3158"
        x="252.33333"
        id="rect42"
@@ -376,7 +376,7 @@
        id="text188"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">from_sto</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="567.3158"
        x="504.66666"
        id="rect194"
@@ -389,7 +389,7 @@
        id="text196"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">abs</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="598.75"
        x="504.66666"
        id="rect202"
@@ -402,7 +402,7 @@
        id="text204"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">band_pass</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="630.1842"
        x="504.66666"
        id="rect210"
@@ -415,7 +415,7 @@
        id="text212"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">band_stop</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="661.61841"
        x="504.66666"
        id="rect218"
@@ -428,7 +428,7 @@
        id="text220"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">center</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="693.05261"
        x="504.66666"
        id="rect226"
@@ -441,7 +441,7 @@
        id="text228"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">detect_onset</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="724.48682"
        x="504.66666"
        id="rect234"
@@ -454,7 +454,7 @@
        id="text236"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">detect_outliers</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="755.92102"
        x="504.66666"
        id="rect242"
@@ -467,7 +467,7 @@
        id="text244"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">fft</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="787.35529"
        x="504.66666"
        id="rect250"
@@ -480,7 +480,7 @@
        id="text252"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">high_pass</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="818.78949"
        x="504.66666"
        id="rect258"
@@ -493,7 +493,7 @@
        id="text260"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">low_pass</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="850.22369"
        x="504.66666"
        id="rect266"
@@ -506,7 +506,7 @@
        id="text268"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">matmul</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="881.6579"
        x="504.66666"
        id="rect274"
@@ -519,7 +519,7 @@
        id="text276"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">norm</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="913.0921"
        x="504.66666"
        id="rect282"
@@ -532,7 +532,7 @@
        id="text284"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">normalize</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="944.52631"
        x="504.66666"
        id="rect290"
@@ -545,7 +545,7 @@
        id="text292"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">rms</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="975.96051"
        x="504.66666"
        id="rect298"
@@ -558,7 +558,7 @@
        id="text300"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">rotate</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="1007.3947"
        x="504.66666"
        id="rect306"
@@ -571,7 +571,7 @@
        id="text308"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">sqrt</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="1038.8289"
        x="504.66666"
        id="rect314"
@@ -584,7 +584,7 @@
        id="text316"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">square</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="1070.2632"
        x="504.66666"
        id="rect322"
@@ -597,7 +597,7 @@
        id="text324"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">time_normalize</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="1101.6974"
        x="504.66666"
        id="rect330"
@@ -610,7 +610,7 @@
        id="text332"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">to_csv</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="1133.1316"
        x="504.66666"
        id="rect338"
@@ -623,7 +623,7 @@
        id="text340"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;font-family:Roboto;-inkscape-font-specification:Roboto;dominant-baseline:hanging;fill:#263238;fill-opacity:1">to_matlab</text>
     <rect
-       style="fill:#9c27b0;fill-opacity:0.3;stroke-width:0.91933823"
+       style="fill:#673ab7;fill-opacity:0.29803923;stroke-width:0.91933823"
        y="1164.5658"
        x="504.66666"
        id="rect346"

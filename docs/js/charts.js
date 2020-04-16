@@ -201,7 +201,7 @@ async function drawApi(id) {
     "#E91E63",
     "#2196F3",
     "#4CAF50",
-    "#9C27B0",
+    "#673AB7",
   ]);
 
   const wrapper = d3
