@@ -12,7 +12,7 @@ While NumPy provides an efficient data structure and an intuitive interface, bio
 Pyomeca is built upon and extends the core strengths of [xarray](http://xarray.pydata.org/en/stable/index.html), which keeps tracks of labels and provides a powerful and concise interface which makes it easy to:
 
 -   Apply any operations over dimensions by name (`array.sum(dim="time")`) instead of an arbitrary axis (`array.sum(axis=2)`).
--   Select values by labels (`array.sel(axis="x")` or `emg.sel(channel="biceps")`)
+-   Select values by labels (`array.sel(axis="x")` or `emg.sel(channel="biceps")`).
 -   Vectorize computation across multiple dimensions.
 -   Use the [split-apply-combine](https://vita.had.co.nz/papers/plyr.pdf) paradigm, for example: `emg.groupby("channel").mean()` or any custom function: `emg.groupby('channel').map(lambda x: x - x.mean())`).
 -   Keep track of metadata in the `array.attrs` Python dictionary (`array.attrs["rate"]`).
