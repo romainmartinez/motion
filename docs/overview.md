@@ -50,7 +50,7 @@ Each structure is associated with a specific biomechanical data type and has spe
 
 While there are technically dozens of functions in pyomeca one can generally group them into two distinct categories:
 
-1.  [Object creation](/object-creation/) with the `from_*` method. For example, if you want to define a marker array from a csv file: `markers = Markers.from_csv(...)`.
+1.  [Object creation](/object-creation/) with the `from_*` methods. For example, if you want to define a marker array from a csv file: `markers = Markers.from_csv(...)`.
 2.  [Data processing](/data-processing/) with the `meca` array accessor. For example, to low-pass filter our previous markers: `markers.meca.low_pass(...)`.
 
 !!! note
