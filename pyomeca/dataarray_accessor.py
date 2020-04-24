@@ -6,7 +6,7 @@ import pandas as pd
 import xarray as xr
 
 from pyomeca.io import write
-from pyomeca.processing import algebra, filter, interp, misc, rototrans, markers
+from pyomeca.processing import algebra, filter, interp, misc, rototrans
 
 
 @xr.register_dataarray_accessor("meca")

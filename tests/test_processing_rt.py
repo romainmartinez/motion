@@ -22,7 +22,7 @@ def test_euler2rot_rot2euleur(seq, angles=ANGLES, epsilon=EPSILON):
     else:
         angles_to_test = angles[: len(seq), ...]
     r = Rototrans.from_euler_angles(angles=angles_to_test, angle_sequence=seq)
-    a = Angles.from_rototrans(rototrans=r, angle_sequence=seq)
+    a = Angles.from_rototrans(rt=r, angle_sequence=seq)
 
     np.testing.assert_array_less((a - angles_to_test).meca.abs().sum(), epsilon)
 

@@ -107,14 +107,12 @@ class Angles:
         )
 
     @classmethod
-    def from_rototrans(
-        cls, rototrans: xr.DataArray, angle_sequence: str
-    ) -> xr.DataArray:
+    def from_rototrans(cls, rt: xr.DataArray, angle_sequence: str) -> xr.DataArray:
         """
         Angles DataArray from a rototranslation matrix and specified angle sequence.
 
         Arguments:
-            rototrans: Rototranslation matrix created with pyomeca.Rototrans()
+            rt: Rototranslation matrix created with pyomeca.Rototrans()
             angle_sequence: Euler sequence of angles. Valid values are all permutations of "xyz"
 
         Returns:
@@ -130,7 +128,7 @@ class Angles:
             rt = Rototrans.from_random_data(size=size)
             angles_sequence = "xyz"
 
-            angles = Angles.from_rototrans(rototrans=rt, angle_sequence=angles_sequence)
+            angles = Angles.from_rototrans(rt, angles_sequence)
             ```
         """
-        return angles.angles_from_rototrans(cls, rototrans, angle_sequence)
+        return angles.angles_from_rototrans(cls, rt, angle_sequence)

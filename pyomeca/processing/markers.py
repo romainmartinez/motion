@@ -1,8 +1,6 @@
 import numpy as np
 import xarray as xr
 
-from pyomeca.processing import misc
-
 
 def markers_from_rototrans(markers: xr.DataArray, rt: xr.DataArray) -> xr.DataArray:
     rotated_markers = markers.copy()
