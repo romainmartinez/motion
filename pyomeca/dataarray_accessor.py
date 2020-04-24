@@ -241,7 +241,7 @@ class DataArrayAccessor(object):
         Center an array (i.e., subtract the mean).
 
         Arguments:
-            mu: mean of the signal to subtract. If not provided, takes the mean along the time axis
+            mu: the value to be subtracted. If unspecified, take the mean along the time axis.
 
         Returns:
             a `xarray.DataArray` containing the root-mean-square of the matrix

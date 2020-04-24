@@ -4,7 +4,7 @@ Pyomeca introduces a concise interface to read, analyse, visualize and plot biom
 
 Such data are typically *multi-dimensional*, such as joint angles with associated axes, degrees of freedom and time frames.
 
-<div id="angles-matrix"></div>
+<img class="center" src="../images/joint-angles.svg"></img>
 
 [NumPy](https:numpy.org) is the fundamental package for multi-dimensional computing with Python.
 While NumPy provides an efficient data structure and an intuitive interface, biomechanical datasets typically contain more than just raw numbers and have labels which encode how the array values map to different dimensions such as axes, degrees of freedom, channels or time frames.
@@ -70,6 +70,5 @@ Hover the mouse over any block to display a short description with some examples
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="../js/charts.js"></script>
 <script>
-    drawMatrix("angles-matrix", [3, 2, 5], ["axes", "degrees of freedom", "time frames"], "Joint angles");
     drawApi("api-exploration");
 </script>

@@ -151,7 +151,7 @@ class Markers:
             header: Row of the header (0-indexed)
             first_row: First row of the data (0-indexed)
             first_column: First column of the data (0-indexed)
-            time_column: Column of the time column. If None, we associate the index
+            time_column: Location of the time column. If None, indices are associated
             last_column_to_remove: If for some reason the csv reads extra columns, how many should be ignored
             prefix_delimiter: Delimiter that split each column name by its prefix (we keep only the column name)
             suffix_delimiter: Delimiter that split each column name by its suffix (we keep only the column name)
@@ -261,7 +261,7 @@ class Markers:
             header: Row of the header (0-indexed)
             first_row: First row of the data (0-indexed)
             first_column: First column of the data (0-indexed)
-            time_column: Column of the time column. If None, we associate the index
+            time_column: Location of the time column. If None, indices are associated
             last_column_to_remove: If for some reason the csv reads extra columns, how many should be ignored
             prefix_delimiter: Delimiter that split each column name by its prefix (we keep only the column name)
             suffix_delimiter: Delimiter that split each column name by its suffix (we keep only the column name)
