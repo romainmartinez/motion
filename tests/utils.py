@@ -168,17 +168,12 @@ def get_method_generated_docstring(method_dict):
         "h3", {"id": method_dict["link"].split("#")[-1]}
     ).find_next_sibling()
     description = f"{doc_bloc.find('p')}"
-    example = (
-        "".join(
-            [
-                f"{i}"
-                for i in doc_bloc.find("div", {"class": "admonition example"}).children
-            ]
-        )
-        .replace(to_delete, "")
-        .replace("../../images/api/", "../images/api/")
+    example = "".join(
+        [f"{i}" for i in doc_bloc.find("div", {"class": "admonition example"}).children]
     )
     generated_docstring = description + example
     if generated_docstring:
-        return generated_docstring
+        return generated_docstring.replace(to_delete, "").replace(
+            "<img ", '<img class="center"'
+        )
     raise ValueError(f"could not process {method_dict['name']}")

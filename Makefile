@@ -12,13 +12,11 @@ nb_to_md:
 doc:
     # copy readme, correct path and delete link to documentation
 	sed 's,docs/,,g' README.md > docs/index.md; \
-    sed -i -z "s,\n## Pyomeca documentation\n\nSee Pyomeca's \[documentation site\](https://romainmartinez.github.io/pyomeca).\n,,g" docs/index.md; \
-    sed -i -z "s,\nSee \[the documentation\](https://romainmartinez.github.io/pyomeca/) for more details and examples.\n,,g" docs/index.md; \
-	# correct link to api in website
-	sed -i 's,/api/,/pyomeca/api/,g' docs/api/api.json; \
-	mkdocs gh-deploy
-	# reverse previous modification
-	sed -i 's,/pyomeca/api/,/api/,g' docs/api/api.json; \
+    sed -i -z "s,\n## Pyomeca documentation\n\nSee Pyomeca's \[documentation site\](https://pyomeca.github.io).\n,,g" docs/index.md; \
+    sed -i -z "s,\nSee \[the documentation\](https://pyomeca.github.io) for more details and examples.\n,,g" docs/index.md; \
+	cd ../pyomeca.github.io; \
+	mkdocs gh-deploy --config-file ../pyomeca/mkdocs.yml --remote-branch master
+	rm -rf site
 
 clean:
 	rm -rf .pytest_cache .coverage site notebooks/.ipynb_checkpoints

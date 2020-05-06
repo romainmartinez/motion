@@ -4,7 +4,7 @@ Pyomeca introduces a concise interface to read, analyse, visualize and plot biom
 
 Such data are typically *multi-dimensional*, such as joint angles with associated axes, degrees of freedom and time frames.
 
-<img class="center" src="../images/joint-angles.svg"></img>
+<img class="center" src="/images/objects/angles.svg"></img>
 
 [NumPy](https:numpy.org) is the fundamental package for multi-dimensional computing with Python.
 While NumPy provides an efficient data structure and an intuitive interface, biomechanical datasets typically contain more than just raw numbers and have labels which encode how the array values map to different dimensions such as axes, degrees of freedom, channels or time frames.
@@ -50,8 +50,8 @@ Each structure is associated with a specific biomechanical data type and has spe
 
 While there are technically dozens of functions in pyomeca one can generally group them into two distinct categories:
 
-1.  [Object creation](https://romainmartinez.github.io/pyomeca/object-creation/) with the `from_*` methods. For example, if you want to define a marker array from a csv file: `markers = Markers.from_csv(...)`.
-2.  [Data processing](https://romainmartinez.github.io/pyomeca/data-processing/) with the `meca` array accessor. For example, to low-pass filter our previous markers: `markers.meca.low_pass(...)`.
+1.  [Object creation](https://pyomeca.github.io/object-creation/) with the `from_*` methods. For example, if you want to define a marker array from a csv file: `markers = Markers.from_csv(...)`.
+2.  [Data processing](https://pyomeca.github.io/data-processing/) with the `meca` array accessor. For example, to low-pass filter our previous markers: `markers.meca.low_pass(...)`.
 
 !!! note
     Check out the API reference to see the parameters, use cases and examples associated with each function.

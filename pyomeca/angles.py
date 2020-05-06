@@ -16,8 +16,8 @@ class Angles:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Angles DataArray with `axis`, `channel` and `time` dimensions
-         used for joint angles.
+        Angles DataArray with `axis`, `channel` and `time` dimensions used for joint angles.
+         ![angles](/images/objects/angles.svg)
 
         Arguments:
             data: Array to be passed to xarray.DataArray

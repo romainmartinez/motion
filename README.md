@@ -39,7 +39,7 @@ Pyomeca is a python library allowing you to carry out a complete biomechanical a
 
 ## Pyomeca documentation
 
-See Pyomeca's [documentation site](https://romainmartinez.github.io/pyomeca).
+See Pyomeca's [documentation site](https://pyomeca.github.io).
 
 ## Example
 
@@ -93,7 +93,7 @@ axes[1].set_title("EMG activation distribution")
 
 ![svg](docs/images/readme-example_files/readme-example_5_1.svg)
 
-See [the documentation](https://romainmartinez.github.io/pyomeca/) for more details and examples.
+See [the documentation](https://pyomeca.github.io) for more details and examples.
 
 ## Features
 
@@ -103,7 +103,7 @@ See [the documentation](https://romainmartinez.github.io/pyomeca/) for more deta
 - All of [xarray](http://xarray.pydata.org/en/stable/index.html)'s awesome features
 
 The following illustration shows all of pyomeca's public API.
-An interactive version is available in the [documentation](https://romainmartinez.github.io/pyomeca/overview/).
+An interactive version is available in the [documentation](https://pyomeca.github.io/overview/).
 
 <p align="center">
     <img src="docs/images/api.svg" alt="api">

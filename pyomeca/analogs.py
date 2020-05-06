@@ -20,6 +20,7 @@ class Analogs:
         """
         Analogs DataArray with `channel` and `time` dimensions
          used for generic signals such as EMGs, force signals or any other analog signals.
+         ![analogs](/images/objects/analogs.svg)
 
         Arguments:
             data: Array to be passed to xarray.DataArray

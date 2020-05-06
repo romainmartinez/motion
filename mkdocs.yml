@@ -1,7 +1,7 @@
 site_name: Pyomeca
 site_description: An Open-Source Framework for Biomechanical Analysis
 site_author: Romain Martinez
-site_url: https://romainmartinez.github.io/pyomeca/
+site_url: https://pyomeca.github.io
 
 theme:
   name: material
@@ -30,6 +30,7 @@ markdown_extensions:
   - footnotes
   - codehilite
   - pymdownx.superfences
+  - pymdownx.tabbed
 
 plugins:
   - search

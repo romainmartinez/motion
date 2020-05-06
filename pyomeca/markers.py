@@ -19,8 +19,8 @@ class Markers:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Markers DataArray with `axis`, `channel` and `time` dimensions
-         used for skin marker positions.
+        Markers DataArray with `axis`, `channel` and `time` dimensions used for skin marker positions.
+         ![markers](/images/objects/markers.svg)
 
         Arguments:
             data: Array to be passed to xarray.DataArray

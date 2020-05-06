@@ -272,7 +272,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![center](../images/api/center.svg)
+            ![center](/images/api/center.svg)
         """
         return algebra.center(self._obj, mu)
 
@@ -306,7 +306,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![normalize](../images/api/normalize.svg)
+            ![normalize](/images/api/normalize.svg)
 
             By default, this function normalize against the signal's max.
             To specify any other value, use the `ref` parameter:
@@ -356,7 +356,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![time_normalize](../images/api/time_normalize.svg)
+            ![time_normalize](/images/api/time_normalize.svg)
 
             By default, `time_normalize` use a time vector with 100 frames from 0 to 100.
             However, you can specify the desired number of frames:
@@ -424,7 +424,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![low_pass](../images/api/low_pass.svg)
+            ![low_pass](/images/api/low_pass.svg)
         """
         return filter.low_pass(self._obj, freq, order, cutoff)
 
@@ -462,7 +462,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![high_pass](../images/api/high_pass.svg)
+            ![high_pass](/images/api/high_pass.svg)
         """
         return filter.high_pass(self._obj, freq, order, cutoff)
 
@@ -500,7 +500,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![band_stop](../images/api/band_stop.svg)
+            ![band_stop](/images/api/band_stop.svg)
         """
         return filter.band_stop(self._obj, freq, order, cutoff)
 
@@ -538,7 +538,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![band_pass](../images/api/band_pass.svg)
+            ![band_pass](/images/api/band_pass.svg)
         """
         return filter.band_pass(self._obj, freq, order, cutoff)
 
@@ -592,7 +592,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![fft](../images/api/fft.svg)
+            ![fft](/images/api/fft.svg)
         """
         return misc.fft(self._obj, freq, only_positive)
 
@@ -654,7 +654,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![detect_onset](../images/api/detect_onset.svg)
+            ![detect_onset](/images/api/detect_onset.svg)
 
         !!! warning
             `detect_onset` works only for 1-dimensional data.
@@ -715,7 +715,7 @@ class DataArrayAccessor(object):
             plt.show()
             ```
 
-            ![detect_outliers](../images/api/detect_outliers.svg)
+            ![detect_outliers](/images/api/detect_outliers.svg)
 
         Note:
             `detect_outliers` is not limited on one-dimensional data and

@@ -16,8 +16,8 @@ class Rototrans:
         **kwargs,
     ) -> xr.DataArray:
         """
-        Rototrans DataArray with `row`, `col` and `time` dimensions
-         used for rototranslation matrix.
+        Rototrans DataArray with `row`, `col` and `time` dimensions used for rototranslation matrix.
+         ![rototrans](/images/objects/rototrans.svg)
 
         Arguments:
             data: Array to be passed to xarray.DataArray
