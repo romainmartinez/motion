@@ -1,4 +1,16 @@
+Pyomeca's main functionality is to offer dedicated biomechanical routines.
+
+<p align="center">
+    <img src="/images/data-processing.svg" alt="api">
+</p>
+
+These features can be broadly grouped into different categories: the filtering, normalization, linear algebra, signal processing and file io functions.
+
 ## Filters
+
+Biomechanical data are inherently noisy.
+And with noise, you will probably need filters.
+Pyomeca implements the major types of Butterworth filters used in biomechanics.
 
 !!! example
     === "Band pass"
@@ -15,6 +27,9 @@
 
 ## Normalization
 
+It is common to use normalization procedures during biomechanical signal processing.
+Pyomeca supports two types of normalization: signal normalization and time normalization.
+
 !!! example
     === "Signal normalization"
         <div class="template">/api/dataarray_accessor/#pyomeca.dataarray_accessor.DataArrayAccessor.normalize</div>
@@ -23,6 +38,9 @@
         <div class="template">/api/dataarray_accessor/#pyomeca.dataarray_accessor.DataArrayAccessor.time_normalize</div>
 
 ## Linear algebra
+
+The processing of biomechanical data often involves the use of linear algebra functions.
+Pyomeca implements various linear algebra functions.
 
 !!! example
     === "Absolute value"
@@ -48,6 +66,8 @@
 
 ## Signal processing
 
+Pyomeca implements convenient and flexible functions to detect onsets and outliers, as well as to compute a Fourier Transform.
+
 !!! example
     === "Onsets detection"
         <div class="template">/api/dataarray_accessor/#pyomeca.dataarray_accessor.DataArrayAccessor.detect_onset</div>
@@ -59,6 +79,9 @@
         <div class="template">/api/dataarray_accessor/#pyomeca.dataarray_accessor.DataArrayAccessor.fft</div>
 
 ## File io
+
+While the [netcdf format](http://pyomeca.github.io/getting-started/#file-io) is the preferred file format for saving or sharing data structures, Pyomeca also support writting csv and matlab file.
+If you need more flexibility, the `to_wide_dataframe` will allow you to use the pandas library to export your data in almost any existing formats.
 
 !!! example
     === "Write csv file"
