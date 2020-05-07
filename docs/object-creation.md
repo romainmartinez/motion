@@ -1,14 +1,14 @@
-plots:
-- Subset of api exploration viz
-- data matrix
+The starting point for working with Pyomeca is to create an object with one of the specific methods associated with the different classes available:
 
-- The first entry point to pyomeca is object creation
-- There are several way
-- from scratch, from random_data, from other files or from other data structures
+<p align="center">
+    <img src="/images/object-creation.svg" alt="api">
+</p>
+
+Pyomeca offers several ways to create these objects: from stratch, from random data, from files or from other data structures.
 
 ## From scratch
 
-- The first way to create data array in pyomeca is to specify directly the data
+The first way to create a data array in Pyomeca is to directly specify the data.
 
 !!! example
     === "Angles"
@@ -25,6 +25,10 @@ plots:
 
 ## From random data
 
+We occasionally want to quickly create an object to test implementations or prototype new features.
+In this case, we could simply use random numerical values.
+Pyomeca offers a method for directly creating objects from random data.
+
 !!! Example
     === "Angles"
         <div class="template">/api/angles/#pyomeca.angles.Angles.from_random_data</div>
@@ -39,6 +43,13 @@ plots:
         <div class="template">/api/analogs/#pyomeca.analogs.Analogs.from_random_data</div>
 
 ## From files
+
+Most of the time, we want to create objects from files collected during experimentation.
+Pyomeca supports most of the formats used in biomechanics.
+
+!!! note
+    Pyomeca does not support a format you need?
+    You can inform us by opening an [issue](https://github.com/romainmartinez/pyomeca/issues) or even submit a [pull request](https://github.com/romainmartinez/pyomeca/pulls) to make your implementation available to the whole community!
 
 === "c3d"
     !!! Example
@@ -77,6 +88,9 @@ plots:
         <div class="template">/api/analogs/#pyomeca.analogs.Analogs.from_sto</div>
 
 ## From other data structures
+
+We often have to switch between different representations of the same data.
+Pyomeca implements different linear algebra routines such as getting Euler angles or a marker to/from a rototranslation matrix.
 
 ### Angles & Rototrans
 
