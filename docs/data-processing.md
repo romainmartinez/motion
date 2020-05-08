@@ -81,7 +81,7 @@ Pyomeca implements convenient and flexible functions to detect onsets and outlie
 ## File io
 
 While the [netcdf format](http://pyomeca.github.io/getting-started/#file-io) is the preferred file format for saving or sharing data structures, Pyomeca also supports writting csv and matlab files.
-If you need more flexibility, the `to_wide_dataframe` will allow you to use the pandas library to export your data in almost any existing formats.
+If you need more flexibility, the `to_wide_dataframe` method will allow you to use the pandas library to export your data in almost any existing formats.
 
 !!! example
     === "Write csv file"
