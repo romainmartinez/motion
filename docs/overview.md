@@ -38,7 +38,7 @@ By leveraging xarray data structures, Pyomeca inherits their features such as bu
 
 ## Core functionalities
 
-Pyomeca has four data structures build upon [xarray](http://xarray.pydata.org/en/stable/index.html).
+Pyomeca has four data structures built upon [xarray](http://xarray.pydata.org/en/stable/index.html).
 Each structure is associated with a specific biomechanical data type and has specialized functionalities:
 
 | Class | Dimensions | Description |

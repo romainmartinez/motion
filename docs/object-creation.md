@@ -4,7 +4,7 @@ The starting point for working with Pyomeca is to create an object with one of t
     <img src="/images/object-creation.svg" alt="api">
 </p>
 
-Pyomeca offers several ways to create these objects: from stratch, from random data, from files or from other data structures.
+Pyomeca offers several ways to create these objects: from scratch, from random data, from files or from other data structures.
 
 ## From scratch
 
