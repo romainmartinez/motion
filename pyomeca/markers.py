@@ -12,7 +12,7 @@ from pyomeca.processing.markers import markers_from_rototrans
 class Markers:
     def __new__(
         cls,
-        data: Optional[Union[np.array, np.ndarray, xr.DataArray, list]] = None,
+        data: Optional[Union[np.array, np.ndarray, xr.DataArray]] = None,
         channels: Optional[list] = None,
         time: Optional[Union[np.array, list, pd.Series]] = None,
         *args,
