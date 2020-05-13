@@ -14,7 +14,6 @@ class Analogs:
         data: Optional[Union[np.array, np.ndarray, xr.DataArray]] = None,
         channels: Optional[list] = None,
         time: Optional[Union[np.array, list, pd.Series]] = None,
-        *args,
         **kwargs,
     ) -> xr.DataArray:
         """
@@ -26,7 +25,6 @@ class Analogs:
             data: Array to be passed to xarray.DataArray
             channels: Channel names
             time: Time vector in seconds associated with the `data` parameter
-            args: Positional argument(s) to be passed to xarray.DataArray
             kwargs: Keyword argument(s) to be passed to xarray.DataArray
 
         Returns:
@@ -75,13 +73,12 @@ class Analogs:
             dims=("channel", "time"),
             coords=coords,
             name="analogs",
-            *args,
             **kwargs,
         )
 
     @classmethod
     def from_random_data(
-        cls, distribution: str = "normal", size: tuple = (10, 100), *args, **kwargs
+        cls, distribution: str = "normal", size: tuple = (10, 100), **kwargs
     ) -> xr.DataArray:
         """
         Create random data from a specified distribution (normal by default) using random walk.
@@ -90,7 +87,6 @@ class Analogs:
             distribution: Distribution available in
                 [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions)
             size: Shape of the desired array
-            args: Positional argument(s) to be passed to numpy.random.`distribution`
             kwargs: Keyword argument(s) to be passed to numpy.random.`distribution`
 
         Returns:
@@ -115,9 +111,7 @@ class Analogs:
             analogs = Analogs.from_random_data(distribution="uniform", size=size, low=1, high=10)
             ```
         """
-        return Analogs(
-            getattr(np.random, distribution)(size=size, *args, **kwargs).cumsum(-1)
-        )
+        return Analogs(getattr(np.random, distribution)(size=size, **kwargs).cumsum(-1))
 
     @classmethod
     def from_csv(

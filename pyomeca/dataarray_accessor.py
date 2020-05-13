@@ -135,13 +135,11 @@ class DataArrayAccessor(object):
         """
         return algebra.matmul(self._obj, other)
 
-    def square(self, *args, **kwargs) -> xr.DataArray:
+    def square(self, **kwargs) -> xr.DataArray:
         """
         Return the element-wise square of the input.
 
         Arguments:
-            args: For other positional arguments,
-                see the [numpy docs](https://docs.scipy.org/doc/numpy/reference/generated/numpy.square.html)
             kwargs: For other keyword-only arguments,
                 see the [numpy docs](https://docs.scipy.org/doc/numpy/reference/generated/numpy.square.html)
 
@@ -158,15 +156,13 @@ class DataArrayAccessor(object):
             analogs.meca.square()
             ```
         """
-        return algebra.square(self._obj, *args, **kwargs)
+        return algebra.square(self._obj, **kwargs)
 
-    def sqrt(self, *args, **kwargs) -> xr.DataArray:
+    def sqrt(self, **kwargs) -> xr.DataArray:
         """
         Return the non-negative square-root of an array, element-wise.
 
         Arguments:
-            args: For other positional arguments,
-                see the [numpy docs](https://docs.scipy.org/doc/numpy/reference/generated/numpy.sqrt.html)
             kwargs: For other keyword-only arguments,
                 see the [numpy docs](https://docs.scipy.org/doc/numpy/reference/generated/numpy.sqrt.html)
 
@@ -184,7 +180,7 @@ class DataArrayAccessor(object):
             analogs.meca.sqrt()
             ```
         """
-        return algebra.sqrt(self._obj, *args, **kwargs)
+        return algebra.sqrt(self._obj, **kwargs)
 
     def norm(self, dim: Union[str, list], ord: int = None) -> xr.DataArray:
         """

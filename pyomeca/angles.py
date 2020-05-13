@@ -12,7 +12,6 @@ class Angles:
         cls,
         data: Optional[Union[np.array, np.ndarray, xr.DataArray]] = None,
         time: Optional[Union[np.array, list, pd.Series]] = None,
-        *args,
         **kwargs,
     ) -> xr.DataArray:
         """
@@ -22,7 +21,6 @@ class Angles:
         Arguments:
             data: Array to be passed to xarray.DataArray
             time: Time vector in seconds associated with the `data` parameter
-            args: Positional argument(s) to be passed to xarray.DataArray
             kwargs: Keyword argument(s) to be passed to xarray.DataArray
 
         Returns:
@@ -63,13 +61,12 @@ class Angles:
             dims=("axis", "channel", "time"),
             coords=coords,
             name="angles",
-            *args,
             **kwargs,
         )
 
     @classmethod
     def from_random_data(
-        cls, distribution: str = "normal", size: tuple = (3, 10, 100), *args, **kwargs
+        cls, distribution: str = "normal", size: tuple = (3, 10, 100), **kwargs
     ) -> xr.DataArray:
         """
         Create random data from a specified distribution (normal by default) using random walk.
@@ -78,7 +75,6 @@ class Angles:
             distribution: Distribution available in
                 [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions)
             size: Shape of the desired array
-            args: Positional argument(s) to be passed to numpy.random.`distribution`
             kwargs: Keyword argument(s) to be passed to numpy.random.`distribution`
 
         Returns:
@@ -102,9 +98,7 @@ class Angles:
             angles = Angles.from_random_data(distribution="uniform", size=size, low=1, high=10)
             ```
         """
-        return Angles(
-            getattr(np.random, distribution)(size=size, *args, **kwargs).cumsum(-1)
-        )
+        return Angles(getattr(np.random, distribution)(size=size, **kwargs).cumsum(-1))
 
     @classmethod
     def from_rototrans(cls, rt: xr.DataArray, angle_sequence: str) -> xr.DataArray:

@@ -12,8 +12,8 @@ def matmul(array: xr.DataArray, other: xr.DataArray) -> xr.DataArray:
     return array @ other
 
 
-def square(array: xr.DataArray, *args, **kwargs) -> xr.DataArray:
-    return np.square(array, *args, **kwargs)
+def square(array: xr.DataArray, **kwargs) -> xr.DataArray:
+    return np.square(array, **kwargs)
 
 
 def norm(array: xr.DataArray, dim: Union[str, list], ord: int = None) -> xr.DataArray:
@@ -27,8 +27,8 @@ def norm(array: xr.DataArray, dim: Union[str, list], ord: int = None) -> xr.Data
     )
 
 
-def sqrt(array: xr.DataArray, *args, **kwargs) -> xr.DataArray:
-    return np.sqrt(array, *args, **kwargs)
+def sqrt(array: xr.DataArray, **kwargs) -> xr.DataArray:
+    return np.sqrt(array, **kwargs)
 
 
 def rms(array: xr.DataArray) -> xr.DataArray:

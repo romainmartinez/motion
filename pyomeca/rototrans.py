@@ -12,7 +12,6 @@ class Rototrans:
         cls,
         data: Optional[Union[np.array, np.ndarray, xr.DataArray]] = None,
         time: Optional[Union[np.array, list, pd.Series]] = None,
-        *args,
         **kwargs,
     ) -> xr.DataArray:
         """
@@ -22,7 +21,6 @@ class Rototrans:
         Arguments:
             data: Array to be passed to xarray.DataArray
             time: Time vector in seconds associated with the `data` parameter
-            args: Positional argument(s) to be passed to xarray.DataArray
             kwargs: Keyword argument(s) to be passed to xarray.DataArray
 
         Returns:
@@ -80,13 +78,12 @@ class Rototrans:
             dims=("row", "col", "time"),
             coords=coords,
             name="rototrans",
-            *args,
             **kwargs,
         )
 
     @classmethod
     def from_random_data(
-        cls, distribution: str = "normal", size: tuple = (4, 4, 100), *args, **kwargs
+        cls, distribution: str = "normal", size: tuple = (4, 4, 100), **kwargs
     ) -> xr.DataArray:
         """
         Create random data from a specified distribution (normal by default) using random walk.
@@ -95,7 +92,6 @@ class Rototrans:
             distribution: Distribution available in
                 [numpy.random](https://docs.scipy.org/doc/numpy-1.14.0/reference/routines.random.html#distributions)
             size: Shape of the desired array
-            args: Positional argument(s) to be passed to numpy.random.`distribution`
             kwargs: Keyword argument(s) to be passed to numpy.random.`distribution`
 
         Returns:
@@ -120,7 +116,7 @@ class Rototrans:
             ```
         """
         return Rototrans(
-            getattr(np.random, distribution)(size=size, *args, **kwargs).cumsum(-1)
+            getattr(np.random, distribution)(size=size, **kwargs).cumsum(-1)
         )
 
     @classmethod
