@@ -90,7 +90,7 @@ Pyomeca supports most of the formats used in biomechanics.
 ## From other data structures
 
 We often have to switch between different representations of the same data.
-Pyomeca implements different linear algebra routines such as getting Euler angles or a marker to/from a rototranslation matrix.
+Pyomeca implements different matrix manipulation routines such as getting Euler angles or a marker to/from a rototranslation matrix.
 
 ### Angles & Rototrans
 

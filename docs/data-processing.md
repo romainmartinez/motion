@@ -4,7 +4,7 @@ Pyomeca's main functionality is to offer dedicated biomechanical routines.
     <img src="/images/data-processing.svg" alt="api">
 </p>
 
-These features can be broadly grouped into different categories: filtering, normalization, linear algebra, signal processing and file io functions.
+These features can be broadly grouped into different categories: filtering, normalization, matrix manipulation, signal processing and file io functions.
 
 ## Filters
 
@@ -37,10 +37,10 @@ Pyomeca supports two types of normalization: signal normalization and time norma
     === "Time normalization"
         <div class="template">/api/dataarray_accessor/#pyomeca.dataarray_accessor.DataArrayAccessor.time_normalize</div>
 
-## Linear algebra
+## Matrix manipulation
 
-The processing of biomechanical data often involves the use of linear algebra functions.
-Pyomeca implements various linear algebra functions.
+The processing of biomechanical data often involves the use of matrix manipulation routines.
+Some of them are implemented in Pyomeca.
 
 !!! example
     === "Absolute value"

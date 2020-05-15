@@ -6,7 +6,7 @@ import pandas as pd
 import xarray as xr
 
 from pyomeca.io import write
-from pyomeca.processing import algebra, filter, interp, misc, rototrans
+from pyomeca.processing import matrix, filter, interp, misc, rototrans
 
 
 @xr.register_dataarray_accessor("meca")
@@ -84,7 +84,7 @@ class DataArrayAccessor(object):
         """
         return write.to_wide_dataframe(self._obj)
 
-        # algebra -----------------------------------
+        # matrix -----------------------------------
 
     def abs(self) -> xr.DataArray:
         """
@@ -103,7 +103,7 @@ class DataArrayAccessor(object):
             analogs.meca.abs()
             ```
         """
-        return algebra.abs_(self._obj)
+        return matrix.abs_(self._obj)
 
     def matmul(self, other: xr.DataArray) -> xr.DataArray:
         """
@@ -133,7 +133,7 @@ class DataArrayAccessor(object):
             first_analogs @ second_analogs
             ```
         """
-        return algebra.matmul(self._obj, other)
+        return matrix.matmul(self._obj, other)
 
     def square(self, **kwargs) -> xr.DataArray:
         """
@@ -156,7 +156,7 @@ class DataArrayAccessor(object):
             analogs.meca.square()
             ```
         """
-        return algebra.square(self._obj, **kwargs)
+        return matrix.square(self._obj, **kwargs)
 
     def sqrt(self, **kwargs) -> xr.DataArray:
         """
@@ -180,7 +180,7 @@ class DataArrayAccessor(object):
             analogs.meca.sqrt()
             ```
         """
-        return algebra.sqrt(self._obj, **kwargs)
+        return matrix.sqrt(self._obj, **kwargs)
 
     def norm(self, dim: Union[str, list], ord: int = None) -> xr.DataArray:
         """
@@ -209,7 +209,7 @@ class DataArrayAccessor(object):
             (e.g., the object was created using `pyomeca.Markers`), this coordinate is ignored.
 
         """
-        return algebra.norm(self._obj, dim, ord)
+        return matrix.norm(self._obj, dim, ord)
 
     def rms(self) -> xr.DataArray:
         """
@@ -228,7 +228,7 @@ class DataArrayAccessor(object):
             analogs.meca.rms()
             ```
         """
-        return algebra.rms(self._obj)
+        return matrix.rms(self._obj)
 
     def center(
         self, mu: Union[xr.DataArray, np.array, float, int] = None
@@ -270,7 +270,7 @@ class DataArrayAccessor(object):
 
             ![center](/images/api/center.svg)
         """
-        return algebra.center(self._obj, mu)
+        return matrix.center(self._obj, mu)
 
     def normalize(
         self,
@@ -311,7 +311,7 @@ class DataArrayAccessor(object):
             normalized = analogs.meca.normalize(ref=1)
             ```
         """
-        return algebra.normalize(self._obj, ref, scale)
+        return matrix.normalize(self._obj, ref, scale)
 
     # interp ------------------------------------
     def time_normalize(

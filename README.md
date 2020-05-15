@@ -98,7 +98,7 @@ See [the documentation](https://pyomeca.github.io) for more details and examples
 ## Features
 
 - Signal processing routine commonly used in biomechanics such as filters, normalization, onset detection, outliers detection, derivatives, etc.
-- Common linear algebra routine implemented such as getting Euler angles to/from a rototranslation matrix, creating a system of axes, setting a rotation or translation, transpose or inverse, etc.
+- Common matrix manipulation routines implemented such as getting Euler angles to/from a rototranslation matrix, creating a system of axes, setting a rotation or translation, transpose or inverse, etc.
 - Easy reading and writing interface to common files in biomechanics (`c3d`, `csv`, `xlsx`,`mat`, `trc`, `sto`, `mot`)
 - All of [xarray](http://xarray.pydata.org/en/stable/index.html)'s awesome features
 
