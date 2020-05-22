@@ -4,7 +4,7 @@ Pyomeca's main functionality is to offer dedicated biomechanical routines.
     <img src="/images/data-processing.svg" alt="api">
 </p>
 
-These features can be broadly grouped into different categories: filtering, normalization, matrix manipulation, signal processing and file io functions.
+These features can be broadly grouped into different categories: filtering, normalization, matrix manipulation, signal processing and file output functions.
 
 ## Filters
 
@@ -78,7 +78,7 @@ Pyomeca implements convenient and flexible functions to detect onsets and outlie
     === "FFT"
         <div class="template">/api/dataarray_accessor/#pyomeca.dataarray_accessor.DataArrayAccessor.fft</div>
 
-## File io
+## File output
 
 While the [netcdf format](http://pyomeca.github.io/getting-started/#file-io) is the preferred file format for saving or sharing data structures, Pyomeca also supports writting csv and matlab files.
 If you need more flexibility, the `to_wide_dataframe` method will allow you to use the pandas library to export your data in almost any existing formats.
