@@ -98,11 +98,11 @@ def test_read_catch_error(
         reader(MARKERS_ANALOGS_C3D, usecols=usecols)
 
 
-def test_csv_last_column_to_remove():
-    last_column_to_remove = 5
-    ref = Analogs.from_csv(**analogs_csv_kwargs).channel[:-last_column_to_remove]
+def test_csv_trailing_columns_to_remove():
+    trailing_columns = 5
+    ref = Analogs.from_csv(**analogs_csv_kwargs).channel[:-trailing_columns]
     without_last_columns = Analogs.from_csv(
-        **analogs_csv_kwargs, last_column_to_remove=last_column_to_remove
+        **analogs_csv_kwargs, trailing_columns=trailing_columns
     ).channel
     np.testing.assert_array_equal(x=ref, y=without_last_columns)
 
